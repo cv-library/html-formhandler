@@ -1,0 +1,1192 @@
+{
+   "abstract" : "HTML forms using Moose",
+   "author" : [
+      "Gerda Shank"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.017, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "HTML-FormHandler",
+   "no_index" : {
+      "directory" : [
+         "eg",
+         "examples",
+         "inc",
+         "share",
+         "t",
+         "xt"
+      ]
+   },
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0",
+            "File::ShareDir::Install" : "0.06",
+            "perl" : "5.012"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "File::Spec" : "0",
+            "IO::Handle" : "0",
+            "IPC::Open3" : "0",
+            "Test::More" : "0",
+            "Test::Pod" : "1.41"
+         }
+      },
+      "runtime" : {
+         "recommends" : {
+            "Crypt::Blowfish" : "0",
+            "Crypt::CBC" : "0",
+            "MIME::Base64" : "0"
+         },
+         "requires" : {
+            "Carp" : "0",
+            "Class::Load" : "0.06",
+            "Data::Clone" : "0",
+            "DateTime" : "0",
+            "DateTime::Format::Strptime" : "0",
+            "Email::Valid" : "0",
+            "File::ShareDir" : "0",
+            "File::Spec" : "0",
+            "HTML::Entities" : "0",
+            "HTML::TreeBuilder" : "3.23",
+            "JSON::MaybeXS" : "1.003003",
+            "List::Util" : "1.33",
+            "Locale::Maketext" : "1.09",
+            "Moose" : "2.1403",
+            "MooseX::Types" : "0.20",
+            "MooseX::Types::Common" : "0",
+            "MooseX::Types::LoadableClass" : "0.006",
+            "Sub::Exporter" : "0",
+            "Sub::Name" : "0",
+            "Try::Tiny" : "0",
+            "namespace::autoclean" : "0.09",
+            "perl" : "5.012"
+         }
+      },
+      "test" : {
+         "recommends" : {
+            "CPAN::Meta" : "2.120900"
+         },
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0",
+            "File::Spec" : "0",
+            "PadWalker" : "0",
+            "Test::Differences" : "0",
+            "Test::Exception" : "0",
+            "Test::Memory::Cycle" : "1.04",
+            "Test::More" : "0.94",
+            "Test::Needs" : "0",
+            "Test::Warn" : "0",
+            "perl" : "5.012"
+         }
+      }
+   },
+   "provides" : {
+      "HTML::FormHandler" : {
+         "file" : "lib/HTML/FormHandler.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Base" : {
+         "file" : "lib/HTML/FormHandler/Base.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Blocks" : {
+         "file" : "lib/HTML/FormHandler/Blocks.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::BuildFields" : {
+         "file" : "lib/HTML/FormHandler/BuildFields.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::BuildPages" : {
+         "file" : "lib/HTML/FormHandler/BuildPages.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field" : {
+         "file" : "lib/HTML/FormHandler/Field.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::AddElement" : {
+         "file" : "lib/HTML/FormHandler/Field/AddElement.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::BoolSelect" : {
+         "file" : "lib/HTML/FormHandler/Field/BoolSelect.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Boolean" : {
+         "file" : "lib/HTML/FormHandler/Field/Boolean.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Button" : {
+         "file" : "lib/HTML/FormHandler/Field/Button.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Captcha" : {
+         "file" : "lib/HTML/FormHandler/Field/Captcha.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Checkbox" : {
+         "file" : "lib/HTML/FormHandler/Field/Checkbox.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Compound" : {
+         "file" : "lib/HTML/FormHandler/Field/Compound.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Date" : {
+         "file" : "lib/HTML/FormHandler/Field/Date.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::DateMDY" : {
+         "file" : "lib/HTML/FormHandler/Field/DateMDY.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::DateTime" : {
+         "file" : "lib/HTML/FormHandler/Field/DateTime.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Display" : {
+         "file" : "lib/HTML/FormHandler/Field/Display.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Duration" : {
+         "file" : "lib/HTML/FormHandler/Field/Duration.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Email" : {
+         "file" : "lib/HTML/FormHandler/Field/Email.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::File" : {
+         "file" : "lib/HTML/FormHandler/Field/File.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Float" : {
+         "file" : "lib/HTML/FormHandler/Field/Float.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Hidden" : {
+         "file" : "lib/HTML/FormHandler/Field/Hidden.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Hour" : {
+         "file" : "lib/HTML/FormHandler/Field/Hour.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::IntRange" : {
+         "file" : "lib/HTML/FormHandler/Field/IntRange.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Integer" : {
+         "file" : "lib/HTML/FormHandler/Field/Integer.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Minute" : {
+         "file" : "lib/HTML/FormHandler/Field/Minute.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Money" : {
+         "file" : "lib/HTML/FormHandler/Field/Money.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Month" : {
+         "file" : "lib/HTML/FormHandler/Field/Month.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::MonthDay" : {
+         "file" : "lib/HTML/FormHandler/Field/MonthDay.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::MonthName" : {
+         "file" : "lib/HTML/FormHandler/Field/MonthName.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Multiple" : {
+         "file" : "lib/HTML/FormHandler/Field/Multiple.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Nested" : {
+         "file" : "lib/HTML/FormHandler/Field/Nested.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::NoValue" : {
+         "file" : "lib/HTML/FormHandler/Field/NoValue.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::NonEditable" : {
+         "file" : "lib/HTML/FormHandler/Field/NonEditable.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Password" : {
+         "file" : "lib/HTML/FormHandler/Field/Password.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::PasswordConf" : {
+         "file" : "lib/HTML/FormHandler/Field/PasswordConf.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::PosInteger" : {
+         "file" : "lib/HTML/FormHandler/Field/PosInteger.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::PrimaryKey" : {
+         "file" : "lib/HTML/FormHandler/Field/PrimaryKey.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Repeatable" : {
+         "file" : "lib/HTML/FormHandler/Field/Repeatable.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::RequestToken" : {
+         "file" : "lib/HTML/FormHandler/Field/RequestToken.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Reset" : {
+         "file" : "lib/HTML/FormHandler/Field/Reset.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Result" : {
+         "file" : "lib/HTML/FormHandler/Field/Result.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::RmElement" : {
+         "file" : "lib/HTML/FormHandler/Field/RmElement.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Role::RequestToken" : {
+         "file" : "lib/HTML/FormHandler/Field/Role/RequestToken.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Second" : {
+         "file" : "lib/HTML/FormHandler/Field/Second.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Select" : {
+         "file" : "lib/HTML/FormHandler/Field/Select.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::SelectCSV" : {
+         "file" : "lib/HTML/FormHandler/Field/SelectCSV.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Submit" : {
+         "file" : "lib/HTML/FormHandler/Field/Submit.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Text" : {
+         "file" : "lib/HTML/FormHandler/Field/Text.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::TextArea" : {
+         "file" : "lib/HTML/FormHandler/Field/TextArea.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::TextCSV" : {
+         "file" : "lib/HTML/FormHandler/Field/TextCSV.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Upload" : {
+         "file" : "lib/HTML/FormHandler/Field/Upload.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Weekday" : {
+         "file" : "lib/HTML/FormHandler/Field/Weekday.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Field::Year" : {
+         "file" : "lib/HTML/FormHandler/Field/Year.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Fields" : {
+         "file" : "lib/HTML/FormHandler/Fields.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Foo" : {
+         "file" : "lib/HTML/FormHandler/Foo.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N" : {
+         "file" : "lib/HTML/FormHandler/I18N.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::ar_kw" : {
+         "file" : "lib/HTML/FormHandler/I18N/ar_kw.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::bg_bg" : {
+         "file" : "lib/HTML/FormHandler/I18N/bg_bg.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::ca_es" : {
+         "file" : "lib/HTML/FormHandler/I18N/ca_es.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::cs_cz" : {
+         "file" : "lib/HTML/FormHandler/I18N/cs_cz.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::de_de" : {
+         "file" : "lib/HTML/FormHandler/I18N/de_de.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::en_us" : {
+         "file" : "lib/HTML/FormHandler/I18N/en_us.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::es_es" : {
+         "file" : "lib/HTML/FormHandler/I18N/es_es.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::hu_hu" : {
+         "file" : "lib/HTML/FormHandler/I18N/hu_hu.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::it_it" : {
+         "file" : "lib/HTML/FormHandler/I18N/it_it.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::ja_jp" : {
+         "file" : "lib/HTML/FormHandler/I18N/ja_jp.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::pt_br" : {
+         "file" : "lib/HTML/FormHandler/I18N/pt_br.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::ru_ru" : {
+         "file" : "lib/HTML/FormHandler/I18N/ru_ru.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::sv_se" : {
+         "file" : "lib/HTML/FormHandler/I18N/sv_se.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::tr_tr" : {
+         "file" : "lib/HTML/FormHandler/I18N/tr_tr.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::I18N::ua_ua" : {
+         "file" : "lib/HTML/FormHandler/I18N/ua_ua.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::InitResult" : {
+         "file" : "lib/HTML/FormHandler/InitResult.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Merge" : {
+         "file" : "lib/HTML/FormHandler/Merge.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Model" : {
+         "file" : "lib/HTML/FormHandler/Model.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Model::Object" : {
+         "file" : "lib/HTML/FormHandler/Model/Object.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Moose" : {
+         "file" : "lib/HTML/FormHandler/Moose.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Moose::Role" : {
+         "file" : "lib/HTML/FormHandler/Moose/Role.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Page" : {
+         "file" : "lib/HTML/FormHandler/Page.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Page::Simple" : {
+         "file" : "lib/HTML/FormHandler/Page/Simple.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Pages" : {
+         "file" : "lib/HTML/FormHandler/Pages.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Render::RepeatableJs" : {
+         "file" : "lib/HTML/FormHandler/Render/RepeatableJs.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Render::Simple" : {
+         "file" : "lib/HTML/FormHandler/Render/Simple.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Render::Table" : {
+         "file" : "lib/HTML/FormHandler/Render/Table.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Render::Util" : {
+         "file" : "lib/HTML/FormHandler/Render/Util.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Render::WithTT" : {
+         "file" : "lib/HTML/FormHandler/Render/WithTT.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Result" : {
+         "file" : "lib/HTML/FormHandler/Result.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Result::Role" : {
+         "file" : "lib/HTML/FormHandler/Result/Role.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Test" : {
+         "file" : "lib/HTML/FormHandler/Test.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::TraitFor::Captcha" : {
+         "file" : "lib/HTML/FormHandler/TraitFor/Captcha.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::TraitFor::I18N" : {
+         "file" : "lib/HTML/FormHandler/TraitFor/I18N.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::TraitFor::Types" : {
+         "file" : "lib/HTML/FormHandler/TraitFor/Types.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Traits" : {
+         "file" : "lib/HTML/FormHandler/Traits.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Types" : {
+         "file" : "lib/HTML/FormHandler/Types.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Validate" : {
+         "file" : "lib/HTML/FormHandler/Validate.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::ApplyRole" : {
+         "file" : "lib/HTML/FormHandler/Widget/ApplyRole.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Block" : {
+         "file" : "lib/HTML/FormHandler/Widget/Block.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Block::Bootstrap" : {
+         "file" : "lib/HTML/FormHandler/Widget/Block/Bootstrap.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Button" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Button.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::ButtonTag" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/ButtonTag.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Captcha" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Captcha.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Checkbox" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Checkbox.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::CheckboxGroup" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/CheckboxGroup.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Compound" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Compound.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Hidden" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Hidden.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::HorizCheckboxGroup" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/HorizCheckboxGroup.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::NoRender" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/NoRender.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Password" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Password.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::RadioGroup" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/RadioGroup.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Repeatable" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Repeatable.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Reset" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Reset.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Role::HTMLAttributes" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Role/HTMLAttributes.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Role::SelectedOption" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Role/SelectedOption.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Select" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Select.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Span" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Span.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Submit" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Submit.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Text" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Text.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Textarea" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Textarea.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Field::Upload" : {
+         "file" : "lib/HTML/FormHandler/Widget/Field/Upload.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Form::Role::HTMLAttributes" : {
+         "file" : "lib/HTML/FormHandler/Widget/Form/Role/HTMLAttributes.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Form::Simple" : {
+         "file" : "lib/HTML/FormHandler/Widget/Form/Simple.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Form::Table" : {
+         "file" : "lib/HTML/FormHandler/Widget/Form/Table.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Theme::Bootstrap" : {
+         "file" : "lib/HTML/FormHandler/Widget/Theme/Bootstrap.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Theme::Bootstrap3" : {
+         "file" : "lib/HTML/FormHandler/Widget/Theme/Bootstrap3.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Theme::BootstrapFormMessages" : {
+         "file" : "lib/HTML/FormHandler/Widget/Theme/BootstrapFormMessages.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::Base" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/Base.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::Bootstrap" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/Bootstrap.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::Bootstrap3" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/Bootstrap3.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::Fieldset" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/Fieldset.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::None" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/None.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::Simple" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/Simple.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::SimpleInline" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/SimpleInline.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::Table" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/Table.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Widget::Wrapper::TableInline" : {
+         "file" : "lib/HTML/FormHandler/Widget/Wrapper/TableInline.pm",
+         "version" : "0.500000"
+      },
+      "HTML::FormHandler::Wizard" : {
+         "file" : "lib/HTML/FormHandler/Wizard.pm",
+         "version" : "0.500000"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "mailto" : "jjatria at cpan.org",
+         "web" : "https://github.com/jjatria/html-formhandler/issues"
+      },
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/jjatria/html-formhandler.git",
+         "web" : "https://github.com/jjatria/html-formhandler"
+      }
+   },
+   "version" : "0.500000",
+   "x_Dist_Zilla" : {
+      "perl" : {
+         "version" : "5.032000"
+      },
+      "plugins" : [
+         {
+            "class" : "Dist::Zilla::Plugin::Git::GatherDir",
+            "config" : {
+               "Dist::Zilla::Plugin::GatherDir" : {
+                  "exclude_filename" : [
+                     "META.json",
+                     "Makefile.PL",
+                     "README.md"
+                  ],
+                  "exclude_match" : [],
+                  "follow_symlinks" : 0,
+                  "include_dotfiles" : 0,
+                  "prefix" : "",
+                  "prune_directory" : [],
+                  "root" : "."
+               },
+               "Dist::Zilla::Plugin::Git::GatherDir" : {
+                  "include_untracked" : 0
+               }
+            },
+            "name" : "@Starter::Git/Git::GatherDir",
+            "version" : "2.047"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaYAML",
+            "name" : "@Starter::Git/MetaYAML",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaJSON",
+            "name" : "@Starter::Git/MetaJSON",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::License",
+            "name" : "@Starter::Git/License",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
+            "name" : "@Starter::Git/PodSyntaxTests",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::ReportPrereqs",
+            "name" : "@Starter::Git/Test::ReportPrereqs",
+            "version" : "0.028"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Compile",
+            "config" : {
+               "Dist::Zilla::Plugin::Test::Compile" : {
+                  "bail_out_on_fail" : 0,
+                  "fail_on_warning" : "author",
+                  "fake_home" : 0,
+                  "filename" : "xt/author/00-compile.t",
+                  "module_finder" : [
+                     ":InstallModules"
+                  ],
+                  "needs_display" : 0,
+                  "phase" : "develop",
+                  "script_finder" : [
+                     ":PerlExecFiles"
+                  ],
+                  "skips" : [],
+                  "switch" : []
+               }
+            },
+            "name" : "@Starter::Git/Test::Compile",
+            "version" : "2.058"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MakeMaker",
+            "config" : {
+               "Dist::Zilla::Role::TestRunner" : {
+                  "default_jobs" : 1
+               }
+            },
+            "name" : "@Starter::Git/MakeMaker",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Manifest",
+            "name" : "@Starter::Git/Manifest",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::PruneCruft",
+            "name" : "@Starter::Git/PruneCruft",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ManifestSkip",
+            "name" : "@Starter::Git/ManifestSkip",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::RunExtraTests",
+            "config" : {
+               "Dist::Zilla::Role::TestRunner" : {
+                  "default_jobs" : 1
+               }
+            },
+            "name" : "@Starter::Git/RunExtraTests",
+            "version" : "0.029"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Check",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Check" : {
+                  "untracked_files" : "die"
+               },
+               "Dist::Zilla::Role::Git::DirtyFiles" : {
+                  "allow_dirty" : [
+                     "Changes",
+                     "dist.ini"
+                  ],
+                  "allow_dirty_match" : [],
+                  "changelog" : "Changes"
+               },
+               "Dist::Zilla::Role::Git::Repo" : {
+                  "git_version" : "2.30.1",
+                  "repo_root" : "."
+               }
+            },
+            "name" : "@Starter::Git/Git::Check",
+            "version" : "2.047"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::CopyFilesFromRelease",
+            "config" : {
+               "Dist::Zilla::Plugin::CopyFilesFromRelease" : {
+                  "filename" : [
+                     "META.json",
+                     "Makefile.PL",
+                     "README.md"
+                  ],
+                  "match" : []
+               }
+            },
+            "name" : "@Starter::Git/CopyFilesFromRelease",
+            "version" : "0.007"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Regenerate::AfterReleasers",
+            "config" : {
+               "Dist::Zilla::Plugin::Regenerate::AfterReleasers" : {
+                  "plugins" : [
+                     "@Starter::Git/CopyFilesFromRelease"
+                  ]
+               },
+               "Dist::Zilla::Role::Regenerator" : {
+                  "$Dist::Zilla::Role::Regenerator::VERSION" : "0.001002"
+               }
+            },
+            "name" : "@Starter::Git/Regenerate::AfterReleasers",
+            "version" : "0.001002"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Commit",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Commit" : {
+                  "add_files_in" : [
+                     "/"
+                  ],
+                  "commit_msg" : "%v%n%n%c",
+                  "signoff" : 0
+               },
+               "Dist::Zilla::Role::Git::DirtyFiles" : {
+                  "allow_dirty" : [
+                     "Changes",
+                     "META.json",
+                     "Makefile.PL",
+                     "README.md",
+                     "dist.ini"
+                  ],
+                  "allow_dirty_match" : [],
+                  "changelog" : "Changes"
+               },
+               "Dist::Zilla::Role::Git::Repo" : {
+                  "git_version" : "2.30.1",
+                  "repo_root" : "."
+               },
+               "Dist::Zilla::Role::Git::StringFormatter" : {
+                  "time_zone" : "local"
+               }
+            },
+            "name" : "@Starter::Git/Release_Commit",
+            "version" : "2.047"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Tag",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Tag" : {
+                  "branch" : null,
+                  "changelog" : "Changes",
+                  "signed" : 0,
+                  "tag" : "0.500000",
+                  "tag_format" : "%v",
+                  "tag_message" : "%v"
+               },
+               "Dist::Zilla::Role::Git::Repo" : {
+                  "git_version" : "2.30.1",
+                  "repo_root" : "."
+               },
+               "Dist::Zilla::Role::Git::StringFormatter" : {
+                  "time_zone" : "local"
+               }
+            },
+            "name" : "@Starter::Git/Git::Tag",
+            "version" : "2.047"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Push",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Push" : {
+                  "push_to" : [
+                     "origin"
+                  ],
+                  "remotes_must_exist" : 1
+               },
+               "Dist::Zilla::Role::Git::Repo" : {
+                  "git_version" : "2.30.1",
+                  "repo_root" : "."
+               }
+            },
+            "name" : "@Starter::Git/Git::Push",
+            "version" : "2.047"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::TestRelease",
+            "name" : "@Starter::Git/TestRelease",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ConfirmRelease",
+            "name" : "@Starter::Git/ConfirmRelease",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::UploadToCPAN",
+            "name" : "@Starter::Git/UploadToCPAN",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaConfig",
+            "name" : "@Starter::Git/MetaConfig",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaNoIndex",
+            "name" : "@Starter::Git/MetaNoIndex",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaProvides::Package",
+            "config" : {
+               "Dist::Zilla::Plugin::MetaProvides::Package" : {
+                  "finder_objects" : [
+                     {
+                        "class" : "Dist::Zilla::Plugin::FinderCode",
+                        "name" : "@Starter::Git/MetaProvides::Package/AUTOVIV/:InstallModulesPM",
+                        "version" : "6.017"
+                     }
+                  ],
+                  "include_underscores" : 0
+               },
+               "Dist::Zilla::Role::MetaProvider::Provider" : {
+                  "$Dist::Zilla::Role::MetaProvider::Provider::VERSION" : "2.002004",
+                  "inherit_missing" : 1,
+                  "inherit_version" : 0,
+                  "meta_noindex" : 1
+               },
+               "Dist::Zilla::Role::ModuleMetadata" : {
+                  "Module::Metadata" : "1.000037",
+                  "version" : "0.006"
+               }
+            },
+            "name" : "@Starter::Git/MetaProvides::Package",
+            "version" : "2.004003"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ShareDir",
+            "name" : "@Starter::Git/ShareDir",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ExecDir",
+            "name" : "@Starter::Git/ExecDir",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ReadmeAnyFromPod",
+            "config" : {
+               "Dist::Zilla::Role::FileWatcher" : {
+                  "version" : "0.006"
+               }
+            },
+            "name" : "MarkdownInRoot",
+            "version" : "0.163250"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MinimumPerl",
+            "name" : "MinimumPerl",
+            "version" : "1.006"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Prereqs::FromCPANfile",
+            "name" : "Prereqs::FromCPANfile",
+            "version" : "0.08"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Repository",
+            "name" : "Repository",
+            "version" : "0.24"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Bugtracker",
+            "name" : "Bugtracker",
+            "version" : "1.111080"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Commit",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Commit" : {
+                  "add_files_in" : [],
+                  "commit_msg" : "Release v%V%t",
+                  "signoff" : 0
+               },
+               "Dist::Zilla::Role::Git::DirtyFiles" : {
+                  "allow_dirty" : [
+                     "Changes",
+                     "dist.ini"
+                  ],
+                  "allow_dirty_match" : [],
+                  "changelog" : "Changes"
+               },
+               "Dist::Zilla::Role::Git::Repo" : {
+                  "git_version" : "2.30.1",
+                  "repo_root" : "."
+               },
+               "Dist::Zilla::Role::Git::StringFormatter" : {
+                  "time_zone" : "local"
+               }
+            },
+            "name" : "Git::Commit",
+            "version" : "2.047"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Tag",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Tag" : {
+                  "branch" : null,
+                  "changelog" : "Changes",
+                  "signed" : 0,
+                  "tag" : "0.500000",
+                  "tag_format" : "%v",
+                  "tag_message" : ""
+               },
+               "Dist::Zilla::Role::Git::Repo" : {
+                  "git_version" : "2.30.1",
+                  "repo_root" : "."
+               },
+               "Dist::Zilla::Role::Git::StringFormatter" : {
+                  "time_zone" : "local"
+               }
+            },
+            "name" : "Git::Tag",
+            "version" : "2.047"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Git::Contributors",
+            "config" : {
+               "Dist::Zilla::Plugin::Git::Contributors" : {
+                  "git_version" : "2.30.1",
+                  "include_authors" : 0,
+                  "include_releaser" : 1,
+                  "order_by" : "name",
+                  "paths" : []
+               }
+            },
+            "name" : "Git::Contributors",
+            "version" : "0.036"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":InstallModules",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":IncModules",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":TestFiles",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":ExtraTestFiles",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":ExecFiles",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":PerlExecFiles",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":ShareFiles",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":MainModule",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":AllFiles",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":NoFiles",
+            "version" : "6.017"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : "@Starter::Git/MetaProvides::Package/AUTOVIV/:InstallModulesPM",
+            "version" : "6.017"
+         }
+      ],
+      "zilla" : {
+         "class" : "Dist::Zilla::Dist::Builder",
+         "config" : {
+            "is_trial" : 0
+         },
+         "version" : "6.017"
+      }
+   },
+   "x_contributors" : [
+      "Alastair McGowan-Douglas <alastair.mcgowan@opusvl.com>",
+      "Alexander Hartmaier <abraxxa@cpan.org>",
+      "Alexey Illarionov <littlesavage@rambler.ru>",
+      "Amiri Barksdale at Home <amiri@roosterpirates.com>",
+      "Andrew Rodland <andrew@hbslabs.com>",
+      "Andy Clayton <clayton@physics.umn.edu>",
+      "Bernhard Graf <augensalat@gmail.com>",
+      "B.Lang <Mail@benjaminlang.de>",
+      "Brian Cassidy <bricas@cpan.org>",
+      "Bryan Beeley <bryan@beeley.org>",
+      "Charlie Garrison <cngarrison@gmail.com>",
+      "Cinxgler Mariaca Minda <cinxgler@ci-info.com>",
+      "Colin Newell <colin.newell@gmail.com>",
+      "Csaba Hetenyi <csabiwork@tata.hu>",
+      "Dale Evans <dale.evans@mycanadapayday.com>",
+      "Daniel Nicoletti <dantti12@gmail.com>",
+      "Dan Thomas <dan@gurnard.adestra.com>",
+      "David Schmidt <davewood@gmx.at>",
+      "David Schmidt <dt@univie.ac.at>",
+      "David Schmidt <mail@davidschmidt.at>",
+      "David Steinbrunner <dsteinbrunner@pobox.com>",
+      "Denis Ibaev <dionys@gmail.com>",
+      "diegok <diego@freekeylabs.com>",
+      "Ed <edward.francis@foxtons.co.uk>",
+      "Eisuke Oishi <e-oishi@neowing.co.jp>",
+      "exercism-1 <exercism-1@users.noreply.github.com>",
+      "Ferruccio Zamuner <nonsolosoft@diff.org>",
+      "Florian Ragwitz <rafl@debian.org>",
+      "Francis Lachapelle <francis@sophos.ca>",
+      "Gerda Shank <gerda.shank@gmail.com>",
+      "gerda.shank@gmail.com <gshank@localhost.localdomain>",
+      "Gerda Shank <gshank@campusexplorer.com>",
+      "Gerda Shank <gshank@gerdashnksmini2.(none)>",
+      "Gerda Shank <gshank@Gerdas-iBook.local>",
+      "gshank <gshank@andLinux.(none)>",
+      "gshank <gshank@dev.arxiv.cornell.edu>",
+      "ijw <ijw@vm3549.vps.tagadab.com>",
+      "James Raspass <jraspass@gmail.com>",
+      "James Rouzier <rouzier@gmail.com>",
+      "Jason McIntosh <jmac@jmac.org>",
+      "John Napiorkowski <johnn@John-Napiorkowski-MacBook-Pro.local>",
+      "John Napiorkowski <johnn@new-host-2.home>",
+      "John Whitley <jnwhitley@cpan.org>",
+      "Jos\u00e9 Joaqu\u00edn Atria <j.atria@cv-library.co.uk>",
+      "Jose Luis Perez Diez <jluis@escomposlinux.org>",
+      "Karen Etheridge <ether@cpan.org>",
+      "Klaus Ita <klaus@worstofall.com>",
+      "lestrrat <lestrrat+github@gmail.com>",
+      "Lian Wan Situ <lwsitu@cpan.org>",
+      "Lukas Thiemeier <lukast@ifh.de>",
+      "Mark A. Stratman <stratman@gmail.com>",
+      "Mark Ellis <mark.ellis@cartridgesave.co.uk>",
+      "Mark Jason Dominus (\u9676\u654f\u4fee) <mjd@plover.com>",
+      "Maros Kollar <maros@k-1.com>",
+      "Matthias Dietrich <foo@rainboxx.de>",
+      "Matthias Dietrich <perl@rb.ly>",
+      "mazpe <lesterm@gmail.com>",
+      "Michael <michael@michaeldesk.foxtons.co.uk>",
+      "Murray <murray@minty.org>",
+      "Nick Logan <nik_517@yahoo.com>",
+      "Noel Maddy <zhtwnpanta@gmail.com>",
+      "Nuba Princigalli <nuba@pauleira.com>",
+      "Oleg Kostyuk <cub.uanic@gmail.com>",
+      "Oscar Grant <aesop@cpan.org>",
+      "Ozum Eldogan <ozum@ozum.net>",
+      "Phil Hallows <Phil Hallows>",
+      "Robert Brown <rob@intelcompute.com>",
+      "Ronald J Kimball <rkimball@pangeamedia.com>",
+      "Russell Jenkins <veryrusty@gmail.com>",
+      "Rusty Conover <rusty@luckydinosaur.com>",
+      "Stephen Thirlwall <stephen.thirlwall@strategicdata.com.au>",
+      "t0m <bobtfish@bobtfish.net>",
+      "Toby Corkindale <tjc@wintrmute.net>",
+      "Toby Corkindale <tobyc@strategicdata.com.au>",
+      "Tomas Doran (t0m) <t0m@state51.co.uk>",
+      "Tom Hukins <tom@eborcom.com>",
+      "Tommy Butler <tommyperl.github@internetalias.net>",
+      "Tomohiro Hosaka <bokutin@bokut.in>",
+      "valy23 <valy23@gmail.com>",
+      "Vladimir Timofeev <vovkasm@gmail.com>",
+      "Vladimir Timofeev <vovkasm@vovnb.(none)>",
+      "Yousef Alhashemi <yousef.alhashemi@gmail.com>",
+      "Zbigniew Lukasiak <zby@cpan.org>",
+      "Zbigniew Lukasiak <zby@zby.aster.net.pl>",
+      "zby <zby@dorotka-pc.(none)>",
+      "Zoffix Znet <cpan@zoffix.com>"
+   ],
+   "x_generated_by_perl" : "v5.32.0",
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.19",
+   "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later"
+}
+
