@@ -23,6 +23,7 @@ requires 'namespace::autoclean',         '0.09';
 on runtime => sub {
     recommends 'Crypt::Blowfish',        '0';
     recommends 'Crypt::CBC',             '3.00';
+    recommends 'GD::SecurityImage',      '0';
     recommends 'MIME::Base64',           '0';
 };
 
