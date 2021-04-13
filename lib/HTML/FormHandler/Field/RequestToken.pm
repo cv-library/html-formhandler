@@ -115,10 +115,11 @@ has 'cipher' => (
 sub _build_cipher {
     my ($self) = @_;
     return Crypt::CBC->new(
-        -key    => $self->crypto_key,
         -cipher => $self->crypto_cipher_type,
-        -salt   => 1,
         -header => 'salt',
+        -key    => $self->crypto_key,
+        -pbkdf  => 'pbkdf2',
+        -salt   => 1,
     );
 }
 
