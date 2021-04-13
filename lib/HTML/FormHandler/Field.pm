@@ -7,7 +7,7 @@ use Try::Tiny;
 use Moose::Util::TypeConstraints;
 use HTML::FormHandler::Merge ('merge');
 use HTML::FormHandler::Render::Util( 'cc_widget', 'ucc_widget' );
-use Sub::Name;
+use Sub::Util;
 
 with 'HTML::FormHandler::Traits';
 with 'HTML::FormHandler::Validate';
@@ -923,7 +923,7 @@ sub set_html_attr { shift->set_element_attr(@_) }
         );
         # create builders fo _attrs
         my $attr_builder = __PACKAGE__ . "::build_${attr}_attr";
-        *$attr_builder = subname $attr_builder, sub { {} };
+        *$attr_builder = Sub::Util::set_subname $attr_builder, sub { {} };
         # create the 'class' slots
         has "${attr}_class" => (
             is      => 'rw',
@@ -938,11 +938,11 @@ sub set_html_attr { shift->set_element_attr(@_) }
         );
         # create builders for classes
         my $class_builder = __PACKAGE__ . "::build_${attr}_class";
-        *$class_builder = subname $class_builder, sub { [] };
+        *$class_builder = Sub::Util::set_subname $class_builder, sub { [] };
         # create wrapper for add_to_ to accept arrayref
         my $add_to_class = __PACKAGE__ . "::add_${attr}_class";
         my $_add_meth    = __PACKAGE__ . "::_add_${attr}_class";
-        *$add_to_class = subname $add_to_class,
+        *$add_to_class = Sub::Util::set_subname $add_to_class,
             sub { shift->$_add_meth( ( ref $_[0] eq 'ARRAY' ? @{ $_[0] } : @_ ) ); }
     }
 }

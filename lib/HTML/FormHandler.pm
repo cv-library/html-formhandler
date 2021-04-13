@@ -19,7 +19,7 @@ use Try::Tiny;
 use MooseX::Types::LoadableClass qw/ LoadableClass /;
 use namespace::autoclean;
 use HTML::FormHandler::Merge ('merge');
-use Sub::Name;
+use Sub::Util;
 use Data::Clone;
 
 use 5.008;
@@ -992,7 +992,7 @@ sub _html_attr_set {
         );
         # create builders for _attr
         my $attr_builder = __PACKAGE__ . "::build_${attr}_attr";
-        *$attr_builder = subname $attr_builder, sub { {} };
+        *$attr_builder = Sub::Util::set_subname $attr_builder, sub { {} };
         # create the 'class' slots
         has "${attr}_class" => (
             is      => 'rw',
@@ -1007,12 +1007,12 @@ sub _html_attr_set {
         );
         # create builders for classes
         my $class_builder = __PACKAGE__ . "::build_${attr}_class";
-        *$class_builder = subname $class_builder, sub { [] };
+        *$class_builder = Sub::Util::set_subname $class_builder, sub { [] };
         # create wrapper for add_to_ to accept arrayref
         my $add_to_class = __PACKAGE__ . "::add_${attr}_class";
         my $_add_meth    = __PACKAGE__ . "::_add_${attr}_class";
         # create add method that takes an arrayref
-        *$add_to_class = subname $add_to_class,
+        *$add_to_class = Sub::Util::set_subname $add_to_class,
             sub { shift->$_add_meth( ( ref $_[0] eq 'ARRAY' ? @{ $_[0] } : @_ ) ); }
     }
 }

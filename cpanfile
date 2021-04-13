@@ -16,7 +16,7 @@ requires 'MooseX::Types',                '0.20';
 requires 'MooseX::Types::Common',        '0';
 requires 'MooseX::Types::LoadableClass', '0.006';
 requires 'Sub::Exporter',                '0';
-requires 'Sub::Name',                    '0';
+requires 'Sub::Util',                    '1.40'; # set_subname
 requires 'Try::Tiny',                    '0';
 requires 'namespace::autoclean',         '0.09';
 
