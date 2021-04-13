@@ -5,24 +5,23 @@ use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Field::Text';
 
 has '+size'                 => ( default => 8 );
-has 'precision'             => ( isa => 'Int|Undef', is => 'rw', default => 2 );
-has 'decimal_symbol'        => ( isa => 'Str', is => 'rw', default => '.');
-has 'decimal_symbol_for_db' => ( isa => 'Str', is => 'rw', default => '.');
+has 'precision'             => ( isa     => 'Int|Undef', is => 'rw', default => 2 );
+has 'decimal_symbol'        => ( isa     => 'Str',       is => 'rw', default => '.' );
+has 'decimal_symbol_for_db' => ( isa     => 'Str',       is => 'rw', default => '.' );
 has '+inflate_method'       => ( default => sub { \&inflate_float } );
 has '+deflate_method'       => ( default => sub { \&deflate_float } );
 
 our $class_messages = {
-    'float_needed'      => 'Must be a number. May contain numbers, +, - and decimal separator \'[_1]\'',
-    'float_size'        => 'Total size of number must be less than or equal to [_1], but is [_2]',
-    'float_precision'   => 'May have a maximum of [quant,_1,digit] after the decimal point, but has [_2]',
+    'float_needed' =>
+        'Must be a number. May contain numbers, +, - and decimal separator \'[_1]\'',
+    'float_size' => 'Total size of number must be less than or equal to [_1], but is [_2]',
+    'float_precision' =>
+        'May have a maximum of [quant,_1,digit] after the decimal point, but has [_2]',
 };
 
 sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
 
 sub inflate_float {
@@ -35,8 +34,8 @@ sub inflate_float {
 sub deflate_float {
     my ( $self, $value ) = @_;
     return $value unless defined $value;
-    my $symbol      = $self->decimal_symbol;
-    my $symbol_db   = $self->decimal_symbol_for_db;
+    my $symbol    = $self->decimal_symbol;
+    my $symbol_db = $self->decimal_symbol_for_db;
     $value =~ s/\Q$symbol_db\E/$symbol/x;
     return $value;
 }
@@ -45,12 +44,13 @@ sub validate {
     my $field = shift;
 
     #return unless $field->next::method;
-    my ($integer_part, $decimal_part) = ();
-    my $value       = $field->value;
-    my $symbol      = $field->decimal_symbol;
-    my $symbol_db   = $field->decimal_symbol_for_db;
+    my ( $integer_part, $decimal_part ) = ();
+    my $value     = $field->value;
+    my $symbol    = $field->decimal_symbol;
+    my $symbol_db = $field->decimal_symbol_for_db;
 
-    if ($value =~ m/^-?([0-9]+)(\Q$symbol\E([0-9]+))?$/x) {     # \Q ... \E - All the characters between the \Q and the \E are interpreted as literal characters.
+    if ( $value =~ m/^-?([0-9]+)(\Q$symbol\E([0-9]+))?$/x )
+    { # \Q ... \E - All the characters between the \Q and the \E are interpreted as literal characters.
         $integer_part = $1;
         $decimal_part = defined $3 ? $3 : '';
     }
@@ -67,7 +67,7 @@ sub validate {
 
     if ( my $allowed_precision = $field->precision ) {
         return $field->add_error( $field->get_message('float_precision'),
-            $allowed_precision, length $decimal_part)
+            $allowed_precision, length $decimal_part )
             if length $decimal_part > $allowed_precision;
     }
 

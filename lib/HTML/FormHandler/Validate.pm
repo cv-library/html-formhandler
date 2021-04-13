@@ -11,16 +11,16 @@ used by L<HTML::FormHandler::Field>.
 use Moose::Role;
 use Carp;
 
-has 'required' => ( isa => 'Bool', is => 'rw', default => '0' );
-has 'required_when' => ( is => 'rw', isa => 'HashRef', predicate => 'has_required_when' );
+has 'required'         => ( isa => 'Bool', is  => 'rw',      default   => '0' );
+has 'required_when'    => ( is  => 'rw',   isa => 'HashRef', predicate => 'has_required_when' );
 has 'required_message' => (
-    isa     => 'ArrayRef|Str',
-    is      => 'rw',
+    isa => 'ArrayRef|Str',
+    is  => 'rw',
 );
-has 'unique'            => ( isa => 'Bool', is => 'rw', predicate => 'has_unique' );
-has 'unique_message'    => ( isa => 'Str',  is => 'rw' );
-has 'range_start' => ( isa => 'Int|Undef', is => 'rw' );
-has 'range_end'   => ( isa => 'Int|Undef', is => 'rw' );
+has 'unique'         => ( isa => 'Bool',      is => 'rw', predicate => 'has_unique' );
+has 'unique_message' => ( isa => 'Str',       is => 'rw' );
+has 'range_start'    => ( isa => 'Int|Undef', is => 'rw' );
+has 'range_end'      => ( isa => 'Int|Undef', is => 'rw' );
 
 sub test_ranges {
     my $field = shift;
@@ -34,21 +34,18 @@ sub test_ranges {
     my $high = $field->range_end;
 
     if ( defined $low && defined $high ) {
-        return
-            $value >= $low && $value <= $high ? 1 :
-              $field->add_error( $field->get_message('range_incorrect'), $low, $high );
+        return $value >= $low && $value <= $high ? 1 :
+            $field->add_error( $field->get_message('range_incorrect'), $low, $high );
     }
 
     if ( defined $low ) {
-        return
-            $value >= $low ? 1 :
-              $field->add_error( $field->get_message('range_too_low'), $low );
+        return $value >= $low ? 1 :
+            $field->add_error( $field->get_message('range_too_low'), $low );
     }
 
     if ( defined $high ) {
-        return
-            $value <= $high ? 1 :
-              $field->add_error( $field->get_message('range_too_high'), $high );
+        return $value <= $high ? 1 :
+            $field->add_error( $field->get_message('range_too_high'), $high );
     }
 
     return 1;
@@ -62,18 +59,27 @@ sub validate_field {
 
     # if the 'fields_for_input_without_param' flag is set, and the field doesn't have input,
     # copy the value to the input.
-    if ( !$field->has_input && $field->form && $field->form->use_fields_for_input_without_param ) {
-        $field->result->_set_input($field->value);
+    if ( !$field->has_input &&
+        $field->form &&
+        $field->form->use_fields_for_input_without_param )
+    {
+        $field->result->_set_input( $field->value );
     }
     # handle required and required_when processing, and transfer input to value
     my $continue_validation = 1;
-    if ( ( $field->required ||
-           ( $field->has_required_when && $field->match_when($field->required_when) ) ) &&
-       ( !$field->has_input || !$field->input_defined ) ) {
+    if (
+        (
+            $field->required ||
+            ( $field->has_required_when && $field->match_when( $field->required_when ) )
+        ) &&
+        ( !$field->has_input || !$field->input_defined )
+        )
+    {
         $field->missing(1);
         $field->add_error( $field->get_message('required'), $field->loc_label );
-        if( $field->has_input ) {
-           $field->not_nullable ? $field->_set_value($field->input) : $field->_set_value(undef);
+        if ( $field->has_input ) {
+            $field->not_nullable ? $field->_set_value( $field->input ) :
+                $field->_set_value(undef);
         }
         $continue_validation = 0;
     }
@@ -83,7 +89,7 @@ sub validate_field {
     }
     elsif ( !$field->input_defined ) {
         if ( $field->not_nullable ) {
-            $field->_set_value($field->input);
+            $field->_set_value( $field->input );
             # handles the case where a compound field value needs to have empty subfields
             $continue_validation = 0 unless $field->has_flag('is_compound');
         }
@@ -103,8 +109,8 @@ sub validate_field {
     }
     else {
         my $input = $field->input;
-        $input = $field->inflate( $input ) if $field->has_inflate_method;
-        $field->_set_value( $input );
+        $input = $field->inflate($input) if $field->has_inflate_method;
+        $field->_set_value($input);
     }
 
     $field->_inner_validate_field();
@@ -115,8 +121,8 @@ sub validate_field {
         if ( $field->has_value && defined $field->value );
     # validation done, if everything validated, do deflate_value for
     # final $form->value
-    if( $field->has_deflate_value_method && !$field->has_errors ) {
-        $field->_set_value( $field->deflate_value($field->value) );
+    if ( $field->has_deflate_value_method && !$field->has_errors ) {
+        $field->_set_value( $field->deflate_value( $field->value ) );
     }
 
     return !$field->has_errors;
@@ -127,14 +133,14 @@ sub _inner_validate_field { }
 sub validate { 1 }
 
 has 'actions' => (
-    traits     => ['Array'],
-    isa        => 'ArrayRef',
-    is         => 'rw',
-    default    => sub { [] },
-    handles   => {
-        add_action => 'push',
-        num_actions =>'count',
-        has_actions => 'count',
+    traits  => ['Array'],
+    isa     => 'ArrayRef',
+    is      => 'rw',
+    default => sub { [] },
+    handles => {
+        add_action    => 'push',
+        num_actions   => 'count',
+        has_actions   => 'count',
         clear_actions => 'clear',
     }
 );
@@ -193,7 +199,7 @@ sub _apply_actions {
         }
         if ( exists $action->{type} ) {
             my $tobj;
-            if ( $is_type->($action->{type}) ) {
+            if ( $is_type->( $action->{type} ) ) {
                 $tobj = $action->{type};
             }
             else {
@@ -222,24 +228,24 @@ sub _apply_actions {
         # now maybe: http://search.cpan.org/~rgarcia/perl-5.10.0/pod/perlsyn.pod#Smart_matching_in_detail
         # actions in a hashref
         elsif ( ref $action->{check} eq 'CODE' ) {
-            if ( !$action->{check}->($value, $self) ) {
+            if ( !$action->{check}->( $value, $self ) ) {
                 $error_message = $self->get_message('wrong_value');
             }
         }
         elsif ( ref $action->{check} eq 'Regexp' ) {
             if ( $value !~ $action->{check} ) {
-                $error_message = [$self->get_message('no_match'), $value];
+                $error_message = [ $self->get_message('no_match'), $value ];
             }
         }
         elsif ( ref $action->{check} eq 'ARRAY' ) {
             if ( !grep { $value eq $_ } @{ $action->{check} } ) {
-                $error_message = [$self->get_message('not_allowed'), $value];
+                $error_message = [ $self->get_message('not_allowed'), $value ];
             }
         }
         elsif ( ref $action->{transform} eq 'CODE' ) {
             $new_value = eval {
                 no warnings 'all';
-                $action->{transform}->($value, $self);
+                $action->{transform}->( $value, $self );
             };
             if ($@) {
                 $error_message = $@ || $self->get_message('error_occurred');
@@ -253,7 +259,7 @@ sub _apply_actions {
             if ( defined $action->{message} ) {
                 my $act_msg = $action->{message};
                 if ( ref $act_msg eq 'CODE' ) {
-                    $act_msg = $act_msg->($value, $self, $error_message);
+                    $act_msg = $act_msg->( $value, $self, $error_message );
                 }
                 if ( ref $act_msg eq 'ARRAY' ) {
                     @message = @{$act_msg};
@@ -273,20 +279,20 @@ sub match_when {
     my $matched = 0;
     foreach my $key ( keys %$when ) {
         my $check_against = $when->{$key};
-        my $from_form = ( $key =~ /^\+/ );
+        my $from_form     = ( $key =~ /^\+/ );
         $key =~ s/^\+//;
-        my $field = $from_form ? $self->form->field($key) : $self->parent->subfield( $key );
-        unless ( $field ) {
+        my $field = $from_form ? $self->form->field($key) : $self->parent->subfield($key);
+        unless ($field) {
             warn "field '$key' not found processing 'when' for '" . $self->full_name . "'";
             next;
         }
         my $field_fif = defined $field->fif ? $field->fif : '';
         if ( ref $check_against eq 'CODE' ) {
             $matched++
-                if $check_against->($field_fif, $self);
+                if $check_against->( $field_fif, $self );
         }
         elsif ( ref $check_against eq 'ARRAY' ) {
-            foreach my $value ( @$check_against ) {
+            foreach my $value (@$check_against) {
                 $matched++ if ( $value eq $field_fif );
             }
         }

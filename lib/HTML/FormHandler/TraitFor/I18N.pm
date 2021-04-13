@@ -58,16 +58,16 @@ context is passed in with 'ctx'):
 =cut
 
 has 'language_handle' => (
-    isa => duck_type( [ qw(maketext) ] ),
-    is => 'rw',
+    isa        => duck_type( [qw(maketext)] ),
+    is         => 'rw',
     lazy_build => 1,
-    required => 1,
+    required   => 1,
 );
 
 sub _build_language_handle {
     my ($self) = @_;
 
-    if (!$self->isa('HTML::FormHandler') && $self->has_form) {
+    if ( !$self->isa('HTML::FormHandler') && $self->has_form ) {
         return $self->form->language_handle();
     }
     my $lh;
@@ -80,13 +80,13 @@ sub _build_language_handle {
         }
     }
     else {
-       $lh =  HTML::FormHandler::I18N->get_handle;
+        $lh = HTML::FormHandler::I18N->get_handle;
     }
     return $lh;
 }
 
 sub _localize {
-    my ($self, @message) = @_;
+    my ( $self, @message ) = @_;
     my $message = $self->language_handle->maketext(@message);
     return $message;
 }

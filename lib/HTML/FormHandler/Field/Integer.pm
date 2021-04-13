@@ -4,21 +4,15 @@ package HTML::FormHandler::Field::Integer;
 use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Field::Text';
 
-has '+size' => ( default => 8 );
+has '+size'            => ( default => 8 );
 has '+html5_type_attr' => ( default => 'number' );
 
-our $class_messages = {
-    'integer_needed' => 'Value must be an integer',
-};
+our $class_messages = { 'integer_needed' => 'Value must be an integer', };
 
 sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
-
 
 apply(
     [
@@ -27,10 +21,10 @@ apply(
                 my $value = shift;
                 $value =~ s/^\+//;
                 return $value;
-                }
+            }
         },
         {
-            check => sub { $_[0] =~ /^-?[0-9]+$/ },
+            check   => sub { $_[0] =~ /^-?[0-9]+$/ },
             message => sub {
                 my ( $value, $field ) = @_;
                 return $field->get_message('integer_needed');

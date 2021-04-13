@@ -56,7 +56,7 @@ has 'blocks' => (
 sub build_blocks { {} }
 
 has 'block_list' => ( is => 'rw', isa => 'ArrayRef', lazy => 1, builder => 'build_block_list' );
-sub build_block_list {[]}
+sub build_block_list { [] }
 
 has 'render_list' => (
     is      => 'rw',
@@ -86,13 +86,13 @@ after '_build_fields' => sub {
     my $self = shift;
 
     my $meta_blist = $self->_build_meta_block_list;
-    if( @$meta_blist ) {
+    if (@$meta_blist) {
         foreach my $block_attr (@$meta_blist) {
             $self->make_block($block_attr);
         }
     }
     my $blist = $self->block_list;
-    if( @$blist ) {
+    if (@$blist) {
         foreach my $block_attr (@$blist) {
             $self->make_block($block_attr);
         }
@@ -113,8 +113,8 @@ sub make_block {
     }
 
     my $class;
-    if( $type ) {
-        $class = $self->get_widget_role($type, 'Block');
+    if ($type) {
+        $class = $self->get_widget_role( $type, 'Block' );
     }
     else {
         $class = 'HTML::FormHandler::Widget::Block';
@@ -162,6 +162,5 @@ sub _build_meta_block_list {
     }
     return clone( \@block_list );
 }
-
 
 1;

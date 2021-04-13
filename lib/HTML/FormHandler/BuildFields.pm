@@ -21,10 +21,21 @@ has 'fields_from_model' => ( isa => 'Bool', is => 'rw' );
 
 has 'field_list' => ( isa => 'HashRef|ArrayRef', is => 'rw', default => sub { {} } );
 
-has 'build_include_method' => ( is => 'ro', isa => 'CodeRef', traits => ['Code'],
-    default => sub { \&default_build_include  }, handles => { build_include => 'execute_method' } );
-has 'include' => ( is => 'rw', isa => 'ArrayRef', traits => ['Array'], builder => 'build_include',
-    lazy => 1, handles => { has_include => 'count' } );
+has 'build_include_method' => (
+    is      => 'ro',
+    isa     => 'CodeRef',
+    traits  => ['Code'],
+    default => sub { \&default_build_include },
+    handles => { build_include => 'execute_method' }
+);
+has 'include' => (
+    is      => 'rw',
+    isa     => 'ArrayRef',
+    traits  => ['Array'],
+    builder => 'build_include',
+    lazy    => 1,
+    handles => { has_include => 'count' }
+);
 sub default_build_include { [] }
 
 sub has_field_list {
@@ -38,7 +49,6 @@ sub has_field_list {
     }
     return;
 }
-
 
 # This is the only entry point for this file.  It processes the
 # various methods of field definition (has_field plus the attrs above),
@@ -55,16 +65,16 @@ sub _build_fields {
 
     $self->_process_field_array( $meta_flist, 0 ) if $meta_flist;
     my $flist = $self->has_field_list;
-    if( $flist ) {
-        if( ref($flist) eq 'ARRAY' && ref( $flist->[0] ) eq 'HASH' ) {
-            $self->_process_field_array( $flist );
+    if ($flist) {
+        if ( ref($flist) eq 'ARRAY' && ref( $flist->[0] ) eq 'HASH' ) {
+            $self->_process_field_array($flist);
         }
         else {
-            $self->_process_field_list( $flist );
+            $self->_process_field_list($flist);
         }
     }
-    if ( $self->fields_from_model && (my $mlist = $self->model_fields) ) {
-        $self->_process_field_list( $mlist );
+    if ( $self->fields_from_model && ( my $mlist = $self->model_fields ) ) {
+        $self->_process_field_list($mlist);
     }
 
     return unless $self->has_fields;
@@ -73,11 +83,10 @@ sub _build_fields {
 
 }
 
-
 # loops through all inherited classes and composed roles
 # to find fields specified with 'has_field'
 sub _build_meta_field_list {
-    my $self = shift;
+    my $self       = shift;
     my $field_list = [];
 
     foreach my $sc ( reverse $self->meta->linearized_isa ) {
@@ -104,7 +113,7 @@ sub _process_field_list {
     my ( $self, $flist ) = @_;
 
     if ( ref $flist eq 'ARRAY' ) {
-        $self->_process_field_array( $self->_array_fields( $flist ) );
+        $self->_process_field_array( $self->_array_fields($flist) );
     }
 }
 
@@ -112,7 +121,7 @@ sub _process_field_list {
 sub _array_fields {
     my ( $self, $fields ) = @_;
 
-    $fields = clone( $fields );
+    $fields = clone($fields);
     my @new_fields;
     while (@$fields) {
         my $name = shift @$fields;
@@ -130,7 +139,7 @@ sub _process_field_array {
     my ( $self, $fields ) = @_;
 
     # clone and, optionally, filter fields
-    $fields = $self->clean_fields( $fields );
+    $fields = $self->clean_fields($fields);
     # the point here is to process fields in the order parents
     # before children, so we process all fields with no dots
     # first, then one dot, then two dots...
@@ -150,15 +159,15 @@ sub _process_field_array {
 
 sub clean_fields {
     my ( $self, $fields ) = @_;
-    if( $self->has_include ) {
+    if ( $self->has_include ) {
         my @fields;
         my %include = map { $_ => 1 } @{ $self->include };
-        foreach my $fld ( @$fields ) {
-            push @fields, clone($fld) if exists $include{$fld->{name}};
+        foreach my $fld (@$fields) {
+            push @fields, clone($fld) if exists $include{ $fld->{name} };
         }
         return \@fields;
     }
-    return clone( $fields );
+    return clone($fields);
 }
 
 # Maps the field type to a field class, finds the parent,
@@ -178,7 +187,7 @@ sub _make_field {
 
     my $class = $self->_find_field_class( $type, $name );
 
-    my $parent = $self->_find_parent( $field_attr );
+    my $parent = $self->_find_parent($field_attr);
 
     $field_attr = $self->_merge_updates( $field_attr, $class ) unless $do_update;
 
@@ -193,10 +202,10 @@ sub _make_adhoc_field {
     # remove and save form & parent, because if the form class has a 'clone'
     # method, Data::Clone::clone will clone the form
     my $parent = delete $field_attr->{parent};
-    my $form = delete $field_attr->{form};
-    $field_attr = $self->_merge_updates( $field_attr, $class );
+    my $form   = delete $field_attr->{form};
+    $field_attr           = $self->_merge_updates( $field_attr, $class );
     $field_attr->{parent} = $parent;
-    $field_attr->{form} = $form;
+    $field_attr->{form}   = $form;
     my $field = $self->new_field_with_traits( $class, $field_attr );
     return $field;
 }
@@ -207,21 +216,19 @@ sub _find_field_class {
     my $field_ns = $self->field_name_space;
     my @classes;
     # '+'-prefixed fields could be full namespaces
-    if ( $type =~ s/^\+// )
-    {
+    if ( $type =~ s/^\+// ) {
         push @classes, $type;
     }
-    foreach my $ns ( @$field_ns, 'HTML::FormHandler::Field', 'HTML::FormHandlerX::Field' )
-    {
+    foreach my $ns ( @$field_ns, 'HTML::FormHandler::Field', 'HTML::FormHandlerX::Field' ) {
         push @classes, $ns . "::" . $type;
     }
     # look for Field in possible namespaces
     my $class;
-    foreach my $try ( @classes ) {
+    foreach my $try (@classes) {
         last if $class = load_optional_class($try) ? $try : undef;
     }
     die "Could not load field class '$type' for field '$name'"
-       unless $class;
+        unless $class;
 
     return $class;
 }
@@ -238,11 +245,11 @@ sub _find_parent {
         # use special 'field' method call that starts from
         # $self, because names aren't always starting from
         # the form
-        $parent      = $self->field($parent_name, undef, $self);
+        $parent = $self->field( $parent_name, undef, $self );
         if ($parent) {
             die "The parent of field " . $field_attr->{name} . " is not a Compound Field"
                 unless $parent->isa('HTML::FormHandler::Field::Compound');
-            $field_attr->{name}   = $simple_name;
+            $field_attr->{name} = $simple_name;
         }
         else {
             die "did not find parent for field " . $field_attr->{name};
@@ -267,36 +274,39 @@ sub _merge_updates {
 
     # If there are field_traits at the form level, prepend them
     my $field_updates;
-    unshift @{$field_attr->{traits}}, @{$self->form->field_traits} if $self->form;
+    unshift @{ $field_attr->{traits} }, @{ $self->form->field_traits } if $self->form;
     # use full_name for updates from form, name for updates from compound field
     my $full_name = delete $field_attr->{full_name} || $field_attr->{name};
-    my $name = $field_attr->{name};
+    my $name      = $field_attr->{name};
 
-    my $single_updates = {}; # updates that apply to a single field
-    my $all_updates = {};    # updates that apply to all fields
-    # get updates from form update_subfields and widget_tags
+    my $single_updates = {};    # updates that apply to a single field
+    my $all_updates    = {};    # updates that apply to all fields
+                                # get updates from form update_subfields and widget_tags
     if ( $self->form ) {
         $field_updates = $self->form->update_subfields;
         if ( keys %$field_updates ) {
-            $all_updates = $field_updates->{all} || {};
+            $all_updates    = $field_updates->{all} || {};
             $single_updates = $field_updates->{$full_name};
             if ( exists $field_updates->{by_flag} ) {
-                $all_updates = $self->by_flag_updates(  $field_attr, $class, $field_updates, $all_updates );
+                $all_updates =
+                    $self->by_flag_updates( $field_attr, $class, $field_updates, $all_updates );
             }
             if ( exists $field_updates->{by_type} &&
-                 exists $field_updates->{by_type}->{$field_attr->{type}} ) {
-                $all_updates = merge( $field_updates->{by_type}->{$field_attr->{type}}, $all_updates );
+                exists $field_updates->{by_type}->{ $field_attr->{type} } )
+            {
+                $all_updates =
+                    merge( $field_updates->{by_type}->{ $field_attr->{type} }, $all_updates );
             }
         }
         # merge widget tags into 'all' updates
-        if( $self->form->has_widget_tags ) {
+        if ( $self->form->has_widget_tags ) {
             $all_updates = merge( $all_updates, { tags => $self->form->widget_tags } );
         }
     }
     # get updates from compound field update_subfields and widget_tags
     if ( $self->has_flag('is_compound') ) {
-        my $comp_field_updates = $self->update_subfields;
-        my $comp_all_updates = {};
+        my $comp_field_updates  = $self->update_subfields;
+        my $comp_all_updates    = {};
         my $comp_single_updates = {};
         # -- compound 'all' updates --
         if ( keys %$comp_field_updates ) {
@@ -304,14 +314,19 @@ sub _merge_updates {
             # don't use full_name. varies depending on parent field name
             $comp_single_updates = $comp_field_updates->{$name} || {};
             if ( exists $field_updates->{by_flag} ) {
-                $comp_all_updates = $self->by_flag_updates(  $field_attr, $class, $comp_field_updates, $comp_all_updates );
+                $comp_all_updates =
+                    $self->by_flag_updates( $field_attr, $class, $comp_field_updates,
+                    $comp_all_updates );
             }
             if ( exists $comp_field_updates->{by_type} &&
-                 exists $comp_field_updates->{by_type}->{$field_attr->{type}} ) {
-                $comp_all_updates = merge( $comp_field_updates->{by_type}->{$field_attr->{type}}, $comp_all_updates );
+                exists $comp_field_updates->{by_type}->{ $field_attr->{type} } )
+            {
+                $comp_all_updates =
+                    merge( $comp_field_updates->{by_type}->{ $field_attr->{type} },
+                    $comp_all_updates );
             }
         }
-        if( $self->has_widget_tags ) {
+        if ( $self->has_widget_tags ) {
             $comp_all_updates = merge( $comp_all_updates, { tags => $self->widget_tags } );
         }
 
@@ -325,21 +340,21 @@ sub _merge_updates {
 
     # attributes set on a specific field through update_subfields override has_fields
     # attributes set by 'all' only happen if no field attributes
-    $field_attr = merge( $field_attr, $all_updates ) if keys %$all_updates;
-    $field_attr = merge( $single_updates, $field_attr ) if keys %$single_updates;
+    $field_attr = merge( $field_attr,     $all_updates ) if keys %$all_updates;
+    $field_attr = merge( $single_updates, $field_attr )  if keys %$single_updates;
 
     # get the widget and widget_wrapper from form
-    unless( $self->form && $self->form->no_widgets ) {
+    unless ( $self->form && $self->form->no_widgets ) {
         # widget
         my $widget = $field_attr->{widget};
-        unless( $widget ) {
-            my $attr = $class->meta->find_attribute_by_name( 'widget' );
+        unless ($widget) {
+            my $attr = $class->meta->find_attribute_by_name('widget');
             $widget = $attr->default if $attr;
         }
         $widget = '' if $widget eq 'None';
         # widget wrapper
         my $widget_wrapper = $field_attr->{widget_wrapper};
-        unless( $widget_wrapper ) {
+        unless ($widget_wrapper) {
             my $attr = $class->meta->get_attribute('widget_wrapper');
             $widget_wrapper = $attr->default if $attr;
             $widget_wrapper ||= $self->form->widget_wrapper if $self->form;
@@ -347,13 +362,13 @@ sub _merge_updates {
             $field_attr->{widget_wrapper} = $widget_wrapper;
         }
         # add widget and wrapper roles to field traits
-        if ( $widget ) {
+        if ($widget) {
             my $widget_role = $self->get_widget_role( $widget, 'Field' );
-            push @{$field_attr->{traits}}, $widget_role;
+            push @{ $field_attr->{traits} }, $widget_role;
         }
-        if ( $widget_wrapper ) {
+        if ($widget_wrapper) {
             my $wrapper_role = $self->get_widget_role( $widget_wrapper, 'Wrapper' );
-            push @{$field_attr->{traits}}, $wrapper_role;
+            push @{ $field_attr->{traits} }, $wrapper_role;
         }
     }
     return $field_attr;
@@ -366,10 +381,13 @@ sub by_flag_updates {
     if ( exists $by_flag->{contains} && $field_attr->{is_contains} ) {
         $all_updates = merge( $field_updates->{by_flag}->{contains}, $all_updates );
     }
-    elsif ( exists $by_flag->{repeatable} && $class->meta->find_attribute_by_name('is_repeatable') ) {
+    elsif ( exists $by_flag->{repeatable} &&
+        $class->meta->find_attribute_by_name('is_repeatable') )
+    {
         $all_updates = merge( $field_updates->{by_flag}->{repeatable}, $all_updates );
     }
-    elsif ( exists $by_flag->{compound} && $class->meta->find_attribute_by_name('is_compound') ) {
+    elsif ( exists $by_flag->{compound} && $class->meta->find_attribute_by_name('is_compound') )
+    {
         $all_updates = merge( $field_updates->{by_flag}->{compound}, $all_updates );
     }
     return $all_updates;
@@ -386,7 +404,7 @@ sub _update_or_create {
 
     $parent ||= $self->form;
     $field_attr->{parent} = $parent;
-    $field_attr->{form} = $self->form if $self->form;
+    $field_attr->{form}   = $self->form if $self->form;
     my $index = $parent->field_index( $field_attr->{name} );
     my $field;
     if ( defined $index ) {
@@ -396,21 +414,25 @@ sub _update_or_create {
             die "Field to update for " . $field_attr->{name} . " not found"
                 unless $field;
             foreach my $key ( keys %{$field_attr} ) {
-                next if $key eq 'name' || $key eq 'form' || $key eq 'parent' ||
-                    $key eq 'full_name' || $key eq 'type';
+                next
+                    if $key eq 'name'   ||
+                    $key eq 'form'      ||
+                    $key eq 'parent'    ||
+                    $key eq 'full_name' ||
+                    $key eq 'type';
                 $field->$key( $field_attr->{$key} )
                     if $field->can($key);
             }
         }
-        else               # replace existing field
+        else    # replace existing field
         {
-            $field = $self->new_field_with_traits( $class, $field_attr);
+            $field = $self->new_field_with_traits( $class, $field_attr );
             $parent->set_field_at( $index, $field );
         }
     }
-    else                   # new field
+    else        # new field
     {
-        $field = $self->new_field_with_traits( $class, $field_attr);
+        $field = $self->new_field_with_traits( $class, $field_attr );
         $parent->add_field($field);
     }
     $field->form->add_repeatable_field($field)
@@ -422,8 +444,8 @@ sub new_field_with_traits {
     my ( $self, $class, $field_attr ) = @_;
 
     my $traits = delete $field_attr->{traits} || [];
-    if( @$traits ) {
-        $class = $class->with_traits( @$traits );
+    if (@$traits) {
+        $class = $class->with_traits(@$traits);
         $class->meta->make_immutable;
     }
     my $field = $class->new( %{$field_attr} );

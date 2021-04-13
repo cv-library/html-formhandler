@@ -5,7 +5,7 @@ use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Field::Text';
 
 has '+html5_type_attr' => ( default => 'number' );
-has 'currency_symbol' => (
+has 'currency_symbol'  => (
     is      => 'ro',
     isa     => 'Str',
     default => '$',
@@ -21,16 +21,14 @@ our $class_messages = {
     'money_real'    => 'Value must be a real number',
 };
 
-sub get_class_messages  {
+sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
 
 apply(
-    [   {   # remove any leading currency symbol
+    [
+        {    # remove any leading currency symbol
             transform => sub {
                 my ( $value, $field ) = @_;
                 my $c = $field->currency_symbol;
@@ -38,26 +36,26 @@ apply(
                 return $value;
             },
         },
-        {   # check number looks real, optionally allow comma digit groupings
+        {    # check number looks real, optionally allow comma digit groupings
             check => sub {
                 my ( $value, $field ) = @_;
-                return $field->allow_commas
-                     ? $value =~ /^[-+]?(?:\d+|\d{1,3}(,\d{3})*)(?:\.\d+)?$/
-                     : $value =~ /^[-+]?\d+(?:\.\d+)?$/;
+                return $field->allow_commas ?
+                    $value =~ /^[-+]?(?:\d+|\d{1,3}(,\d{3})*)(?:\.\d+)?$/ :
+                    $value =~ /^[-+]?\d+(?:\.\d+)?$/;
             },
             message => sub {
                 my ( $value, $field ) = @_;
                 return [ $field->get_message('money_real'), $value ];
             },
         },
-        {   # remove commas
+        {    # remove commas
             transform => sub {
-                my ($value, $field) = @_;
+                my ( $value, $field ) = @_;
                 $value =~ tr/,//d if $field->allow_commas;
                 return $value;
             },
         },
-        {   # convert to standard number, formatted to 2 decimal palaces
+        {    # convert to standard number, formatted to 2 decimal palaces
             transform => sub { sprintf '%.2f', $_[0] },
             message   => sub {
                 my ( $value, $field ) = @_;
@@ -66,7 +64,6 @@ apply(
         },
     ]
 );
-
 
 =head1 DESCRIPTION
 

@@ -25,25 +25,29 @@ our %Lexicon = (
     'error occurred'                              => 'ocorreu um erro',
 
     # H:: F:: Types
-    'Must be a positive number'                                     => 'Deve ser um número positivo',
-    'Must be a positive integer'                                    => 'Deve ser um número inteiro positivo',
-    'Must be a negative number'                                     => 'Deve ser um número negativo',
-    'Must be a negative integer'                                    => 'Deve ser um número inteiro negativo',
-    'Must be a single digit'                                        => 'Deve ser um único digito',
-    'Must be a single line of no more than 255 chars'               => 'Deve ser uma única linha com não mais do que 255 caracteres',
-    'Must be a non-empty single line of no more than 255 chars'     => 'Deve ser uma única linha não nula com não mais do que 255 caracteres',
-    'Must be between 4 and 255 chars'                               => 'Deve ser entre 4 e 255 caracteres',
-    'Not a valid state'                                             => 'Não é um estado válido',
-    'Email is not valid'                                            => 'Email inválido',
-    'Zip is not valid'                                              => 'CEP inválido',
-    'Not a valid IP address'                                        => 'Endereço IP inválido',
-    'Must not contain spaces'                                       => 'Não deve conter espaços',
-    'Must be made up of letters, digits, and underscores'           => 'Deve conter letras, digitos e underscores',
-    'Must not be all digits'                                        => 'Não pode ter todos os digitos',
-    'Field contains non-printable characters'                       => 'Campo contém caracteres inválidos',
-    'Field must contain a single word'                              => 'Campo deve conter uma única palavra',
-    'Must not be empty'                                             => 'Não pode estar vazio',
-    'Must be between 8 and 255 chars, and contain a non-alpha char' => 'Deve ser entre 8 e 255 caracteres, e conter um caractere não alfa numérico',
+    'Must be a positive number'  => 'Deve ser um número positivo',
+    'Must be a positive integer' => 'Deve ser um número inteiro positivo',
+    'Must be a negative number'  => 'Deve ser um número negativo',
+    'Must be a negative integer' => 'Deve ser um número inteiro negativo',
+    'Must be a single digit'     => 'Deve ser um único digito',
+    'Must be a single line of no more than 255 chars' =>
+        'Deve ser uma única linha com não mais do que 255 caracteres',
+    'Must be a non-empty single line of no more than 255 chars' =>
+        'Deve ser uma única linha não nula com não mais do que 255 caracteres',
+    'Must be between 4 and 255 chars' => 'Deve ser entre 4 e 255 caracteres',
+    'Not a valid state'               => 'Não é um estado válido',
+    'Email is not valid'              => 'Email inválido',
+    'Zip is not valid'                => 'CEP inválido',
+    'Not a valid IP address'          => 'Endereço IP inválido',
+    'Must not contain spaces'         => 'Não deve conter espaços',
+    'Must be made up of letters, digits, and underscores' =>
+        'Deve conter letras, digitos e underscores',
+    'Must not be all digits'                  => 'Não pode ter todos os digitos',
+    'Field contains non-printable characters' => 'Campo contém caracteres inválidos',
+    'Field must contain a single word'        => 'Campo deve conter uma única palavra',
+    'Must not be empty'                       => 'Não pode estar vazio',
+    'Must be between 8 and 255 chars, and contain a non-alpha char' =>
+        'Deve ser entre 8 e 255 caracteres, e conter um caractere não alfa numérico',
 
     # H::F::Field::Date
     'Date is too early' => 'A data é muito cedo',
@@ -70,8 +74,9 @@ our %Lexicon = (
     'Password must not match [_1]'          => 'Senha não pode coincidir com [_1]',
 
     # H::F::Field::PasswordConf
-    'Please enter a password confirmation'                  => 'Por favor confirme a senha',
-    'The password confirmation does not match the password' => 'A confirmação da senha não coincide',
+    'Please enter a password confirmation' => 'Por favor confirme a senha',
+    'The password confirmation does not match the password' =>
+        'A confirmação da senha não coincide',
 
     # H::F::Field::PosInteger
     'Value must be a positive integer' => 'Valor deve ser um inteiro positivo',
@@ -81,8 +86,10 @@ our %Lexicon = (
     '\'[_1]\' is not a valid value'            => '\'[_1]\' é um valor inválido',
 
     # H::F::Field::Text
-    'Field should not exceed [quant,_1,character]. You entered [_2]' => 'Campo não deve exceder [_1]. Você colocou: [_2]',
-    'Field must be at least [quant,_1,character]. You entered [_2]'  => 'Campo deve ser ao menos [_1]. Você colocou: [_2]',
+    'Field should not exceed [quant,_1,character]. You entered [_2]' =>
+        'Campo não deve exceder [_1]. Você colocou: [_2]',
+    'Field must be at least [quant,_1,character]. You entered [_2]' =>
+        'Campo deve ser ao menos [_1]. Você colocou: [_2]',
 
     # H:: F:: Field:: Upload
     'File uploaded is empty'           => 'Arquivo enviado está vazio',
@@ -94,11 +101,11 @@ our %Lexicon = (
     'Value must be unique in the database' => 'Valor deve ser único no banco de dados',
 
     # Other
-    'Your datetime does not match your pattern.' => 'A sua data/hora náo coincide com o padrão.',
+    'Your datetime does not match your pattern.' =>
+        'A sua data/hora náo coincide com o padrão.',
 );
 
 1;
-
 
 __END__
 =pod

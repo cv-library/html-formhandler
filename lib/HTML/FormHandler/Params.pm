@@ -52,7 +52,7 @@ sub expand_hash {
 
         my $box_ref = \$deep->{$first};
         for (@segments) {
-            if ( /^(0|[1-9]\d*)$/ ) {
+            if (/^(0|[1-9]\d*)$/) {
                 $$box_ref = [] unless defined $$box_ref;
                 croak "HFH: param clash for $name=$_"
                     unless ref $$box_ref eq 'ARRAY';

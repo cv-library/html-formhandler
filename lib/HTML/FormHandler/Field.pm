@@ -6,7 +6,7 @@ use HTML::FormHandler::Field::Result;
 use Try::Tiny;
 use Moose::Util::TypeConstraints;
 use HTML::FormHandler::Merge ('merge');
-use HTML::FormHandler::Render::Util('cc_widget', 'ucc_widget');
+use HTML::FormHandler::Render::Util( 'cc_widget', 'ucc_widget' );
 use Sub::Name;
 
 with 'HTML::FormHandler::Traits';
@@ -559,33 +559,36 @@ Periods in field names will be replaced by underscores, so that the field
 
 =cut
 
-has 'name' => ( isa => 'Str', is => 'rw', required => 1 );
-has 'type' => ( isa => 'Str', is => 'rw', default => sub { ref shift } );
-has 'parent' => ( is  => 'rw',   predicate => 'has_parent', weak_ref => 1 );
+has 'name'   => ( isa => 'Str', is        => 'rw',         required => 1 );
+has 'type'   => ( isa => 'Str', is        => 'rw',         default  => sub { ref shift } );
+has 'parent' => ( is  => 'rw',  predicate => 'has_parent', weak_ref => 1 );
 sub has_fields { }
 has 'input_without_param' => (
     is        => 'rw',
     predicate => 'has_input_without_param'
 );
-has 'not_nullable' => ( is => 'rw', isa => 'Bool' );
-has 'no_value_if_empty' => ( is => 'rw', isa => 'Bool' );
+has 'not_nullable'        => ( is => 'rw', isa => 'Bool' );
+has 'no_value_if_empty'   => ( is => 'rw', isa => 'Bool' );
 has 'validate_when_empty' => ( is => 'rw', isa => 'Bool' );
-has 'init_value' => ( is => 'rw', clearer => 'clear_init_value', predicate => 'has_init_value' );
-has 'default' => ( is => 'rw' );
+has 'init_value' =>
+    ( is => 'rw', clearer => 'clear_init_value', predicate => 'has_init_value' );
+has 'default'          => ( is => 'rw' );
 has 'default_over_obj' => ( is => 'rw', builder => 'build_default_over_obj' );
 sub build_default_over_obj { }
 has 'result' => (
-    isa       => 'HTML::FormHandler::Field::Result',
-    is        => 'ro',
-    weak_ref  => 1,
-    clearer   => 'clear_result',
-    predicate => 'has_result',  # warning: will still return true if value has been garbage-collected
-    writer    => '_set_result',
-    handles   => [
-        '_set_input',   '_clear_input', '_set_value', '_clear_value',
-        'errors',       'all_errors',   '_push_errors',  'num_errors', 'has_errors',
-        'clear_errors', 'validated', 'add_warning', 'all_warnings', 'num_warnings',
-        'has_warnings', 'warnings', 'missing',
+    isa      => 'HTML::FormHandler::Field::Result',
+    is       => 'ro',
+    weak_ref => 1,
+    clearer  => 'clear_result',
+    predicate =>
+        'has_result',    # warning: will still return true if value has been garbage-collected
+    writer  => '_set_result',
+    handles => [
+        '_set_input',   '_clear_input', '_set_value',   '_clear_value',
+        'errors',       'all_errors',   '_push_errors', 'num_errors',
+        'has_errors',   'clear_errors', 'validated',    'add_warning',
+        'all_warnings', 'num_warnings', 'has_warnings', 'warnings',
+        'missing',
     ],
 );
 has '_pin_result' => ( is => 'ro', reader => '_get_pin_result', writer => '_set_pin_result' );
@@ -608,6 +611,7 @@ sub reset_result {
     $self->clear_result;
     $self->build_result;
 }
+
 sub build_result {
     my $self = shift;
     my @parent;
@@ -646,7 +650,8 @@ sub value {
 # for compatibility. deprecate and remove at some point
 sub clear_input { shift->_clear_input }
 sub clear_value { shift->_clear_value }
-sub clear_data  {
+
+sub clear_data {
     my $self = shift;
     $self->clear_result;
     $self->clear_active;
@@ -654,7 +659,7 @@ sub clear_data  {
 # this is a kludge to allow testing field deflation
 sub _deflate_and_set_value {
     my ( $self, $value ) = @_;
-    if( $self->_can_deflate ) {
+    if ( $self->_can_deflate ) {
         $value = $self->_apply_deflation($value);
     }
     $self->_set_value($value);
@@ -667,7 +672,7 @@ has 'fif_from_value' => ( isa => 'Str', is => 'ro' );
 sub fif {
     my ( $self, $result ) = @_;
 
-    return if ( $self->inactive && !$self->_active );
+    return    if ( $self->inactive && !$self->_active );
     return '' if $self->password;
     return unless $result || $self->has_result;
     my $lresult = $result || $self->result;
@@ -679,8 +684,8 @@ sub fif {
     }
     if ( $lresult->has_value ) {
         my $value;
-        if( $self->_can_deflate ) {
-            $value = $self->_apply_deflation($lresult->value);
+        if ( $self->_can_deflate ) {
+            $value = $self->_apply_deflation( $lresult->value );
         }
         else {
             $value = $lresult->value;
@@ -707,7 +712,7 @@ has 'accessor' => (
     }
 );
 has 'is_contains' => ( is => 'rw', isa => 'Bool' );
-has 'temp' => ( is => 'rw' );
+has 'temp'        => ( is => 'rw' );
 
 sub has_flag {
     my ( $self, $flag_name ) = @_;
@@ -721,35 +726,40 @@ has 'label' => (
     lazy    => 1,
     builder => 'build_label',
 );
-has 'do_label' => ( isa => 'Bool', is => 'rw', default => 1 );
-has 'build_label_method' => ( is => 'rw', isa => 'CodeRef',
-    traits => ['Code'], handles => { 'build_label' => 'execute_method' },
+has 'do_label'           => ( isa => 'Bool', is => 'rw', default => 1 );
+has 'build_label_method' => (
+    is      => 'rw',
+    isa     => 'CodeRef',
+    traits  => ['Code'],
+    handles => { 'build_label' => 'execute_method' },
     default => sub { \&default_build_label },
 );
+
 sub default_build_label {
-    my $self = shift;
+    my $self  = shift;
     my $label = $self->name;
     $label =~ s/_/ /g;
     $label = ucfirst($label);
     return $label;
 }
+
 sub loc_label {
     my $self = shift;
-    return $self->_localize($self->label);
+    return $self->_localize( $self->label );
 }
 has 'wrap_label_method' => (
-   traits => ['Code'],
-   is     => 'ro',
-   isa    => 'CodeRef',
-   predicate => 'does_wrap_label',
-   handles => { 'wrap_label' => 'execute_method' },
+    traits    => ['Code'],
+    is        => 'ro',
+    isa       => 'CodeRef',
+    predicate => 'does_wrap_label',
+    handles   => { 'wrap_label' => 'execute_method' },
 );
-has 'title'     => ( isa => 'Str', is => 'rw' );
-has 'style'     => ( isa => 'Str', is => 'rw' );
-has 'form'      => (
-    isa => 'HTML::FormHandler',
-    is => 'rw',
-    weak_ref => 1,
+has 'title' => ( isa => 'Str', is => 'rw' );
+has 'style' => ( isa => 'Str', is => 'rw' );
+has 'form'  => (
+    isa       => 'HTML::FormHandler',
+    is        => 'rw',
+    weak_ref  => 1,
     predicate => 'has_form',
 );
 sub is_form { 0 }
@@ -761,54 +771,56 @@ has 'html_name' => (
 );
 
 sub build_html_name {
-    my $self = shift;
+    my $self   = shift;
     my $prefix = ( $self->form && $self->form->html_prefix ) ? $self->form->name . "." : '';
     return $prefix . $self->full_name;
 }
-has 'widget'            => ( isa => 'Str',  is => 'rw' );
-has 'widget_wrapper'    => ( isa => 'Str',  is => 'rw' );
-has 'do_wrapper'    => ( is => 'rw', default => 1 );
-sub wrapper { shift->widget_wrapper || '' }
+has 'widget'         => ( isa => 'Str', is      => 'rw' );
+has 'widget_wrapper' => ( isa => 'Str', is      => 'rw' );
+has 'do_wrapper'     => ( is  => 'rw',  default => 1 );
+sub wrapper  { shift->widget_wrapper                     || '' }
 sub uwrapper { ucc_widget( shift->widget_wrapper || '' ) || 'simple' }
 sub twrapper { shift->uwrapper . ".tt" }
-sub uwidget { ucc_widget( shift->widget || '' ) || 'simple' }
-sub twidget { shift->uwidget . ".tt" }
+sub uwidget  { ucc_widget( shift->widget || '' ) || 'simple' }
+sub twidget  { shift->uwidget . ".tt" }
 # for use of wrapper classes
 has 'wrapper_tags' => (
-    isa => 'HashRef',
-    traits => ['Hash'],
-    is => 'rw',
+    isa     => 'HashRef',
+    traits  => ['Hash'],
+    is      => 'rw',
     builder => 'build_wrapper_tags',
     handles => {
         has_wrapper_tags => 'count'
     }
 );
 sub build_wrapper_tags { {} }
-has 'tags'         => (
-    traits => ['Hash'],
-    isa => 'HashRef',
-    is => 'rw',
+has 'tags' => (
+    traits  => ['Hash'],
+    isa     => 'HashRef',
+    is      => 'rw',
     builder => 'build_tags',
     handles => {
-      _get_tag => 'get',
-      set_tag => 'set',
-      has_tag => 'exists',
-      tag_exists => 'exists',
-      delete_tag => 'delete',
+        _get_tag   => 'get',
+        set_tag    => 'set',
+        has_tag    => 'exists',
+        tag_exists => 'exists',
+        delete_tag => 'delete',
     },
 );
-sub build_tags {{}}
+sub build_tags { {} }
+
 sub merge_tags {
     my ( $self, $new ) = @_;
     my $old = $self->tags;
-    $self->tags( merge($new, $old) );
+    $self->tags( merge( $new, $old ) );
 }
+
 sub get_tag {
     my ( $self, $name ) = @_;
     return '' unless $self->tag_exists($name);
     my $tag = $self->_get_tag($name);
     return $self->$tag if ref $tag eq 'CODE';
-    return $tag unless $tag =~ /^%/;
+    return $tag unless $tag   =~ /^%/;
     ( my $block_name = $tag ) =~ s/^%//;
     return $self->form->block($block_name)->render
         if ( $self->form && $self->form->block_exists($block_name) );
@@ -816,11 +828,11 @@ sub get_tag {
 }
 
 has 'widget_name_space' => (
-    isa => 'HFH::ArrayRefStr',
-    is => 'rw',
-    traits => ['Array'],
-    default => sub {[]},
-    coerce => 1,
+    isa     => 'HFH::ArrayRefStr',
+    is      => 'rw',
+    traits  => ['Array'],
+    default => sub { [] },
+    coerce  => 1,
     handles => {
         push_widget_name_space => 'push',
     },
@@ -828,45 +840,55 @@ has 'widget_name_space' => (
 
 sub add_widget_name_space {
     my ( $self, @ns ) = @_;
-    @ns = @{$ns[0]}if( scalar @ns && ref $ns[0] eq 'ARRAY' );
+    @ns = @{ $ns[0] } if ( scalar @ns && ref $ns[0] eq 'ARRAY' );
     $self->push_widget_name_space(@ns);
 }
 
-has 'order'             => ( isa => 'Int',  is => 'rw', default => 0 );
+has 'order' => ( isa => 'Int', is => 'rw', default => 0 );
 # 'inactive' is set in the field declaration, and is static. Default status.
-has 'inactive'          => ( isa => 'Bool', is => 'rw', clearer => 'clear_inactive' );
+has 'inactive' => ( isa => 'Bool', is => 'rw', clearer => 'clear_inactive' );
 # 'active' is cleared whenever the form is cleared. Ephemeral activation.
-has '_active'         => ( isa => 'Bool', is => 'rw', clearer => 'clear_active', predicate => 'has__active' );
+has '_active' =>
+    ( isa => 'Bool', is => 'rw', clearer => 'clear_active', predicate => 'has__active' );
+
 sub is_active {
     my $self = shift;
-    return ! $self->is_inactive;
+    return !$self->is_inactive;
 }
+
 sub is_inactive {
     my $self = shift;
-    return (($self->inactive && !$self->_active) || (!$self->inactive && $self->has__active && $self->_active == 0 ) );
+    return ( ( $self->inactive && !$self->_active ) ||
+            ( !$self->inactive && $self->has__active && $self->_active == 0 ) );
 }
-has 'id'                => ( isa => 'Str',  is => 'rw', lazy => 1, builder => 'build_id' );
-has 'build_id_method' => ( is => 'rw', isa => 'CodeRef', traits => ['Code'],
-    default => sub { sub { shift->html_name } },
+has 'id'              => ( isa => 'Str', is => 'rw', lazy => 1, builder => 'build_id' );
+has 'build_id_method' => (
+    is      => 'rw',
+    isa     => 'CodeRef',
+    traits  => ['Code'],
+    default => sub {
+        sub { shift->html_name }
+    },
     handles => { build_id => 'execute_method' },
 );
 
 # html attributes
-has 'password'   => ( isa => 'Bool', is => 'rw' );
-has 'disabled'   => ( isa => 'Bool', is => 'rw' );
-has 'readonly'   => ( isa => 'Bool', is => 'rw' );
-has 'tabindex' => ( is => 'rw', isa => 'Int' );
+has 'password' => ( isa => 'Bool', is  => 'rw' );
+has 'disabled' => ( isa => 'Bool', is  => 'rw' );
+has 'readonly' => ( isa => 'Bool', is  => 'rw' );
+has 'tabindex' => ( is  => 'rw',   isa => 'Int' );
 
 sub html_element { 'input' }
-has 'type_attr' => ( is => 'rw', isa => 'Str', default => 'text' );
-has 'html5_type_attr' => ( isa => 'Str', is => 'ro', default => 'text' );
+has 'type_attr'       => ( is  => 'rw',  isa => 'Str', default => 'text' );
+has 'html5_type_attr' => ( isa => 'Str', is  => 'ro',  default => 'text' );
+
 sub input_type {
     my $self = shift;
     return $self->html5_type_attr if ( $self->form && $self->form->has_flag('is_html5') );
     return $self->type_attr;
 }
 # temporary methods for compatibility after name change
-sub html_attr { shift->element_attr(@_) }
+sub html_attr     { shift->element_attr(@_) }
 sub has_html_attr { shift->has_element_attr(@_) }
 sub get_html_attr { shift->get_element_attr(@_) }
 sub set_html_attr { shift->set_element_attr(@_) }
@@ -877,21 +899,23 @@ sub set_html_attr { shift->set_element_attr(@_) }
     # label_attr, build_label_attr, label_class,
     # wrapper_attr, build_wrapper_atrr, wrapper_class
     no strict 'refs';
-    foreach my $attr ('wrapper', 'element', 'label' ) {
+    foreach my $attr ( 'wrapper', 'element', 'label' ) {
         # trigger to move 'class' set via _attr to the class slot
-        my $add_meth = "add_${attr}_class";
+        my $add_meth    = "add_${attr}_class";
         my $trigger_sub = sub {
             my ( $self, $value ) = @_;
-            if( my $class = delete $self->{"${attr}_attr"}->{class} ) {
+            if ( my $class = delete $self->{"${attr}_attr"}->{class} ) {
                 $self->$add_meth($class);
             }
         };
-        has "${attr}_attr" => ( is => 'rw', traits => ['Hash'],
+        has "${attr}_attr" => (
+            is      => 'rw',
+            traits  => ['Hash'],
             builder => "build_${attr}_attr",
             handles => {
-                "has_${attr}_attr" => 'count',
-                "get_${attr}_attr" => 'get',
-                "set_${attr}_attr" => 'set',
+                "has_${attr}_attr"    => 'count',
+                "get_${attr}_attr"    => 'get',
+                "set_${attr}_attr"    => 'set',
                 "delete_${attr}_attr" => 'delete',
                 "exists_${attr}_attr" => 'exists',
             },
@@ -899,67 +923,78 @@ sub set_html_attr { shift->set_element_attr(@_) }
         );
         # create builders fo _attrs
         my $attr_builder = __PACKAGE__ . "::build_${attr}_attr";
-        *$attr_builder = subname $attr_builder, sub {{}};
+        *$attr_builder = subname $attr_builder, sub { {} };
         # create the 'class' slots
-        has "${attr}_class" => ( is => 'rw', isa => 'HFH::ArrayRefStr',
-            traits => ['Array'],
-            coerce => 1,
+        has "${attr}_class" => (
+            is      => 'rw',
+            isa     => 'HFH::ArrayRefStr',
+            traits  => ['Array'],
+            coerce  => 1,
             builder => "build_${attr}_class",
             handles => {
-                "has_${attr}_class" => 'count',
+                "has_${attr}_class"  => 'count',
                 "_add_${attr}_class" => 'push',
-           },
+            },
         );
         # create builders for classes
         my $class_builder = __PACKAGE__ . "::build_${attr}_class";
-        *$class_builder = subname $class_builder, sub {[]};
+        *$class_builder = subname $class_builder, sub { [] };
         # create wrapper for add_to_ to accept arrayref
         my $add_to_class = __PACKAGE__ . "::add_${attr}_class";
-        my $_add_meth = __PACKAGE__ . "::_add_${attr}_class";
-        *$add_to_class = subname $add_to_class, sub { shift->$_add_meth((ref $_[0] eq 'ARRAY' ? @{$_[0]} : @_)); }
+        my $_add_meth    = __PACKAGE__ . "::_add_${attr}_class";
+        *$add_to_class = subname $add_to_class,
+            sub { shift->$_add_meth( ( ref $_[0] eq 'ARRAY' ? @{ $_[0] } : @_ ) ); }
     }
 }
 
 # we're assuming that the only attribute we want in an element wrapper is a class
 has 'element_wrapper_class' => (
-    is => 'rw', isa => 'HFH::ArrayRefStr',
-    traits => ['Array'],
-    coerce => 1,
+    is      => 'rw',
+    isa     => 'HFH::ArrayRefStr',
+    traits  => ['Array'],
+    coerce  => 1,
     builder => "build_element_wrapper_class",
     handles => {
-        has_element_wrapper_class => 'count',
+        has_element_wrapper_class  => 'count',
         _add_element_wrapper_class => 'push',
     },
 );
-sub add_element_wrapper_class { shift->_add_element_wrapper_class((ref $_[0] eq 'ARRAY' ? @{$_[0]} : @_)); }
+
+sub add_element_wrapper_class {
+    shift->_add_element_wrapper_class( ( ref $_[0] eq 'ARRAY' ? @{ $_[0] } : @_ ) );
+}
 sub build_element_wrapper_class { [] }
+
 sub element_wrapper_attributes {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
     # local copy of label_attr
-    my $attr = {};
-    my $class = [@{$self->element_wrapper_class}];
+    my $attr  = {};
+    my $class = [ @{ $self->element_wrapper_class } ];
     $self->add_standard_element_wrapper_classes( $result, $class );
     $attr->{class} = $class if @$class;
     # call form hook
     my $mod_attr;
-    $mod_attr = $self->form->html_attributes($self, 'element_wrapper', $attr, $result) if $self->form;
+    $mod_attr = $self->form->html_attributes( $self, 'element_wrapper', $attr, $result )
+        if $self->form;
     return ref($mod_attr) eq 'HASH' ? $mod_attr : $attr;
 }
+
 sub add_standard_element_wrapper_classes {
     my ( $self, $result, $class ) = @_;
 }
 
 sub attributes { shift->element_attributes(@_) }
+
 sub element_attributes {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
     my $attr = {};
     # handle html5 attributes
-    if ($self->form && $self->form->has_flag('is_html5')) {
+    if ( $self->form && $self->form->has_flag('is_html5') ) {
         $attr->{required} = 'required' if $self->required && $self->html5_type_attr ne 'hidden';
-        $attr->{min} = $self->range_start if defined $self->range_start;
-        $attr->{max} = $self->range_end if defined $self->range_end;
+        $attr->{min}      = $self->range_start if defined $self->range_start;
+        $attr->{max}      = $self->range_end   if defined $self->range_end;
     }
     # pull in deprecated attributes for backward compatibility
     for my $dep_attr ( 'readonly', 'disabled' ) {
@@ -968,20 +1003,20 @@ sub element_attributes {
     for my $dep_attr ( 'style', 'title', 'tabindex' ) {
         $attr->{$dep_attr} = $self->$dep_attr if defined $self->$dep_attr;
     }
-    $attr = {%$attr, %{$self->element_attr}};
-    my $class = [@{$self->element_class}];
-    $self->add_standard_element_classes($result, $class);
+    $attr = { %$attr, %{ $self->element_attr } };
+    my $class = [ @{ $self->element_class } ];
+    $self->add_standard_element_classes( $result, $class );
     $attr->{class} = $class if @$class;
     # call form hook
     my $mod_attr;
-    $mod_attr = $self->form->html_attributes($self, 'element', $attr, $result) if $self->form;
+    $mod_attr = $self->form->html_attributes( $self, 'element', $attr, $result ) if $self->form;
     return ref($mod_attr) eq 'HASH' ? $mod_attr : $attr;
 }
 
 sub add_standard_element_classes {
     my ( $self, $result, $class ) = @_;
-    push @$class, 'error' if $result->has_errors;
-    push @$class, 'warning' if $result->has_warnings;
+    push @$class, 'error'    if $result->has_errors;
+    push @$class, 'warning'  if $result->has_warnings;
     push @$class, 'disabled' if $self->disabled;
 }
 
@@ -989,13 +1024,13 @@ sub label_attributes {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
     # local copy of label_attr
-    my $attr = {%{$self->label_attr}};
-    my $class = [@{$self->label_class}];
-    $self->add_standard_label_classes($result, $class);
+    my $attr  = { %{ $self->label_attr } };
+    my $class = [ @{ $self->label_class } ];
+    $self->add_standard_label_classes( $result, $class );
     $attr->{class} = $class if @$class;
     # call form hook
     my $mod_attr;
-    $mod_attr = $self->form->html_attributes($self, 'label', $attr, $result) if $self->form;
+    $mod_attr = $self->form->html_attributes( $self, 'label', $attr, $result ) if $self->form;
     return ref($mod_attr) eq 'HASH' ? $mod_attr : $attr;
 }
 
@@ -1007,26 +1042,27 @@ sub wrapper_attributes {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
     # copy wrapper
-    my $attr = {%{$self->wrapper_attr}};
-    my $class = [@{$self->wrapper_class}];
+    my $attr  = { %{ $self->wrapper_attr } };
+    my $class = [ @{ $self->wrapper_class } ];
     # add 'error' to class
-    $self->add_standard_wrapper_classes($result, $class);
+    $self->add_standard_wrapper_classes( $result, $class );
     $attr->{class} = $class if @$class;
     # add id if compound field and id doesn't exist unless 'no_wrapper_id' tag
     $attr->{id} = $self->id
-        if ( $self->has_flag('is_compound') && not exists $attr->{id} && ! $self->get_tag('no_wrapper_id') );
+        if ( $self->has_flag('is_compound') &&
+        not exists $attr->{id} &&
+        !$self->get_tag('no_wrapper_id') );
     # call form hook
     my $mod_attr;
-    $mod_attr = $self->form->html_attributes($self, 'wrapper', $attr, $result) if $self->form;
+    $mod_attr = $self->form->html_attributes( $self, 'wrapper', $attr, $result ) if $self->form;
     return ref($mod_attr) eq 'HASH' ? $mod_attr : $attr;
 }
 
 sub add_standard_wrapper_classes {
     my ( $self, $result, $class ) = @_;
-    push @$class, 'error' if ( $result->has_error_results || $result->has_errors );
+    push @$class, 'error'   if ( $result->has_error_results || $result->has_errors );
     push @$class, 'warning' if $result->has_warnings;
 }
-
 
 sub wrapper_tag {
     my $self = shift;
@@ -1040,14 +1076,15 @@ sub field_filename {
     return 'checkbox_tag.tt' if $self->input_type eq 'checkbox';
     return 'input_tag.tt';
 }
+
 sub label_tag {
     my $self = shift;
     return $self->get_tag('label_tag') || 'label';
 }
 #===================
 
-has 'writeonly'  => ( isa => 'Bool', is => 'rw' );
-has 'noupdate'   => ( isa => 'Bool', is => 'rw' );
+has 'writeonly' => ( isa => 'Bool', is => 'rw' );
+has 'noupdate'  => ( isa => 'Bool', is => 'rw' );
 
 #==============
 sub convert_full_name {
@@ -1057,40 +1094,44 @@ sub convert_full_name {
     return $full_name;
 }
 has 'validate_method' => (
-     traits => ['Code'],
-     is     => 'ro',
-     isa    => 'CodeRef',
-     lazy   => 1,
-     builder => 'build_validate_method',
-     handles => { '_validate' => 'execute_method' },
+    traits  => ['Code'],
+    is      => 'ro',
+    isa     => 'CodeRef',
+    lazy    => 1,
+    builder => 'build_validate_method',
+    handles => { '_validate' => 'execute_method' },
 );
-has 'set_validate' => ( isa => 'Str', is => 'ro',);
+has 'set_validate' => ( isa => 'Str', is => 'ro', );
+
 sub build_validate_method {
-    my $self = shift;
+    my $self         = shift;
     my $set_validate = $self->set_validate;
-    $set_validate ||= "validate_" . convert_full_name($self->full_name);
+    $set_validate ||= "validate_" . convert_full_name( $self->full_name );
     return sub { my $self = shift; $self->form->$set_validate($self); }
         if ( $self->form && $self->form->can($set_validate) );
     return sub { };
 }
 
 has 'default_method' => (
-     traits => ['Code'],
-     is     => 'ro',
-     isa    => 'CodeRef',
-     writer => '_set_default_method',
-     predicate => 'has_default_method',
-     handles => { '_default' => 'execute_method' },
+    traits    => ['Code'],
+    is        => 'ro',
+    isa       => 'CodeRef',
+    writer    => '_set_default_method',
+    predicate => 'has_default_method',
+    handles   => { '_default' => 'execute_method' },
 );
-has 'set_default' => ( isa => 'Str', is => 'ro', writer => '_set_default');
+has 'set_default' => ( isa => 'Str', is => 'ro', writer => '_set_default' );
 # this is not a "true" builder, because sometimes 'default_method' is not set
 sub build_default_method {
-    my $self = shift;
+    my $self        = shift;
     my $set_default = $self->set_default;
-    $set_default ||= "default_" . convert_full_name($self->full_name);
+    $set_default ||= "default_" . convert_full_name( $self->full_name );
     if ( $self->form && $self->form->can($set_default) ) {
         $self->_set_default_method(
-            sub { my $self = shift; return $self->form->$set_default($self, $self->form->item); }
+            sub {
+                my $self = shift;
+                return $self->form->$set_default( $self, $self->form->item );
+            }
         );
     }
 }
@@ -1108,11 +1149,13 @@ sub get_default_value {
 {
     # create inflation/deflation methods
     foreach my $type ( 'inflate_default', 'deflate_value', 'inflate', 'deflate' ) {
-        has "${type}_method" => ( is => 'ro', traits => ['Code'],
-            isa => 'CodeRef',
-            writer => "_set_${type}_method",
+        has "${type}_method" => (
+            is        => 'ro',
+            traits    => ['Code'],
+            isa       => 'CodeRef',
+            writer    => "_set_${type}_method",
             predicate => "has_${type}_method",
-            handles => {
+            handles   => {
                 $type => 'execute_method',
             },
         );
@@ -1140,18 +1183,18 @@ sub default_trim {
     return ref $value eq 'ARRAY' ? \@values : $values[0];
 }
 has 'render_filter' => (
-     traits => ['Code'],
-     is     => 'ro',
-     isa    => 'CodeRef',
-     lazy   => 1,
-     builder => 'build_render_filter',
-     handles => { html_filter => 'execute' },
+    traits  => ['Code'],
+    is      => 'ro',
+    isa     => 'CodeRef',
+    lazy    => 1,
+    builder => 'build_render_filter',
+    handles => { html_filter => 'execute' },
 );
 
 sub build_render_filter {
     my $self = shift;
 
-    if( $self->form && $self->form->can('render_filter') ) {
+    if ( $self->form && $self->form->can('render_filter') ) {
         my $coderef = $self->form->can('render_filter');
         return $coderef;
     }
@@ -1162,7 +1205,7 @@ sub build_render_filter {
 
 sub default_render_filter {
     my $string = shift;
-    return '' if (!defined $string);
+    return '' if ( !defined $string );
     $string =~ s/&/&amp;/g;
     $string =~ s/</&lt;/g;
     $string =~ s/>/&gt;/g;
@@ -1173,20 +1216,20 @@ sub default_render_filter {
 has 'input_param' => ( is => 'rw', isa => 'Str' );
 
 has 'language_handle' => (
-    isa => duck_type( [ qw(maketext) ] ),
-    is => 'rw',
-    reader => 'get_language_handle',
-    writer => 'set_language_handle',
+    isa       => duck_type( [qw(maketext)] ),
+    is        => 'rw',
+    reader    => 'get_language_handle',
+    writer    => 'set_language_handle',
     predicate => 'has_language_handle'
 );
 
 sub language_handle {
     my ( $self, $value ) = @_;
-    if( $value ) {
+    if ($value) {
         $self->set_language_handle($value);
         return;
     }
-    return $self->get_language_handle if( $self->has_language_handle );
+    return $self->get_language_handle if ( $self->has_language_handle );
     # if language handle isn't set use form language handle if possible
     return $self->form->language_handle if ( $self->has_form );
     # no form, no language handle. This should only happen when
@@ -1201,26 +1244,26 @@ sub language_handle {
         }
     }
     else {
-       require HTML::FormHandler::I18N;
-       $lh =  HTML::FormHandler::I18N->get_handle;
+        require HTML::FormHandler::I18N;
+        $lh = HTML::FormHandler::I18N->get_handle;
     }
     $self->set_language_handle($lh);
     return $lh;
 }
 
 has 'localize_meth' => (
-     traits => ['Code'],
-     is     => 'ro',
-     isa    => 'CodeRef',
-     lazy   => 1,
-     builder => 'build_localize_meth',
-     handles => { '_localize' => 'execute_method' },
+    traits  => ['Code'],
+    is      => 'ro',
+    isa     => 'CodeRef',
+    lazy    => 1,
+    builder => 'build_localize_meth',
+    handles => { '_localize' => 'execute_method' },
 );
 
 sub build_localize_meth {
     my $self = shift;
 
-    if( $self->form && $self->form->can('localize_meth') ) {
+    if ( $self->form && $self->form->can('localize_meth') ) {
         my $coderef = $self->form->can('localize_meth');
         return $coderef;
     }
@@ -1230,19 +1273,20 @@ sub build_localize_meth {
 }
 
 sub default_localize {
-    my ($self, @message) = @_;
+    my ( $self, @message ) = @_;
     my $message = $self->language_handle->maketext(@message);
     return $message;
 }
 
-has 'messages' => ( is => 'rw',
-    isa => 'HashRef',
-    traits => ['Hash'],
-    default => sub {{}},
+has 'messages' => (
+    is      => 'rw',
+    isa     => 'HashRef',
+    traits  => ['Hash'],
+    default => sub { {} },
     handles => {
         '_get_field_message' => 'get',
         '_has_field_message' => 'exists',
-        'set_message' => 'set',
+        'set_message'        => 'set',
     },
 );
 
@@ -1259,9 +1303,9 @@ our $class_messages = {
     'unique'          => 'Duplicate value for [_1]',
 };
 
-sub get_class_messages  {
-    my $self = shift;
-    my $messages = { %$class_messages };
+sub get_class_messages {
+    my $self     = shift;
+    my $messages = {%$class_messages};
     $messages->{required} = $self->required_message
         if $self->required_message;
     $messages->{unique} = $self->unique_message
@@ -1274,19 +1318,20 @@ sub get_message {
 
     # first look in messages set on individual field
     return $self->_get_field_message($msg)
-       if $self->_has_field_message($msg);
+        if $self->_has_field_message($msg);
     # then look at form messages
     return $self->form->_get_form_message($msg)
-       if $self->has_form && $self->form->_has_form_message($msg);
+        if $self->has_form && $self->form->_has_form_message($msg);
     # then look for messages up through inherited field classes
     return $self->get_class_messages->{$msg};
 }
+
 sub all_messages {
-    my $self = shift;
-    my $form_messages = $self->has_form ? $self->form->messages : {};
-    my $field_messages = $self->messages || {};
+    my $self            = shift;
+    my $form_messages   = $self->has_form ? $self->form->messages : {};
+    my $field_messages  = $self->messages          || {};
     my $lclass_messages = $self->my_class_messages || {};
-    return {%{$lclass_messages}, %{$form_messages}, %{$field_messages}};
+    return { %{$lclass_messages}, %{$form_messages}, %{$field_messages} };
 }
 
 sub BUILDARGS {
@@ -1294,18 +1339,18 @@ sub BUILDARGS {
 
     # for backwards compatibility; these will be removed eventually
     my @new;
-    push @new, ('element_attr', {@_}->{html_attr} )
-        if( exists {@_}->{html_attr} );
-    push @new, ('do_label', !{@_}->{no_render_label} )
-        if( exists {@_}->{no_render_label} );
-    return $class->SUPER::BUILDARGS(@_, @new);
+    push @new, ( 'element_attr', {@_}->{html_attr} )
+        if ( exists {@_}->{html_attr} );
+    push @new, ( 'do_label', !{@_}->{no_render_label} )
+        if ( exists {@_}->{no_render_label} );
+    return $class->SUPER::BUILDARGS( @_, @new );
 }
 
 sub BUILD {
     my ( $self, $params ) = @_;
 
     # temporary, for compatibility. move widget_tags to tags
-    $self->merge_tags($self->wrapper_tags) if $self->has_wrapper_tags;
+    $self->merge_tags( $self->wrapper_tags ) if $self->has_wrapper_tags;
     # run default method builder
     $self->build_default_method;
     # build validate_method; needs to happen before validation
@@ -1325,7 +1370,7 @@ sub _result_from_fields {
     my ( $self, $result ) = @_;
 
     if ( $self->disabled && $self->has_init_value ) {
-        $result->_set_value($self->init_value);
+        $result->_set_value( $self->init_value );
     }
     elsif ( my @values = $self->get_default_value ) {
         if ( $self->has_inflate_default_method ) {
@@ -1349,10 +1394,10 @@ sub _result_from_input {
     elsif ( $self->disabled ) {
         # This maybe should come from _result_from_object, but there's
         # not a reliable way to get there from here. Field can handle...
-        return $self->_result_from_fields( $result );
+        return $self->_result_from_fields($result);
     }
     elsif ( $self->form && $self->form->use_fields_for_input_without_param ) {
-        return $self->_result_from_fields( $result );
+        return $self->_result_from_fields($result);
     }
     elsif ( $self->has_input_without_param ) {
         $result->_set_input( $self->input_without_param );
@@ -1396,13 +1441,13 @@ sub full_accessor {
     my $field = shift;
 
     my $parent = $field->parent;
-    if( $field->is_contains ) {
+    if ( $field->is_contains ) {
         return '' unless $parent;
         return $parent->full_accessor;
     }
     my $accessor = $field->accessor;
     my $parent_accessor;
-    if ( $parent ) {
+    if ($parent) {
         $parent_accessor = $parent->full_accessor;
     }
     return $accessor unless defined $parent_accessor && length $parent_accessor;
@@ -1413,24 +1458,25 @@ sub add_error {
     my ( $self, @message ) = @_;
 
     unless ( defined $message[0] ) {
-        @message = ( $class_messages->{field_invalid});
+        @message = ( $class_messages->{field_invalid} );
     }
-    @message = @{$message[0]} if ref $message[0] eq 'ARRAY';
+    @message = @{ $message[0] } if ref $message[0] eq 'ARRAY';
     my $out;
     try {
         $out = $self->_localize(@message);
     }
     catch {
-        die "Error occurred localizing error message for " . $self->label . ". Check brackets. $_";
+        die "Error occurred localizing error message for " .
+            $self->label . ". Check brackets. $_";
     };
-    return $self->push_errors($out);;
+    return $self->push_errors($out);
 }
 
 sub push_errors {
     my $self = shift;
     $self->_push_errors(@_);
     if ( $self->parent ) {
-        $self->parent->propagate_error($self->result);
+        $self->parent->propagate_error( $self->result );
     }
     return;
 }
@@ -1446,6 +1492,7 @@ sub _apply_deflation {
     }
     return $value;
 }
+
 sub _can_deflate {
     my $self = shift;
     return $self->has_deflation || $self->has_deflate_method;
@@ -1486,7 +1533,7 @@ sub dump {
     warn "HFH: -----  ", $self->name, " -----\n";
     warn "HFH: type: ",  $self->type, "\n";
     warn "HFH: required: ", ( $self->required || '0' ), "\n";
-    warn "HFH: label: ",  $self->label,  "\n";
+    warn "HFH: label: ", $self->label, "\n";
     warn "HFH: widget: ", $self->widget || '', "\n";
     my $v = $self->value;
     warn "HFH: value: ", Data::Dumper::Dumper($v) if $v;
@@ -1525,18 +1572,18 @@ sub peek {
 
     $indent ||= '';
     my $string = $indent . 'field: "' . $self->name . '"  type: ' . $self->type . "\n";
-    if( $self->has_flag('has_contains') ) {
+    if ( $self->has_flag('has_contains') ) {
         $string .= $indent . "contains: \n";
         my $lindent = $indent . '  ';
         foreach my $field ( $self->contains->sorted_fields ) {
-            $string .= $field->peek( $lindent );
+            $string .= $field->peek($lindent);
         }
     }
-    if( $self->has_fields ) {
+    if ( $self->has_fields ) {
         $string .= $indent . 'subfields of "' . $self->name . '": ' . $self->num_fields . "\n";
         my $lindent = $indent . '  ';
         foreach my $field ( $self->sorted_fields ) {
-            $string .= $field->peek( $lindent );
+            $string .= $field->peek($lindent);
         }
     }
     return $string;
@@ -1560,15 +1607,15 @@ sub has_some_value {
         return 0;
     }
     return 1 if blessed($x);    # true if blessed, otherwise false
-    return 1 if ref( $x );
+    return 1 if ref($x);
     return;
 }
 
 sub apply_traits {
-    my ($class, @traits) = @_;
+    my ( $class, @traits ) = @_;
 
     $class->meta->make_mutable;
-    Moose::Util::apply_all_roles($class->meta, @traits);
+    Moose::Util::apply_all_roles( $class->meta, @traits );
     $class->meta->make_immutable;
 }
 

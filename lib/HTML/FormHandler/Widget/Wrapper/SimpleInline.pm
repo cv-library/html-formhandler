@@ -18,10 +18,10 @@ sub wrap_field {
 
     return $rendered_widget if $self->has_flag('is_compound');
 
-    my $output = "\n";
-    my $tag = $self->wrapper_tag;
+    my $output    = "\n";
+    my $tag       = $self->wrapper_tag;
     my $start_tag = $self->get_tag('wrapper_start');
-    if( defined $start_tag ) {
+    if ( defined $start_tag ) {
         $output .= $start_tag;
     }
     else {
@@ -33,8 +33,7 @@ sub wrap_field {
     }
 
     $output .= $rendered_widget;
-    $output .= qq{\n<span class="error_message">$_</span>}
-        for $result->all_errors;
+    $output .= qq{\n<span class="error_message">$_</span>} for $result->all_errors;
 
     my $end_tag = $self->get_tag('wrapper_end');
     $output .= defined $end_tag ? $end_tag : "</$tag>";

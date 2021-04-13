@@ -19,7 +19,7 @@ sub render_element {
     my $output = '<img src="' . $self->form->captcha_image_url . '"/>';
     $output .= '<input id="' . $self->id . '" name="';
     $output .= $self->html_name . '"';
-    $output .= process_attrs($self->element_attributes);
+    $output .= process_attrs( $self->element_attributes );
     $output .= '/>';
     return $output;
 }
@@ -27,8 +27,9 @@ sub render_element {
 sub render {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    die "No result for form field '" . $self->full_name . "'. Field may be inactive." unless $result;
-    my $output = $self->render_element( $result );
+    die "No result for form field '" . $self->full_name . "'. Field may be inactive."
+        unless $result;
+    my $output = $self->render_element($result);
     return $self->wrap_field( $result, $output );
 }
 

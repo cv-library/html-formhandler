@@ -14,7 +14,7 @@ sub render_subfield {
     my $subresult = $result->field( $subfield->name );
 
     return "" unless $subresult;
-    return $subfield->render( $subresult );
+    return $subfield->render($subresult);
 }
 
 sub render_element {
@@ -25,15 +25,16 @@ sub render_element {
     foreach my $subfield ( $self->sorted_fields ) {
         $output .= $self->render_subfield( $result, $subfield );
     }
-    $output =~ s/^\n//; # remove newlines so they're not duplicated
+    $output =~ s/^\n//;    # remove newlines so they're not duplicated
     return $output;
 }
 
 sub render {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    die "No result for form field '" . $self->full_name . "'. Field may be inactive." unless $result;
-    my $output = $self->render_element( $result );
+    die "No result for form field '" . $self->full_name . "'. Field may be inactive."
+        unless $result;
+    my $output = $self->render_element($result);
     return $self->wrap_field( $result, $output );
 }
 

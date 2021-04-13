@@ -21,11 +21,11 @@ attribute is used for the HTML input field 'value'.
 
 =cut
 
-has '+value'  => ( default => 'Save' );
-has '+widget' => ( default => 'Submit' );
-has '+type_attr' => ( default => 'submit' );
+has '+value'           => ( default => 'Save' );
+has '+widget'          => ( default => 'Submit' );
+has '+type_attr'       => ( default => 'submit' );
 has '+html5_type_attr' => ( default => 'submit' );
-sub do_label {0}
+sub do_label { 0 }
 
 sub _result_from_input {
     my ( $self, $result, $input, $exists ) = @_;

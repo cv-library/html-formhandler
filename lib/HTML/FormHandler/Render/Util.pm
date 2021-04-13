@@ -2,7 +2,7 @@ package HTML::FormHandler::Render::Util;
 # ABSTRACT: rendering utility
 
 use Sub::Exporter;
-Sub::Exporter::setup_exporter({ exports => [ 'process_attrs', 'cc_widget', 'ucc_widget' ] } );
+Sub::Exporter::setup_exporter( { exports => [ 'process_attrs', 'cc_widget', 'ucc_widget' ] } );
 
 =head1 SYNOPSIS
 
@@ -31,13 +31,13 @@ sub process_attrs {
 
     my @use_attrs;
     my $javascript = delete $attrs->{javascript} || '';
-    for my $attr( sort keys %$attrs ) {
+    for my $attr ( sort keys %$attrs ) {
         my $value = '';
-        if( defined $attrs->{$attr} ) {
-            if( ref $attrs->{$attr} eq 'ARRAY' ) {
+        if ( defined $attrs->{$attr} ) {
+            if ( ref $attrs->{$attr} eq 'ARRAY' ) {
                 # we don't want class="" if no classes specified
-                next unless scalar @{$attrs->{$attr}};
-                $value = join (' ', @{$attrs->{$attr}} );
+                next unless scalar @{ $attrs->{$attr} };
+                $value = join( ' ', @{ $attrs->{$attr} } );
             }
             else {
                 $value = $attrs->{$attr};
@@ -54,7 +54,7 @@ sub process_attrs {
 sub cc_widget {
     my $widget = shift;
     return '' unless $widget;
-    if($widget eq lc $widget) {
+    if ( $widget eq lc $widget ) {
         $widget =~ s/^(\w{1})/\u$1/g;
         $widget =~ s/_(\w{1})/\u$1/g;
     }
@@ -63,15 +63,14 @@ sub cc_widget {
 
 sub ucc_widget {
     my $widget = shift;
-    if($widget ne lc $widget) {
+    if ( $widget ne lc $widget ) {
         $widget =~ s/::/_/g;
         $widget = ucfirst($widget);
         my @parts = $widget =~ /([A-Z][a-z]*)/g;
-        $widget = join('_', @parts);
+        $widget = join( '_', @parts );
         $widget = lc($widget);
     }
     return $widget;
 }
-
 
 1;

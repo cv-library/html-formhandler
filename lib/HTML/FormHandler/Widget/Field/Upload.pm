@@ -18,7 +18,7 @@ sub render_element {
     $output = '<input type="file" name="';
     $output .= $self->html_name . '"';
     $output .= ' id="' . $self->id . '"';
-    $output .= process_attrs($self->element_attributes($result));
+    $output .= process_attrs( $self->element_attributes($result) );
     $output .= ' />';
     return $output;
 }
@@ -26,8 +26,9 @@ sub render_element {
 sub render {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    die "No result for form field '" . $self->full_name . "'. Field may be inactive." unless $result;
-    my $output = $self->render_element( $result );
+    die "No result for form field '" . $self->full_name . "'. Field may be inactive."
+        unless $result;
+    my $output = $self->render_element($result);
     return $self->wrap_field( $result, $output );
 }
 

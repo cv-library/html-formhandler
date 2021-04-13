@@ -69,15 +69,15 @@ has '_value' => (
 sub value { shift->_get_value || {} }
 
 has 'form_errors' => (
-    traits     => ['Array'],
-    is         => 'rw',
-    isa        => 'ArrayRef[Str]',
-    default    => sub { [] },
-    handles   => {
-        all_form_errors  => 'elements',
-        push_form_errors => 'push',
-        num_form_errors => 'count',
-        has_form_errors => 'count',
+    traits  => ['Array'],
+    is      => 'rw',
+    isa     => 'ArrayRef[Str]',
+    default => sub { [] },
+    handles => {
+        all_form_errors   => 'elements',
+        push_form_errors  => 'push',
+        num_form_errors   => 'count',
+        has_form_errors   => 'count',
         clear_form_errors => 'clear',
     }
 );
@@ -85,8 +85,8 @@ has 'form_errors' => (
 sub form_and_field_errors {
     my $self         = shift;
     my @field_errors = map { $_->all_errors } $self->all_error_results;
-    my @form_errors = $self->all_form_errors;
-    return (@form_errors, @field_errors);
+    my @form_errors  = $self->all_form_errors;
+    return ( @form_errors, @field_errors );
 }
 
 sub validated { !$_[0]->has_error_results && $_[0]->has_input && !$_[0]->has_form_errors }
@@ -99,11 +99,11 @@ sub fif {
 }
 
 sub peek {
-    my $self = shift;
+    my $self   = shift;
     my $string = "Form Result " . $self->name . "\n";
     my $indent = '  ';
     foreach my $res ( $self->results ) {
-        $string .= $res->peek( $indent );
+        $string .= $res->peek($indent);
     }
     return $string;
 }

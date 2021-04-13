@@ -4,7 +4,7 @@ package HTML::FormHandler::Field::IntRange;
 use Moose;
 extends 'HTML::FormHandler::Field::Select';
 
-has 'label_format' => ( isa => 'Str', is => 'rw', default => '%d' );
+has 'label_format' => ( isa     => 'Str', is => 'rw', default => '%d' );
 has '+range_start' => ( default => 1 );
 has '+range_end'   => ( default => 10 );
 
@@ -16,7 +16,7 @@ sub build_options {
 
     for ( $start, $end ) {
         die "Both range_start and range_end must be defined" unless defined $_;
-        die "Integer ranges must be integers" unless /^\d+$/;
+        die "Integer ranges must be integers"                unless /^\d+$/;
     }
 
     die "range_start must be less than range_end" unless $start < $end;

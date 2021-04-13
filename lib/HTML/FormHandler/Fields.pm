@@ -49,30 +49,37 @@ has 'fields' => (
     is         => 'rw',
     default    => sub { [] },
     auto_deref => 1,
-    handles   => {
-        all_fields => 'elements',
+    handles    => {
+        all_fields   => 'elements',
         clear_fields => 'clear',
-        add_field => 'push',
-        push_field => 'push',
-        num_fields => 'count',
-        has_fields => 'count',
+        add_field    => 'push',
+        push_field   => 'push',
+        num_fields   => 'count',
+        has_fields   => 'count',
         set_field_at => 'set',
-        _pop_field => 'pop',
+        _pop_field   => 'pop',
     }
 );
 # This is for updates applied via roles or compound field classes; allows doing
 # both updates on the process call and updates from class applied roles
-has 'update_subfields' => ( is => 'rw', isa => 'HashRef', builder => 'build_update_subfields',
-    traits => ['Hash'], handles => { clear_update_subfields => 'clear',
-    has_update_subfields => 'count' } );
-sub build_update_subfields {{}}
+has 'update_subfields' => (
+    is      => 'rw',
+    isa     => 'HashRef',
+    builder => 'build_update_subfields',
+    traits  => ['Hash'],
+    handles => {
+        clear_update_subfields => 'clear',
+        has_update_subfields   => 'count'
+    }
+);
+sub build_update_subfields { {} }
 
 # used to transfer tags to fields from form and compound fields
 has 'widget_tags' => (
-    isa => 'HashRef',
-    traits => ['Hash'],
-    is => 'rw',
-    default => sub {{}},
+    isa     => 'HashRef',
+    traits  => ['Hash'],
+    is      => 'rw',
+    default => sub { {} },
     handles => {
         has_widget_tags => 'count'
     }
@@ -115,7 +122,7 @@ sub field_index {
 
 sub subfield {
     my ( $self, $name ) = @_;
-    return $self->field($name, undef, $self);
+    return $self->field( $name, undef, $self );
 }
 
 sub field {
@@ -125,8 +132,10 @@ sub field {
     # if this is a full_name for a compound field
     # walk through the fields to get to it
     return undef unless ( defined $name );
-    if( $self->form && $self == $self->form &&
-        exists $self->index->{$name} ) {
+    if ( $self->form &&
+        $self == $self->form &&
+        exists $self->index->{$name} )
+    {
         return $self->index->{$name};
     }
     if ( $name =~ /\./ ) {
@@ -198,7 +207,7 @@ sub fields_fif {
         my $field = $fld_result->field_def;
         next if ( $field->is_inactive || $field->password );
         my $fif = $fld_result->fif;
-        next if ( !defined $fif || (ref $fif eq 'ARRAY' && ! scalar @{$fif} ) );
+        next if ( !defined $fif || ( ref $fif eq 'ARRAY' && !scalar @{$fif} ) );
         if ( $fld_result->has_results ) {
             my $next_params = $fld_result->fields_fif( $prefix . $field->name . '.' );
             next unless $next_params;
@@ -226,10 +235,10 @@ sub propagate_error {
     # All fields with errors should end up being in the form's
     # error_results. Once.
     my ($found) = grep { $_ == $result } $self->result->all_error_results;
-    unless ( $found ) {
+    unless ($found) {
         $self->result->add_error_result($result);
         if ( $self->parent ) {
-            $self->parent->propagate_error( $result );
+            $self->parent->propagate_error($result);
         }
     }
 }
@@ -251,7 +260,7 @@ sub dump_validated {
     warn "HFH: fields validated:\n";
     foreach my $field ( $self->sorted_fields ) {
         $field->dump_validated if $field->can('dump_validated');
-        my $message = $field->has_errors ? join( ' | ', $field->all_errors) : 'validated';
+        my $message = $field->has_errors ? join( ' | ', $field->all_errors ) : 'validated';
         warn "HFH: ", $field->name, ": $message\n";
     }
 }

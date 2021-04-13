@@ -28,18 +28,19 @@ sub do_render_label {
     my ( $self, $result, $label_tag, $class ) = @_;
 
     $label_tag ||= $self->get_tag('label_tag') || 'label';
-    my $attr = $self->label_attributes( $result );
+    my $attr = $self->label_attributes($result);
     push @{ $attr->{class} }, @$class if $class;
     my $attrs = process_attrs($attr);
     my $label;
-    if( $self->does_wrap_label ) {
+    if ( $self->does_wrap_label ) {
         $label = $self->wrap_label( $self->label );
     }
     else {
-        $label = $self->get_tag('label_no_filter') ? $self->loc_label : $self->html_filter($self->loc_label);
+        $label = $self->get_tag('label_no_filter') ? $self->loc_label :
+            $self->html_filter( $self->loc_label );
     }
     $label .= $self->get_tag('label_after') if $label_tag ne 'legend';
-    my $id = $self->id;
+    my $id  = $self->id;
     my $for = $label_tag eq 'label' ? qq{ for="$id"} : '';
     return qq{<$label_tag$attrs$for>$label</$label_tag>};
 }
@@ -48,15 +49,17 @@ sub wrap_checkbox {
     my ( $self, $result, $rendered_widget, $default_wrapper ) = @_;
 
     my $option_wrapper = $self->option_wrapper || $default_wrapper;
-    if ( $option_wrapper && $option_wrapper ne 'standard' &&
-         $option_wrapper ne 'label' ) {
+    if ( $option_wrapper &&
+        $option_wrapper ne 'standard' &&
+        $option_wrapper ne 'label' )
+    {
         unless ( $self->can($option_wrapper) ) {
             die "HFH: no option_wrapper method '$option_wrapper'";
         }
-        return $self->$option_wrapper($result, $rendered_widget);
+        return $self->$option_wrapper( $result, $rendered_widget );
     }
     else {
-        return $self->standard_wrap_checkbox($result, $rendered_widget);
+        return $self->standard_wrap_checkbox( $result, $rendered_widget );
     }
 
 }
@@ -65,11 +68,11 @@ sub standard_wrap_checkbox {
     my ( $self, $result, $rendered_widget ) = @_;
 
     return $rendered_widget
-        if( $self->get_tag('no_wrapped_label' ) );
+        if ( $self->get_tag('no_wrapped_label') );
 
     my $label = $self->get_checkbox_label;
-    my $id = $self->id;
-    my $for = qq{ for="$id"};
+    my $id    = $self->id;
+    my $for   = qq{ for="$id"};
 
     # use "simple" label attributes for inner label
     my @label_class = ('checkbox');
@@ -93,12 +96,14 @@ sub standard_wrap_checkbox {
 sub get_checkbox_label {
     my $self = shift;
 
-    my $label =  $self->option_label || '';
-    if( $label eq '' && ! $self->do_label ) {
-        $label = $self->get_tag('label_no_filter') ? $self->loc_label : $self->html_filter($self->loc_label);
+    my $label = $self->option_label || '';
+    if ( $label eq '' && !$self->do_label ) {
+        $label = $self->get_tag('label_no_filter') ? $self->loc_label :
+            $self->html_filter( $self->loc_label );
     }
-    elsif( $label ne '' ) {
-        $label = $self->get_tag('label_no_filter') ? $self->_localize($label) : $self->html_filter($self->_localize($label));
+    elsif ( $label ne '' ) {
+        $label = $self->get_tag('label_no_filter') ? $self->_localize($label) :
+            $self->html_filter( $self->_localize($label) );
     }
     return $label;
 }
@@ -106,8 +111,8 @@ sub get_checkbox_label {
 sub b3_label_left {
     my ( $self, $result, $rendered_widget ) = @_;
 
-    my $label = $self->get_checkbox_label;
-    my $id = $self->id;
+    my $label  = $self->get_checkbox_label;
+    my $id     = $self->id;
     my $output = qq{<div class="checkbox">};
     $output .= qq{<label for="$id">\n$label\n$rendered_widget</label>};
     $output .= qq{</div>};
@@ -118,16 +123,17 @@ sub b3_label_left_inline {
     my ( $self, $result, $rendered_widget ) = @_;
 
     my $label = $self->get_checkbox_label;
-    my $id = $self->id;
-    my $output = qq{<label class="checkbox-inline" for="$id">\n$label\n$rendered_widget</label>};
+    my $id    = $self->id;
+    my $output =
+        qq{<label class="checkbox-inline" for="$id">\n$label\n$rendered_widget</label>};
     return $output;
 }
 
 sub b3_label_right {
     my ( $self, $result, $rendered_widget ) = @_;
 
-    my $label = $self->get_checkbox_label;
-    my $id = $self->id;
+    my $label  = $self->get_checkbox_label;
+    my $id     = $self->id;
     my $output = qq{<div class="checkbox">};
     $output .= qq{<label for="$id">$rendered_widget\n$label\n</label>};
     $output .= qq{</div>};
@@ -137,8 +143,8 @@ sub b3_label_right {
 sub label_left {
     my ( $self, $result, $rendered_widget ) = @_;
 
-    my $label = $self->get_checkbox_label;
-    my $id = $self->id;
+    my $label  = $self->get_checkbox_label;
+    my $id     = $self->id;
     my $output = qq{<label class="checkbox" for="$id">\n$label\n$rendered_widget</label>};
     return $output;
 }
@@ -146,8 +152,8 @@ sub label_left {
 sub label_right {
     my ( $self, $result, $rendered_widget ) = @_;
 
-    my $label = $self->get_checkbox_label;
-    my $id = $self->id;
+    my $label  = $self->get_checkbox_label;
+    my $id     = $self->id;
     my $output = qq{<label class="checkbox" for="$id">$rendered_widget\n$label\n</label>};
     return $output;
 }
@@ -157,27 +163,25 @@ sub no_wrapped_label {
     return $rendered_widget;
 }
 
-
 # for compatibility with older code
 sub render_label {
-    my $self = shift;
-    my $attrs = process_attrs($self->label_attributes);
-    my $label = $self->html_filter($self->loc_label);
+    my $self  = shift;
+    my $attrs = process_attrs( $self->label_attributes );
+    my $label = $self->html_filter( $self->loc_label );
     $label .= ": " unless $self->get_tag('label_no_colon');
     return qq{<label$attrs for="} . $self->id . qq{">$label</label>};
 }
-
 
 # this is not actually used any more, but is left here for compatibility
 # with user created widgets
 sub render_class {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    return process_attrs($self->wrapper_attributes($result));
+    return process_attrs( $self->wrapper_attributes($result) );
 }
 
 sub render_elementx {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
     my $result ||= $self->result;
 
     if ( keys %args > 0 ) {
@@ -191,7 +195,7 @@ sub render_elementx {
 }
 
 sub renderx {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
     my $result ||= $self->result;
 
     if ( keys %args > 0 ) {

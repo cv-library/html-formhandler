@@ -2,7 +2,7 @@ package HTML::FormHandler;
 # ABSTRACT: HTML forms using Moose
 
 use Moose;
-extends 'HTML::FormHandler::Base'; # to make some methods overridable by roles
+extends 'HTML::FormHandler::Base';    # to make some methods overridable by roles
 with 'HTML::FormHandler::Model', 'HTML::FormHandler::Fields',
     'HTML::FormHandler::BuildFields',
     'HTML::FormHandler::TraitFor::I18N';
@@ -793,8 +793,8 @@ L<HTML::FormHandler::Manual::Rendering>.
 =cut
 
 # for consistency in api with field nodes
-sub form { shift }
-sub is_form { 1 }
+sub form     { shift }
+sub is_form  { 1 }
 sub has_form { 1 }
 
 # Moose attributes
@@ -803,7 +803,7 @@ has 'name' => (
     is      => 'rw',
     default => sub { return 'form' . int( rand 1000 ) }
 );
-sub full_name { '' }
+sub full_name     { '' }
 sub full_accessor { '' }
 has 'parent' => ( is => 'rw' );
 has 'result' => (
@@ -815,128 +815,155 @@ has 'result' => (
     builder   => 'build_result',
     predicate => 'has_result',
     handles   => [
-        'input',      '_set_input', '_clear_input', 'has_input',
-        'value',      '_set_value', '_clear_value', 'has_value',
-        'add_result', 'results',    'validated',    'ran_validation',
-        'is_valid',
-        'form_errors', 'all_form_errors', 'push_form_errors', 'clear_form_errors',
-        'has_form_errors', 'num_form_errors',
+        'input',             '_set_input',      '_clear_input',    'has_input',
+        'value',             '_set_value',      '_clear_value',    'has_value',
+        'add_result',        'results',         'validated',       'ran_validation',
+        'is_valid',          'form_errors',     'all_form_errors', 'push_form_errors',
+        'clear_form_errors', 'has_form_errors', 'num_form_errors',
     ],
 );
 
 sub build_result {
-    my $self = shift;
+    my $self         = shift;
     my $result_class = 'HTML::FormHandler::Result';
     if ( $self->widget_form ) {
         my $role = $self->get_widget_role( $self->widget_form, 'Form' );
-        $result_class = $result_class->with_traits( $role );
+        $result_class = $result_class->with_traits($role);
     }
     my $result = $result_class->new( name => $self->name, form => $self );
     return $result;
 }
 
 has 'index' => (
-    is => 'ro', isa => 'HashRef[HTML::FormHandler::Field]', traits => ['Hash'],
-    default => sub {{}},
+    is      => 'ro',
+    isa     => 'HashRef[HTML::FormHandler::Field]',
+    traits  => ['Hash'],
+    default => sub { {} },
     handles => {
-        add_to_index => 'set',
+        add_to_index     => 'set',
         field_from_index => 'get',
-        field_in_index => 'exists',
+        field_in_index   => 'exists',
     }
 );
-has '_repeatable_fields' => ( is => 'rw', isa => 'ArrayRef',
-    traits => ['Array'], default => sub {[]},
+has '_repeatable_fields' => (
+    is      => 'rw',
+    isa     => 'ArrayRef',
+    traits  => ['Array'],
+    default => sub { [] },
     handles => {
-        add_repeatable_field => 'push',
+        add_repeatable_field  => 'push',
         has_repeatable_fields => 'count',
         all_repeatable_fields => 'elements',
     },
 );
 
-has 'field_traits' => ( is => 'ro', traits => ['Array'], isa => 'ArrayRef',
-    default => sub {[]}, handles => { 'has_field_traits' => 'count' } );
+has 'field_traits' => (
+    is      => 'ro',
+    traits  => ['Array'],
+    isa     => 'ArrayRef',
+    default => sub { [] },
+    handles => { 'has_field_traits' => 'count' }
+);
 has 'widget_name_space' => (
-    is => 'ro',
-    isa => 'HFH::ArrayRefStr',
-    traits => ['Array'],
-    default => sub {[]},
-    coerce => 1,
+    is      => 'ro',
+    isa     => 'HFH::ArrayRefStr',
+    traits  => ['Array'],
+    default => sub { [] },
+    coerce  => 1,
     handles => {
         add_widget_name_space => 'push',
     },
 );
 # it only really makes sense to set these before widget_form is applied in BUILD
-has 'widget_form'       => ( is => 'ro', isa => 'Str', default => 'Simple', writer => 'set_widget_form' );
-has 'widget_wrapper'    => ( is => 'ro', isa => 'Str', default => 'Simple', writer => 'set_widget_wrapper' );
+has 'widget_form' =>
+    ( is => 'ro', isa => 'Str', default => 'Simple', writer => 'set_widget_form' );
+has 'widget_wrapper' =>
+    ( is => 'ro', isa => 'Str', default => 'Simple', writer => 'set_widget_wrapper' );
 has 'do_form_wrapper' => ( is => 'rw', builder => 'build_do_form_wrapper' );
 sub build_do_form_wrapper { 0 }
-has 'no_widgets'        => ( is => 'ro', isa => 'Bool' );
-has 'no_preload'        => ( is => 'ro', isa => 'Bool' );
-has 'no_update'         => ( is => 'rw', isa => 'Bool', clearer => 'clear_no_update' );
-has 'active' => (
-    is => 'rw',
-    traits => ['Array'],
-    isa => 'ArrayRef[Str]',
-    default => sub {[]},
+has 'no_widgets' => ( is => 'ro', isa => 'Bool' );
+has 'no_preload' => ( is => 'ro', isa => 'Bool' );
+has 'no_update'  => ( is => 'rw', isa => 'Bool', clearer => 'clear_no_update' );
+has 'active'     => (
+    is      => 'rw',
+    traits  => ['Array'],
+    isa     => 'ArrayRef[Str]',
+    default => sub { [] },
     handles => {
-        add_active => 'push',
-        has_active => 'count',
+        add_active   => 'push',
+        has_active   => 'count',
         clear_active => 'clear',
     }
 );
 has 'inactive' => (
-    is => 'rw',
-    traits => ['Array'],
-    isa => 'ArrayRef[Str]',
-    default => sub {[]},
+    is      => 'rw',
+    traits  => ['Array'],
+    isa     => 'ArrayRef[Str]',
+    default => sub { [] },
     handles => {
-        add_inactive => 'push',
-        has_inactive => 'count',
+        add_inactive   => 'push',
+        has_inactive   => 'count',
         clear_inactive => 'clear',
     }
 );
 
-
 # object with which to initialize
-has 'init_object'         => ( is => 'rw', clearer => 'clear_init_object' );
-has 'update_field_list'   => ( is => 'rw',
-    isa => 'HashRef',
-    default => sub {{}},
-    traits => ['Hash'],
+has 'init_object'       => ( is => 'rw', clearer => 'clear_init_object' );
+has 'update_field_list' => (
+    is      => 'rw',
+    isa     => 'HashRef',
+    default => sub { {} },
+    traits  => ['Hash'],
     handles => {
         clear_update_field_list => 'clear',
-        has_update_field_list => 'count',
-        set_update_field_list => 'set',
+        has_update_field_list   => 'count',
+        set_update_field_list   => 'set',
     },
 );
-has 'defaults' => ( is => 'rw', isa => 'HashRef', default => sub {{}}, traits => ['Hash'],
+has 'defaults' => (
+    is      => 'rw',
+    isa     => 'HashRef',
+    default => sub { {} },
+    traits  => ['Hash'],
     handles => { has_defaults => 'count', clear_defaults => 'clear' },
 );
-has 'use_defaults_over_obj' => ( is => 'rw', isa => 'Bool', clearer => 'clear_use_defaults_over_obj' );
-has 'use_init_obj_over_item' => ( is => 'rw', isa => 'Bool', clearer => 'clear_use_init_obj_over_item' );
+has 'use_defaults_over_obj' =>
+    ( is => 'rw', isa => 'Bool', clearer => 'clear_use_defaults_over_obj' );
+has 'use_init_obj_over_item' =>
+    ( is => 'rw', isa => 'Bool', clearer => 'clear_use_init_obj_over_item' );
 has 'use_init_obj_when_no_accessor_in_item' => ( is => 'rw', isa => 'Bool' );
-has 'use_fields_for_input_without_param' => ( is => 'rw', isa => 'Bool' );
+has 'use_fields_for_input_without_param'    => ( is => 'rw', isa => 'Bool' );
 # flags
-has [ 'verbose', 'processed', 'did_init_obj' ] => ( isa => 'Bool', is => 'rw' );
-has 'user_data' => ( isa => 'HashRef', is => 'rw' );
-has 'ctx' => ( is => 'rw', weak_ref => 1, clearer => 'clear_ctx' );
-has 'html_prefix'   => ( isa => 'Bool', is  => 'ro' );
-has 'active_column' => ( isa => 'Str',  is  => 'ro' );
-has 'http_method'   => ( isa => 'Str',  is  => 'ro', default => 'post' );
-has 'enctype'       => ( is  => 'rw',   isa => 'Str' );
-has 'error_message' => ( is => 'rw', predicate => 'has_error_message', clearer => 'clear_error_message' );
-has 'success_message' => ( is => 'rw', predicate => 'has_success_message', clearer => 'clear_success_message' );
-has 'info_message'  => ( is => 'rw', predicate => 'has_info_message', clearer => 'clear_info_message' );
+has [ 'verbose', 'processed', 'did_init_obj' ] => ( isa => 'Bool',    is => 'rw' );
+has 'user_data'                                => ( isa => 'HashRef', is => 'rw' );
+has 'ctx'           => ( is  => 'rw',   weak_ref => 1, clearer => 'clear_ctx' );
+has 'html_prefix'   => ( isa => 'Bool', is       => 'ro' );
+has 'active_column' => ( isa => 'Str',  is       => 'ro' );
+has 'http_method'   => ( isa => 'Str',  is       => 'ro', default => 'post' );
+has 'enctype'       => ( is  => 'rw',   isa      => 'Str' );
+has 'error_message' =>
+    ( is => 'rw', predicate => 'has_error_message', clearer => 'clear_error_message' );
+has 'success_message' =>
+    ( is => 'rw', predicate => 'has_success_message', clearer => 'clear_success_message' );
+has 'info_message' =>
+    ( is => 'rw', predicate => 'has_info_message', clearer => 'clear_info_message' );
 # deprecated
-has 'style'     =>     ( isa => 'Str',  is => 'rw' );
+has 'style' => ( isa => 'Str', is => 'rw' );
 
-has 'is_html5'  => ( isa => 'Bool', is => 'ro', default => 0 );
+has 'is_html5' => ( isa => 'Bool', is => 'ro', default => 0 );
 # deprecated. use form_element_attr instead
-has 'html_attr' => ( is => 'rw', traits => ['Hash'],
-   default => sub { {} }, handles => { has_html_attr => 'count',
-   set_html_attr => 'set', delete_html_attr => 'delete' },
-   trigger => \&_html_attr_set,
+has 'html_attr' => (
+    is      => 'rw',
+    traits  => ['Hash'],
+    default => sub { {} },
+    handles => {
+        has_html_attr    => 'count',
+        set_html_attr    => 'set',
+        delete_html_attr => 'delete'
+    },
+    trigger => \&_html_attr_set,
 );
+
 sub _html_attr_set {
     my ( $self, $value ) = @_;
     my $class = delete $value->{class};
@@ -949,72 +976,79 @@ sub _html_attr_set {
     # form_element_attr, build_form_element_attr, form_element_class,
     # form_wrapper_attr, build_form_wrapper_atrr, form_wrapper_class
     no strict 'refs';
-    foreach my $attr ('form_wrapper', 'form_element' ) {
+    foreach my $attr ( 'form_wrapper', 'form_element' ) {
         my $add_meth = "add_${attr}_class";
-        has "${attr}_attr" => ( is => 'rw', traits => ['Hash'],
+        has "${attr}_attr" => (
+            is      => 'rw',
+            traits  => ['Hash'],
             builder => "build_${attr}_attr",
             handles => {
-                "has_${attr}_attr" => 'count',
-                "get_${attr}_attr" => 'get',
-                "set_${attr}_attr" => 'set',
+                "has_${attr}_attr"    => 'count',
+                "get_${attr}_attr"    => 'get',
+                "set_${attr}_attr"    => 'set',
                 "delete_${attr}_attr" => 'delete',
                 "exists_${attr}_attr" => 'exists',
             },
         );
         # create builders for _attr
         my $attr_builder = __PACKAGE__ . "::build_${attr}_attr";
-        *$attr_builder = subname $attr_builder, sub {{}};
+        *$attr_builder = subname $attr_builder, sub { {} };
         # create the 'class' slots
-        has "${attr}_class" => ( is => 'rw', isa => 'HFH::ArrayRefStr',
-            traits => ['Array'],
-            coerce => 1,
+        has "${attr}_class" => (
+            is      => 'rw',
+            isa     => 'HFH::ArrayRefStr',
+            traits  => ['Array'],
+            coerce  => 1,
             builder => "build_${attr}_class",
             handles => {
-                "has_${attr}_class" => 'count',
+                "has_${attr}_class"  => 'count',
                 "_add_${attr}_class" => 'push',
-           },
+            },
         );
         # create builders for classes
         my $class_builder = __PACKAGE__ . "::build_${attr}_class";
-        *$class_builder = subname $class_builder, sub {[]};
+        *$class_builder = subname $class_builder, sub { [] };
         # create wrapper for add_to_ to accept arrayref
         my $add_to_class = __PACKAGE__ . "::add_${attr}_class";
-        my $_add_meth = __PACKAGE__ . "::_add_${attr}_class";
+        my $_add_meth    = __PACKAGE__ . "::_add_${attr}_class";
         # create add method that takes an arrayref
-        *$add_to_class = subname $add_to_class, sub { shift->$_add_meth((ref $_[0] eq 'ARRAY' ? @{$_[0]} : @_)); }
+        *$add_to_class = subname $add_to_class,
+            sub { shift->$_add_meth( ( ref $_[0] eq 'ARRAY' ? @{ $_[0] } : @_ ) ); }
     }
 }
 
 sub attributes { shift->form_element_attributes(@_) }
+
 sub form_element_attributes {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
     my $attr = {};
-    $attr->{id} = $self->name;
-    $attr->{action} = $self->action if $self->action;
-    $attr->{method} = $self->http_method if $self->http_method;
-    $attr->{enctype} = $self->enctype if $self->enctype;
-    $attr->{style} = $self->style if $self->style;
-    $attr = {%$attr, %{$self->form_element_attr}};
-    my $class = [@{$self->form_element_class}];
+    $attr->{id}      = $self->name;
+    $attr->{action}  = $self->action      if $self->action;
+    $attr->{method}  = $self->http_method if $self->http_method;
+    $attr->{enctype} = $self->enctype     if $self->enctype;
+    $attr->{style}   = $self->style       if $self->style;
+    $attr            = { %$attr, %{ $self->form_element_attr } };
+    my $class = [ @{ $self->form_element_class } ];
     $attr->{class} = $class if @$class;
-    my $mod_attr = $self->html_attributes($self, 'form_element', $attr);
+    my $mod_attr = $self->html_attributes( $self, 'form_element', $attr );
     return ref $mod_attr eq 'HASH' ? $mod_attr : $attr;
 }
+
 sub form_wrapper_attributes {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    my $attr = {%{$self->form_wrapper_attr}};
-    my $class = [@{$self->form_wrapper_class}];
+    my $attr  = { %{ $self->form_wrapper_attr } };
+    my $class = [ @{ $self->form_wrapper_class } ];
     $attr->{class} = $class if @$class;
-    my $mod_attr = $self->html_attributes($self, 'form_wrapper', $attr);
+    my $mod_attr = $self->html_attributes( $self, 'form_wrapper', $attr );
     return ref $mod_attr eq 'HASH' ? $mod_attr : $attr;
 }
 
 sub html_attributes {
     my ( $self, $obj, $type, $attrs, $result ) = @_;
     # deprecated 'field_html_attributes'; name changed, remove eventually
-    if( $self->can('field_html_attributes') ) {
+    if ( $self->can('field_html_attributes') ) {
         $attrs = $self->field_html_attributes( $obj, $type, $attrs, $result );
     }
     return $attrs;
@@ -1026,85 +1060,89 @@ sub has_flag {
     return $self->$flag_name;
 }
 
-has 'form_tags'         => (
-    traits => ['Hash'],
-    isa => 'HashRef',
-    is => 'ro',
+has 'form_tags' => (
+    traits  => ['Hash'],
+    isa     => 'HashRef',
+    is      => 'ro',
     builder => 'build_form_tags',
     handles => {
-      _get_tag => 'get',
-      set_tag => 'set',
-      tag_exists => 'exists',
-      has_tag => 'exists',
+        _get_tag   => 'get',
+        set_tag    => 'set',
+        tag_exists => 'exists',
+        has_tag    => 'exists',
     },
 );
-sub build_form_tags {{}}
+sub build_form_tags { {} }
+
 sub get_tag {
     my ( $self, $name ) = @_;
     return '' unless $self->tag_exists($name);
     my $tag = $self->_get_tag($name);
     return $self->$tag if ref $tag eq 'CODE';
-    return $tag unless $tag =~ /^%/;
+    return $tag unless $tag   =~ /^%/;
     ( my $block_name = $tag ) =~ s/^%//;
     return $self->form->block($block_name)->render
         if ( $self->form && $self->form->block_exists($block_name) );
     return '';
 }
 has 'for_js' => (
-    isa => 'HashRef',
-    traits => ['Hash'],
-    is => 'rw',
+    isa     => 'HashRef',
+    traits  => ['Hash'],
+    is      => 'rw',
     default => sub { {} },
     handles => {
-        set_for_js => 'set',
-        has_for_js => 'count',
+        set_for_js   => 'set',
+        has_for_js   => 'count',
         clear_for_js => 'clear',
     }
 );
 
 has 'action' => ( is => 'rw' );
-has 'posted' => ( is => 'rw', isa => 'Bool', clearer => 'clear_posted', predicate => 'has_posted' );
+has 'posted' =>
+    ( is => 'rw', isa => 'Bool', clearer => 'clear_posted', predicate => 'has_posted' );
 has 'params' => (
-    traits     => ['Hash'],
-    isa        => 'HashRef',
-    is         => 'rw',
-    default    => sub { {} },
-    trigger    => sub { shift->_munge_params(@_) },
-    handles   => {
-        set_param => 'set',
-        get_param => 'get',
+    traits  => ['Hash'],
+    isa     => 'HashRef',
+    is      => 'rw',
+    default => sub { {} },
+    trigger => sub { shift->_munge_params(@_) },
+    handles => {
+        set_param    => 'set',
+        get_param    => 'get',
         clear_params => 'clear',
-        has_params => 'count',
+        has_params   => 'count',
     },
 );
 sub submitted { shift->has_params }
 has 'dependency' => ( isa => 'ArrayRef', is => 'rw' );
-has '_required' => (
-    traits     => ['Array'],
-    isa        => 'ArrayRef[HTML::FormHandler::Field]',
-    is         => 'rw',
-    default    => sub { [] },
-    handles   => {
+has '_required'  => (
+    traits  => ['Array'],
+    isa     => 'ArrayRef[HTML::FormHandler::Field]',
+    is      => 'rw',
+    default => sub { [] },
+    handles => {
         clear_required => 'clear',
-        add_required => 'push',
+        add_required   => 'push',
     }
 );
 
 # these messages could apply to either fields or form
-has 'messages' => ( is => 'rw',
-    isa => 'HashRef',
-    traits => ['Hash'],
+has 'messages' => (
+    is      => 'rw',
+    isa     => 'HashRef',
+    traits  => ['Hash'],
     builder => 'build_messages',
     handles => {
         '_get_form_message' => 'get',
         '_has_form_message' => 'exists',
-        'set_message' => 'set',
+        'set_message'       => 'set',
     },
 );
 sub build_messages { {} }
 
 my $class_messages = {};
-sub get_class_messages  {
+
+sub get_class_messages {
     return $class_messages;
 }
 
@@ -1113,9 +1151,10 @@ sub get_message {
     return $self->_get_form_message($msg) if $self->_has_form_message($msg);
     return $self->get_class_messages->{$msg};
 }
+
 sub all_messages {
     my $self = shift;
-    return { %{$self->get_class_messages}, %{$self->messages} };
+    return { %{ $self->get_class_messages }, %{ $self->messages } };
 }
 
 has 'params_class' => (
@@ -1130,7 +1169,7 @@ has 'params_args' => ( is => 'ro', isa => 'ArrayRef' );
 sub BUILDARGS {
     my $class = shift;
 
-    if ( scalar @_ == 1 && ref( $_[0]) ne 'HASH' ) {
+    if ( scalar @_ == 1 && ref( $_[0] ) ne 'HASH' ) {
         my $arg = $_[0];
         return blessed($arg) ? { item => $arg } : { item_id => $arg };
     }
@@ -1140,22 +1179,27 @@ sub BUILDARGS {
 sub BUILD {
     my $self = shift;
 
-    $self->before_build; # hook to allow customizing forms
-    # HTML::FormHandler::Widget::Form::Simple is applied in Base
+    $self->before_build;    # hook to allow customizing forms
+                            # HTML::FormHandler::Widget::Form::Simple is applied in Base
     $self->apply_widget_role( $self, $self->widget_form, 'Form' )
-        unless (  $self->no_widgets || $self->widget_form eq 'Simple' );
+        unless ( $self->no_widgets || $self->widget_form eq 'Simple' );
     $self->_build_fields;    # create the form fields (BuildFields.pm)
-    $self->build_active if $self->has_active || $self->has_inactive || $self->has_flag('is_wizard');
-    $self->after_build; # hook for customizing
+    $self->build_active
+        if $self->has_active || $self->has_inactive || $self->has_flag('is_wizard');
+    $self->after_build;      # hook for customizing
     return if defined $self->item_id && !$self->item;
     # Load values from object (if any)
     # Would rather not load results at all here, but skipping it breaks
     # existing apps that perform certain actions between 'new' and 'process'.
     # Added fudge flag no_preload to enable skipping.
     # A well-behaved program that always does ->process shouldn't need this preloading.
-    unless( $self->no_preload ) {
-        if ( my $init_object = $self->use_init_obj_over_item ?
-            ($self->init_object || $self->item) : ( $self->item || $self->init_object ) ) {
+    unless ( $self->no_preload ) {
+        if (
+            my $init_object =
+            $self->use_init_obj_over_item ? ( $self->init_object || $self->item ) :
+            ( $self->item || $self->init_object )
+            )
+        {
             $self->_result_from_object( $self->result, $init_object );
         }
         else {
@@ -1165,8 +1209,8 @@ sub BUILD {
     $self->dump_fields if $self->verbose;
     return;
 }
-sub before_build {}
-sub after_build {}
+sub before_build { }
+sub after_build  { }
 
 sub process {
     my $self = shift;
@@ -1185,8 +1229,8 @@ sub process {
 sub run {
     my $self = shift;
     $self->setup_form(@_);
-    $self->validate_form      if $self->posted;
-    $self->update_model       if ( $self->validated && !$self->no_update );;
+    $self->validate_form if $self->posted;
+    $self->update_model  if ( $self->validated && !$self->no_update );
     my $result = $self->result;
     $self->clear;
     return $result;
@@ -1216,7 +1260,7 @@ sub after_update_model {
                 }
             }
             next unless $needs_reload;
-            my @names = split( /\./, $field->full_name );
+            my @names    = split( /\./, $field->full_name );
             my $rep_item = $self->find_sub_item( $self->item, \@names );
             # $rep_item is a single row or an array of rows or undef
             # If we found a database item for the repeatable, replace
@@ -1234,7 +1278,6 @@ sub after_update_model {
         }
     }
 }
-
 
 sub db_validate {
     my $self = shift;
@@ -1273,30 +1316,30 @@ sub error_field_names {
 sub errors {
     my $self         = shift;
     my @error_fields = $self->error_fields;
-    my @errors = $self->all_form_errors;
-    push @errors,  map { $_->all_errors } @error_fields;
+    my @errors       = $self->all_form_errors;
+    push @errors, map { $_->all_errors } @error_fields;
     return @errors;
 }
 
 sub errors_by_id {
     my $self = shift;
     my %errors;
-    $errors{$_->id} = [$_->all_errors] for $self->error_fields;
+    $errors{ $_->id } = [ $_->all_errors ] for $self->error_fields;
     return \%errors;
 }
 
 sub errors_by_name {
     my $self = shift;
     my %errors;
-    $errors{$_->html_name} = [$_->all_errors] for $self->error_fields;
+    $errors{ $_->html_name } = [ $_->all_errors ] for $self->error_fields;
     return \%errors;
 }
 
 sub build_errors {
     my $self = shift;
     # this puts the errors in the result
-    foreach my $err_res (@{$self->result->error_results}) {
-        $self->result->_push_errors($err_res->all_errors);
+    foreach my $err_res ( @{ $self->result->error_results } ) {
+        $self->result->_push_errors( $err_res->all_errors );
     }
 }
 
@@ -1329,6 +1372,7 @@ sub has_errors {
     my $self = shift;
     return $self->has_error_fields || $self->has_form_errors;
 }
+
 sub num_errors {
     my $self = shift;
     return $self->num_error_fields + $self->num_form_errors;
@@ -1360,8 +1404,12 @@ sub setup_form {
     # and by _result_from_fields for empty forms
     $self->posted(1) if ( $self->has_params && !$self->has_posted );
     if ( !$self->did_init_obj ) {
-        if ( my $init_object = $self->use_init_obj_over_item ?
-            ($self->init_object || $self->item) : ( $self->item || $self->init_object ) ) {
+        if (
+            my $init_object =
+            $self->use_init_obj_over_item ? ( $self->init_object || $self->item ) :
+            ( $self->item || $self->init_object )
+            )
+        {
             $self->_result_from_object( $self->result, $init_object );
         }
         elsif ( !$self->posted ) {
@@ -1381,10 +1429,10 @@ sub setup_form {
 # if active => [...] is set at process time, set 'active' flag
 sub set_active {
     my $self = shift;
-    if( $self->has_active ) {
-        foreach my $fname (@{$self->active}) {
+    if ( $self->has_active ) {
+        foreach my $fname ( @{ $self->active } ) {
             my $field = $self->field($fname);
-            if ( $field ) {
+            if ($field) {
                 $field->_active(1);
             }
             else {
@@ -1393,10 +1441,10 @@ sub set_active {
         }
         $self->clear_active;
     }
-    if( $self->has_inactive ) {
-        foreach my $fname (@{$self->inactive}) {
+    if ( $self->has_inactive ) {
+        foreach my $fname ( @{ $self->inactive } ) {
             my $field = $self->field($fname);
-            if ( $field ) {
+            if ($field) {
                 $field->_active(0);
             }
             else {
@@ -1410,10 +1458,10 @@ sub set_active {
 # if active => [...] is set at build time, remove 'inactive' flags
 sub build_active {
     my $self = shift;
-    if( $self->has_active ) {
-        foreach my $fname (@{$self->active}) {
+    if ( $self->has_active ) {
+        foreach my $fname ( @{ $self->active } ) {
             my $field = $self->field($fname);
-            if( $field ) {
+            if ($field) {
                 $field->clear_inactive;
             }
             else {
@@ -1422,10 +1470,10 @@ sub build_active {
         }
         $self->clear_active;
     }
-    if( $self->has_inactive ) {
-        foreach my $fname (@{$self->inactive}) {
+    if ( $self->has_inactive ) {
+        foreach my $fname ( @{ $self->inactive } ) {
             my $field = $self->field($fname);
-            if( $field ) {
+            if ($field) {
                 $field->inactive(1);
             }
             else {
@@ -1450,7 +1498,7 @@ sub _set_dependency {
     my $self = shift;
 
     my $depends = $self->dependency || return;
-    my $params = $self->params;
+    my $params  = $self->params;
     for my $group (@$depends) {
         next if @$group < 2;
         # process a group of fields
@@ -1478,16 +1526,16 @@ sub _set_dependency {
 sub _clear_dependency {
     my $self = shift;
 
-    $_->required(0) for @{$self->_required};
+    $_->required(0) for @{ $self->_required };
     $self->clear_required;
 }
 
 sub peek {
-    my $self = shift;
+    my $self   = shift;
     my $string = "Form " . $self->name . "\n";
     my $indent = '  ';
     foreach my $field ( $self->sorted_fields ) {
-        $string .= $field->peek( $indent );
+        $string .= $field->peek($indent);
     }
     return $string;
 }
@@ -1495,7 +1543,7 @@ sub peek {
 sub _munge_params {
     my ( $self, $params, $attr ) = @_;
     my $_fix_params = $self->params_class->new( @{ $self->params_args || [] } );
-    my $new_params = $_fix_params->expand_hash($params);
+    my $new_params  = $_fix_params->expand_hash($params);
     if ( $self->html_prefix ) {
         $new_params = $new_params->{ $self->name };
     }
@@ -1506,7 +1554,7 @@ sub _munge_params {
 sub params_to_values {
     my ( $self, $params ) = @_;
     my $_fix_params = $self->params_class->new( @{ $self->params_args || [] } );
-    my $new_params = $_fix_params->expand_hash($params);
+    my $new_params  = $_fix_params->expand_hash($params);
     return $new_params;
 }
 
@@ -1528,21 +1576,21 @@ sub add_form_error {
 }
 
 sub get_default_value { }
-sub _can_deflate { }
+sub _can_deflate      { }
 
 sub update_fields {
     my $self = shift;
-    if( $self->has_update_field_list ) {
+    if ( $self->has_update_field_list ) {
         my $updates = $self->update_field_list;
         foreach my $field_name ( keys %{$updates} ) {
-            $self->update_field($field_name, $updates->{$field_name} );
+            $self->update_field( $field_name, $updates->{$field_name} );
         }
         $self->clear_update_field_list;
     }
-    if( $self->has_defaults ) {
+    if ( $self->has_defaults ) {
         my $defaults = $self->defaults;
         foreach my $field_name ( keys %{$defaults} ) {
-            $self->update_field($field_name, { default => $defaults->{$field_name} } );
+            $self->update_field( $field_name, { default => $defaults->{$field_name} } );
         }
         $self->clear_defaults;
     }
@@ -1552,13 +1600,13 @@ sub update_field {
     my ( $self, $field_name, $updates ) = @_;
 
     my $field = $self->field($field_name);
-    unless( $field ) {
+    unless ($field) {
         die "Field $field_name is not found and cannot be updated by update_fields";
     }
     while ( my ( $attr_name, $attr_value ) = each %{$updates} ) {
         confess "invalid attribute '$attr_name' passed to update_field"
             unless $field->can($attr_name);
-        if( $attr_name eq 'tags' ) {
+        if ( $attr_name eq 'tags' ) {
             $field->set_tag(%$attr_value);
         }
         else {

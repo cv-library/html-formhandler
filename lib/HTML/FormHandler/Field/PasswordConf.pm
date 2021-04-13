@@ -26,24 +26,20 @@ has '+widget'           => ( default => 'Password' );
 has '+password'         => ( default => 1 );
 has '+required'         => ( default => 1 );
 has 'password_field'    => ( isa     => 'Str', is => 'rw', default => 'password' );
-has 'pass_conf_message' => ( isa     => 'Str', is      => 'rw' );
+has 'pass_conf_message' => ( isa     => 'Str', is => 'rw' );
 
 our $class_messages = {
-    required => 'Please enter a password confirmation',
+    required              => 'Please enter a password confirmation',
     pass_conf_not_matched => 'The password confirmation does not match the password',
 };
 
-sub get_class_messages  {
-    my $self = shift;
-    my $messages = {
-        %{ $self->next::method },
-        %$class_messages,
-    };
+sub get_class_messages {
+    my $self     = shift;
+    my $messages = { %{ $self->next::method }, %$class_messages, };
     $messages->{pass_conf_not_matched} = $self->pass_conf_message
         if $self->pass_conf_message;
     return $messages;
 }
-
 
 sub validate {
     my $self = shift;

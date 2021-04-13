@@ -21,8 +21,9 @@ sub type_attr { 'radio' }
 sub render {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    die "No result for form field '" . $self->full_name . "'. Field may be inactive." unless $result;
-    my $output = $self->render_element( $result );
+    die "No result for form field '" . $self->full_name . "'. Field may be inactive."
+        unless $result;
+    my $output = $self->render_element($result);
     return $self->wrap_field( $result, $output );
 }
 
@@ -35,11 +36,11 @@ sub render_element {
 
     foreach my $option ( @{ $self->{options} } ) {
         if ( my $label = $option->{group} ) {
-            $label = $self->_localize( $label ) if $self->localize_labels;
-            my $attr = $option->{attributes} || {};
-            my $attr_str = process_attrs($attr);
-            my $lattr = $option->{label_attributes} || {};
-            my $lattr_str= process_attrs($lattr);
+            $label = $self->_localize($label) if $self->localize_labels;
+            my $attr      = $option->{attributes} || {};
+            my $attr_str  = process_attrs($attr);
+            my $lattr     = $option->{label_attributes} || {};
+            my $lattr_str = process_attrs($lattr);
             $output .= qq{\n<div$attr_str><label$lattr_str>$label</label>};
             foreach my $group_opt ( @{ $option->{options} } ) {
                 $output .= $self->render_option( $group_opt, $result );
@@ -60,7 +61,7 @@ sub render_option {
 
     $result ||= $result;
     my $rendered_widget = $self->render_radio( $result, $option );
-    my $output = $self->wrap_radio( $rendered_widget, $option->{label} );
+    my $output          = $self->wrap_radio( $rendered_widget, $option->{label} );
     $self->inc_options_index;
     return $output;
 }
@@ -77,14 +78,13 @@ sub render_radio {
     my ( $self, $result, $option ) = @_;
     $result ||= $self->result;
 
-    my $value = $option->{value};
-    my $id = $self->id . "." . $self->options_index;
-    my $output = '<input type="radio" name="'
-        . $self->html_name . qq{" id="$id" value="}
-        . $self->html_filter($value) . '"';
+    my $value  = $option->{value};
+    my $id     = $self->id . "." . $self->options_index;
+    my $output = '<input type="radio" name="' .
+        $self->html_name . qq{" id="$id" value="} . $self->html_filter($value) . '"';
     $output .= ' checked="checked"'
         if $result->fif eq $value;
-    $output .= process_attrs($option->{attributes});
+    $output .= process_attrs( $option->{attributes} );
     $output .= ' />';
     return $output;
 }
@@ -92,7 +92,7 @@ sub render_radio {
 sub wrap_radio {
     my ( $self, $rendered_widget, $option_label ) = @_;
 
-    my $id = $self->id . "." . $self->options_index;
+    my $id  = $self->id . "." . $self->options_index;
     my $for = qq{ for="$id"};
 
     # use "simple" label attributes for inner label
@@ -105,7 +105,7 @@ sub wrap_radio {
     my $lattrs = process_attrs( { class => \@label_class } );
 
     # return wrapped radio, either on left or right
-    my $label = $self->_localize($option_label);
+    my $label  = $self->_localize($option_label);
     my $output = '';
     if ( $self->get_tag('label_left') ) {
         $output = qq{<label$lattrs$for>\n$label\n$rendered_widget</label>};

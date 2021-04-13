@@ -8,8 +8,8 @@ with 'HTML::FormHandler::Render::WithTT';
 use Config::Any;
 
 has 'form_error_message' => ( isa => 'Str', is => 'rw' );
-has 'javascript_src' => ( isa => 'Str', is => 'rw' );
-has 'javascript' => ( isa => 'Str', is => 'rw' );
+has 'javascript_src'     => ( isa => 'Str', is => 'rw' );
+has 'javascript'         => ( isa => 'Str', is => 'rw' );
 
 sub before_build {
     my $self = shift;
@@ -21,8 +21,8 @@ sub before_build {
 
 sub build_tt_template { 'form.tt' }
 
-has 'config_file' => ( isa => 'Str', is => 'rw' );
-has 'config' => ( isa => 'HashRef', is => 'rw' );
+has 'config_file' => ( isa => 'Str',     is => 'rw' );
+has 'config'      => ( isa => 'HashRef', is => 'rw' );
 
 sub submitted_and_valid { shift->validated }
 
@@ -32,12 +32,14 @@ sub process_config_file {
     unless ( -e $self->config_file ) {
         die "form config file " . $self->config_file . " . does not exist";
     }
-    my $config = Config::Any->load_files({
-        files => [$self->config_file],
-        use_ext         => 1,
-        driver_args => { General => { -UTF8 => 1 }, },
-    });
-    $config = $config->[0]->{$self->config_file};
+    my $config = Config::Any->load_files(
+        {
+            files       => [ $self->config_file ],
+            use_ext     => 1,
+            driver_args => { General => { -UTF8 => 1 }, },
+        }
+    );
+    $config = $config->[0]->{ $self->config_file };
     $self->config($config);
 
 }

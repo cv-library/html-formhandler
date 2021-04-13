@@ -5,7 +5,7 @@ use Moose::Role;
 
 requires( 'sorted_fields', 'field' );
 
-use HTML::FormHandler::Render::Util ('process_attrs', 'ucc_widget');
+use HTML::FormHandler::Render::Util ( 'process_attrs', 'ucc_widget' );
 
 =head1 SYNOPSIS
 
@@ -133,14 +133,12 @@ sub render {
     return $output;
 }
 
-
 sub render_form_errors {
     my $self = shift;
 
     return '' unless $self->has_form_errors;
     my $output = "\n<div class=\"form_errors\">";
-    $output .= qq{\n<span class="error_message">$_</span>}
-        for $self->all_form_errors;
+    $output .= qq{\n<span class="error_message">$_</span>} for $self->all_form_errors;
     $output .= "\n</div>";
     return $output;
 }
@@ -154,7 +152,7 @@ sub render_field {
     die "must pass field to render_field"
         unless ( defined $field && $field->isa('HTML::FormHandler::Field') );
     # widgets should be in camel case, since they are Perl package names
-    my $widget = ucc_widget($field->widget);
+    my $widget = ucc_widget( $field->widget );
     return '' if $widget eq 'no_render';
     my $rendered_field;
     my $form_render = 'render_' . $widget;
@@ -174,25 +172,25 @@ sub wrap_field {
     my ( $self, $field, $rendered_field ) = @_;
 
     return "\n$rendered_field" if $field->uwrapper eq 'none';
-    return "\n$rendered_field" if ! $field->do_wrapper;
+    return "\n$rendered_field" if !$field->do_wrapper;
 
     my $output = "\n";
 
     my $wrapper_tag = $field->get_tag('wrapper_tag');
     $wrapper_tag ||= $field->has_flag('is_repeatable') ? 'fieldset' : 'div';
-    my $attrs = process_attrs($field->wrapper_attributes);
+    my $attrs = process_attrs( $field->wrapper_attributes );
 
     $output .= qq{<$wrapper_tag$attrs>};
-    if( $wrapper_tag eq 'fieldset' ) {
+    if ( $wrapper_tag eq 'fieldset' ) {
         $output .= '<legend>' . $field->loc_label . '</legend>';
     }
-    elsif ( ! $field->get_tag('label_none') && $field->do_label && length( $field->label ) > 0 ) {
+    elsif ( !$field->get_tag('label_none') && $field->do_label && length( $field->label ) > 0 )
+    {
         $output .= "\n" . $self->render_label($field);
     }
 
     $output .= "\n$rendered_field";
-    $output .= qq{\n<span class="error_message">$_</span>}
-        for $field->all_errors;
+    $output .= qq{\n<span class="error_message">$_</span>} for $field->all_errors;
 
     $output .= "\n</$wrapper_tag>";
 
@@ -204,10 +202,10 @@ sub render_text {
     my $output = '<input type="' . $field->input_type . '" name="';
     $output .= $field->html_name . '"';
     $output .= ' id="' . $field->id . '"';
-    $output .= ' size="' . $field->size . '"' if $field->size;
+    $output .= ' size="' . $field->size . '"'           if $field->size;
     $output .= ' maxlength="' . $field->maxlength . '"' if $field->maxlength;
-    $output .= ' value="' . $field->html_filter($field->fif) . '"';
-    $output .= process_attrs($field->element_attributes);
+    $output .= ' value="' . $field->html_filter( $field->fif ) . '"';
+    $output .= process_attrs( $field->element_attributes );
     $output .= ' />';
     return $output;
 }
@@ -217,10 +215,10 @@ sub render_password {
     my $output = '<input type="password" name="';
     $output .= $field->html_name . '"';
     $output .= ' id="' . $field->id . '"';
-    $output .= ' size="' . $field->size . '"' if $field->size;
+    $output .= ' size="' . $field->size . '"'           if $field->size;
     $output .= ' maxlength="' . $field->maxlength . '"' if $field->maxlength;
-    $output .= ' value="' . $field->html_filter($field->fif) . '"';
-    $output .= process_attrs($field->element_attributes);
+    $output .= ' value="' . $field->html_filter( $field->fif ) . '"';
+    $output .= process_attrs( $field->element_attributes );
     $output .= ' />';
     return $output;
 }
@@ -230,8 +228,8 @@ sub render_hidden {
     my $output = '<input type="hidden" name="';
     $output .= $field->html_name . '"';
     $output .= ' id="' . $field->id . '"';
-    $output .= ' value="' . $field->html_filter($field->fif) . '"';
-    $output .= process_attrs($field->element_attributes);
+    $output .= ' value="' . $field->html_filter( $field->fif ) . '"';
+    $output .= process_attrs( $field->element_attributes );
     $output .= ' />';
     return $output;
 }
@@ -240,27 +238,27 @@ sub render_select {
     my ( $self, $field ) = @_;
 
     my $multiple = $field->multiple;
-    my $id = $field->id;
-    my $output = '<select name="' . $field->html_name . '"';
+    my $id       = $field->id;
+    my $output   = '<select name="' . $field->html_name . '"';
     $output .= qq{ id="$id"};
-    $output .= ' multiple="multiple"' if $multiple == 1;
+    $output .= ' multiple="multiple"'         if $multiple == 1;
     $output .= ' size="' . $field->size . '"' if $field->size;
-    my $html_attributes = process_attrs($field->element_attributes);
+    my $html_attributes = process_attrs( $field->element_attributes );
     $output .= $html_attributes;
     $output .= '>';
     my $index = 0;
-    if( defined $field->empty_select ) {
-        $output .= '<option value="">' . $field->_localize($field->empty_select) . '</option>';
+
+    if ( defined $field->empty_select ) {
+        $output .=
+            '<option value="">' . $field->_localize( $field->empty_select ) . '</option>';
     }
     my $fif = $field->fif;
     my %fif_lookup;
     @fif_lookup{@$fif} = () if $multiple;
     foreach my $option ( @{ $field->{options} } ) {
         my $value = $option->{value};
-        $output .= '<option value="'
-            . $field->html_filter($value)
-            . qq{" id="$id.$index"};
-        if( defined $option->{disabled} && $option->{disabled} ) {
+        $output .= '<option value="' . $field->html_filter($value) . qq{" id="$id.$index"};
+        if ( defined $option->{disabled} && $option->{disabled} ) {
             $output .= ' disabled="disabled"';
         }
         if ( defined $fif ) {
@@ -286,9 +284,9 @@ sub render_checkbox {
 
     my $output = '<input type="checkbox" name="' . $field->html_name . '"';
     $output .= ' id="' . $field->id . '"';
-    $output .= ' value="' . $field->html_filter($field->checkbox_value) . '"';
+    $output .= ' value="' . $field->html_filter( $field->checkbox_value ) . '"';
     $output .= ' checked="checked"' if $field->fif eq $field->checkbox_value;
-    $output .= process_attrs($field->element_attributes);
+    $output .= process_attrs( $field->element_attributes );
     $output .= ' />';
     return $output;
 }
@@ -300,11 +298,12 @@ sub render_radio_group {
     my $index  = 0;
     foreach my $option ( @{ $field->options } ) {
         my $id = $field->id . ".$index";
-        $output .= qq{<label for="$id"><input type="radio" value="} . $field->html_filter($option->{value}) . '"';
+        $output .= qq{<label for="$id"><input type="radio" value="} .
+            $field->html_filter( $option->{value} ) . '"';
         $output .= ' name="' . $field->html_name . '" id="' . "$id\"";
         $output .= ' checked="checked"' if $option->{value} eq $field->fif;
         $output .= ' />';
-        $output .= $field->html_filter($option->{label}) . '</label><br />';
+        $output .= $field->html_filter( $option->{label} ) . '</label><br />';
         $index++;
     }
     return $output;
@@ -319,11 +318,8 @@ sub render_textarea {
     my $name = $field->html_name;
 
     my $output =
-        qq(<textarea name="$name" id="$id" )
-        . process_attrs($field->element_attributes)
-        . qq(rows="$rows" cols="$cols">)
-        . $field->html_filter($fif)
-        . q(</textarea>);
+        qq(<textarea name="$name" id="$id" ) . process_attrs( $field->element_attributes ) .
+        qq(rows="$rows" cols="$cols">) . $field->html_filter($fif) . q(</textarea>);
 
     return $output;
 }
@@ -335,7 +331,7 @@ sub render_upload {
     $output = '<input type="file" name="';
     $output .= $field->html_name . '"';
     $output .= ' id="' . $field->id . '"';
-    $output .= process_attrs($field->element_attributes);
+    $output .= process_attrs( $field->element_attributes );
     $output .= ' />';
     return $output;
 }
@@ -344,9 +340,9 @@ sub render_label {
     my ( $self, $field ) = @_;
 
     my $attrs = process_attrs( $field->label_attributes );
-    my $label = $field->html_filter($field->loc_label);
+    my $label = $field->html_filter( $field->loc_label );
     $label .= $field->get_tag('label_after')
-        if( $field->tag_exists('label_after') );
+        if ( $field->tag_exists('label_after') );
     my $label_tag = $field->tag_exists('label_tag') ? $field->get_tag('label_tag') : 'label';
     return qq{<$label_tag$attrs for="} . $field->id . qq{">$label</$label_tag>};
 }
@@ -367,8 +363,8 @@ sub render_submit {
     my $output = '<input type="submit" name="';
     $output .= $field->html_name . '"';
     $output .= ' id="' . $field->id . '"';
-    $output .= process_attrs($field->element_attributes);
-    $output .= ' value="' . $field->html_filter($field->_localize($field->value)) . '" />';
+    $output .= process_attrs( $field->element_attributes );
+    $output .= ' value="' . $field->html_filter( $field->_localize( $field->value ) ) . '" />';
     return $output;
 }
 
@@ -378,8 +374,8 @@ sub render_reset {
     my $output = '<input type="reset" name="';
     $output .= $field->html_name . '"';
     $output .= ' id="' . $field->id . '"';
-    $output .= process_attrs($field->element_attributes);
-    $output .= ' value="' . $field->html_filter($field->value) . '" />';
+    $output .= process_attrs( $field->element_attributes );
+    $output .= ' value="' . $field->html_filter( $field->value ) . '" />';
     return $output;
 }
 
@@ -391,7 +387,6 @@ sub render_captcha {
     $output .= $field->html_name . '"/>';
     return $output;
 }
-
 
 use namespace::autoclean;
 1;

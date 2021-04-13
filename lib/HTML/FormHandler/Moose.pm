@@ -25,7 +25,7 @@ Use this module instead of C< use Moose; >
 
 Moose::Exporter->setup_import_methods(
     with_meta => [ 'has_field', 'has_page', 'has_block', 'apply' ],
-    also        => 'Moose',
+    also      => 'Moose',
 );
 
 sub init_meta {
@@ -36,7 +36,7 @@ sub init_meta {
     my $meta = Moose::Util::MetaRole::apply_metaroles(
         for             => $options{for_class},
         class_metaroles => {
-            class => [ 'HTML::FormHandler::Meta::Role' ]
+            class => ['HTML::FormHandler::Meta::Role']
         }
     );
     return $meta;
@@ -46,13 +46,16 @@ sub has_field {
     my ( $meta, $name, %options ) = @_;
     my $names = ( ref($name) eq 'ARRAY' ) ? $name : [ ($name) ];
 
-    unless ($meta->found_hfh) {
+    unless ( $meta->found_hfh ) {
         my @linearized_isa = $meta->linearized_isa;
-        if( grep { $_ eq 'HTML::FormHandler' || $_ eq 'HTML::FormHandler::Field' } @linearized_isa ) {
+        if ( grep { $_ eq 'HTML::FormHandler' || $_ eq 'HTML::FormHandler::Field' }
+            @linearized_isa )
+        {
             $meta->found_hfh(1);
         }
         else {
-            die "Package '" . $linearized_isa[0] . "' uses HTML::FormHandler::Moose without extending HTML::FormHandler[::Field]";
+            die "Package '" . $linearized_isa[0] .
+                "' uses HTML::FormHandler::Moose without extending HTML::FormHandler[::Field]";
         }
     }
 

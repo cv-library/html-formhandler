@@ -13,11 +13,9 @@ extends 'HTML::FormHandler::Field::Select';
 
 has '+empty_select' => ( default => 'Select One' );
 
-sub build_options { [
-    { value => 1, label => 'True'},
-    { value => 0, label => 'False' }
-]};
-
+sub build_options {
+    [ { value => 1, label => 'True' }, { value => 0, label => 'False' } ]
+}
 
 __PACKAGE__->meta->make_immutable;
 use namespace::autoclean;

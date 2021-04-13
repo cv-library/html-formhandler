@@ -14,26 +14,26 @@ use MooseX::Types -declare => [
 ];
 
 our $class_messages = {
-    PositiveNum => "Must be a positive number",
-    PositiveInt => "Must be a positive integer",
-    NegativeNum => "Must be a negative number",
-    NegativeInt => "Must be a negative integer",
-    SingleDigit => "Must be a single digit",
-    SimpleStr => 'Must be a single line of no more than 255 chars',
-    NonEmptySimpleStr => "Must be a non-empty single line of no more than 255 chars",
-    Password => "Must be between 4 and 255 chars",
-    StrongPassword =>"Must be between 8 and 255 chars, and contain a non-alpha char",
-    NonEmptyStr => "Must not be empty",
-    State => "Not a valid state",
-    Email => "Email is not valid",
-    Zip => "Zip is not valid",
-    IPAddress => "Not a valid IP address",
-    NoSpaces =>'Must not contain spaces',
-    WordChars => 'Must be made up of letters, digits, and underscores',
-    NotAllDigits => 'Must not be all digits',
-    Printable => 'Field contains non-printable characters',
+    PositiveNum         => "Must be a positive number",
+    PositiveInt         => "Must be a positive integer",
+    NegativeNum         => "Must be a negative number",
+    NegativeInt         => "Must be a negative integer",
+    SingleDigit         => "Must be a single digit",
+    SimpleStr           => 'Must be a single line of no more than 255 chars',
+    NonEmptySimpleStr   => "Must be a non-empty single line of no more than 255 chars",
+    Password            => "Must be between 4 and 255 chars",
+    StrongPassword      => "Must be between 8 and 255 chars, and contain a non-alpha char",
+    NonEmptyStr         => "Must not be empty",
+    State               => "Not a valid state",
+    Email               => "Email is not valid",
+    Zip                 => "Zip is not valid",
+    IPAddress           => "Not a valid IP address",
+    NoSpaces            => 'Must not contain spaces',
+    WordChars           => 'Must be made up of letters, digits, and underscores',
+    NotAllDigits        => 'Must not be all digits',
+    Printable           => 'Field contains non-printable characters',
     PrintableAndNewline => 'Field contains non-printable characters',
-    SingleWord => 'Field must contain a single word',
+    SingleWord          => 'Field must contain a single word',
 };
 
 use MooseX::Types::Moose ( 'Str', 'Num', 'Int' );
@@ -151,27 +151,24 @@ subtype NegativeInt, as Int, where { $_ <= 0 }, message { "Must be a negative in
 
 subtype SingleDigit, as PositiveInt, where { $_ <= 9 }, message { "Must be a single digit" };
 
-subtype SimpleStr,
-    as Str,
+subtype SimpleStr, as Str,
     where { ( length($_) <= 255 ) && ( $_ !~ m/\n/ ) },
     message { $class_messages->{SimpleStr} };
 
-subtype NonEmptySimpleStr,
-    as SimpleStr,
+subtype NonEmptySimpleStr, as SimpleStr,
     where { length($_) > 0 },
     message { $class_messages->{NonEmptySimpleStr} };
 
-subtype Password,
-    as NonEmptySimpleStr,
+subtype Password, as NonEmptySimpleStr,
     where { length($_) >= 4 && length($_) <= 255 },
     message { $class_messages->{Password} };
 
-subtype StrongPassword,
-    as Password,
+subtype StrongPassword, as Password,
     where { ( length($_) >= 8 ) && length($_) <= 255 && (m/[^a-zA-Z]/) },
     message { $class_messages->{StrongPassword} };
 
-subtype NonEmptyStr, as Str, where { length($_) > 0 }, message { $class_messages->{NonEmptyStr} };
+subtype NonEmptyStr, as Str, where { length($_) > 0 },
+    message { $class_messages->{NonEmptyStr} };
 
 subtype State, as Str, where {
     my $value = $_;
@@ -191,8 +188,7 @@ subtype Email, as Str, where {
         ( $valid eq $value );
 }, message { $class_messages->{Email} };
 
-subtype Zip,
-    as Str,
+subtype Zip, as Str,
     where { /^(\s*\d{5}(?:[-]\d{4})?\s*)$/ },
     message { $class_messages->{Zip} };
 
@@ -200,70 +196,44 @@ subtype IPAddress, as Str, where {
     /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
 }, message { $class_messages->{IPAddress} };
 
-subtype NoSpaces,
-    as Str,
-    where { ! /\s/ },
-    message { $class_messages->{NoSpaces} };
+subtype NoSpaces, as Str, where { !/\s/ }, message { $class_messages->{NoSpaces} };
 
-subtype WordChars,
-    as Str,
-    where { ! /\W/ },
-    message { $class_messages->{WordChars} };
+subtype WordChars, as Str, where { !/\W/ }, message { $class_messages->{WordChars} };
 
-subtype NotAllDigits,
-    as Str,
-    where { ! /^\d+$/ },
-    message { $class_messages->{NotAllDigits} };
+subtype NotAllDigits, as Str, where { !/^\d+$/ }, message { $class_messages->{NotAllDigits} };
 
-subtype Printable,
-    as Str,
+subtype Printable, as Str,
     where { /^\p{IsPrint}*\z/ },
     message { $class_messages->{Printable} };
 
-subtype PrintableAndNewline,
-    as Str,
+subtype PrintableAndNewline, as Str,
     where { /^[\p{IsPrint}\n]*\z/ },
     message { $class_messages->{PrintableAndNewline} };
 
-subtype SingleWord,
-    as Str,
-    where { /^\w*\z/ },
-    message { $class_messages->{SingleWord} };
+subtype SingleWord, as Str, where { /^\w*\z/ }, message { $class_messages->{SingleWord} };
 
-subtype Collapse,
-   as Str,
-   where{ ! /\s{2,}/ };
+subtype Collapse, as Str, where { !/\s{2,}/ };
 
-coerce Collapse,
-   from Str,
-   via { s/\s+/ /g; return $_; };
+coerce Collapse, from Str, via { s/\s+/ /g; return $_; };
 
-subtype Lower,
-   as Str,
-   where { ! /[[:upper:]]/  };
+subtype Lower, as Str, where { !/[[:upper:]]/ };
 
-coerce Lower,
-   from Str,
-   via { lc };
+coerce Lower, from Str, via { lc };
 
-subtype Upper,
-   as Str,
-   where { ! /[[:lower:]]/ };
+subtype Upper, as Str, where { !/[[:lower:]]/ };
 
-coerce Upper,
-   from Str,
-   via { uc };
+coerce Upper, from Str, via { uc };
 
-subtype Trim,
-   as Str,
-   where  { ! /^\s+/ &&
-            ! /\s+$/ };
+subtype Trim, as Str, where {
+    !/^\s+/ &&
+        !/\s+$/
+};
 
-coerce Trim,
-   from Str,
-   via { s/^\s+// &&
-         s/\s+$//;
-         return $_;  };
+coerce Trim, from Str, via {
+    s/^\s+// &&
+        s/\s+$//;
+    return $_;
+};
 
 1;
 

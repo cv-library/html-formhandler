@@ -6,12 +6,7 @@ use warnings;
 use base 'HTML::FormHandler::I18N';
 
 # Auto define lexicon
-our %Lexicon = (
-    '_AUTO' => 1,
-  );
+our %Lexicon = ( '_AUTO' => 1, );
 
 1;
-
-
-
 

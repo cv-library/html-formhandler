@@ -36,18 +36,14 @@ See the 'Date' field for a single input date field.
 
 =cut
 
-has '+widget' => ( default => 'Compound' );
+has '+widget'                 => ( default => 'Compound' );
 has '+inflate_default_method' => ( default => sub { \&datetime_inflate } );
 
-our $class_messages = {
-    'datetime_invalid' => 'Not a valid DateTime',
-};
+our $class_messages = { 'datetime_invalid' => 'Not a valid DateTime', };
+
 sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
 
 sub datetime_inflate {
@@ -77,7 +73,7 @@ sub validate {
     catch {
         $self->add_error( $self->get_message('datetime_invalid') );
     };
-    if( $dt ) {
+    if ($dt) {
         $self->_set_value($dt);
     }
     else {

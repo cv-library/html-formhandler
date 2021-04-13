@@ -25,8 +25,9 @@ select fields and options.
 sub render {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    die "No result for form field '" . $self->full_name . "'. Field may be inactive." unless $result;
-    my $output = $self->render_element( $result );
+    die "No result for form field '" . $self->full_name . "'. Field may be inactive."
+        unless $result;
+    my $output = $self->render_element($result);
     return $self->wrap_field( $result, $output );
 }
 
@@ -34,16 +35,15 @@ sub render_element {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
 
-
     # loop through options
     my $output = '';
     foreach my $option ( @{ $self->{options} } ) {
         if ( my $label = $option->{group} ) {
-            $label = $self->_localize( $label ) if $self->localize_labels;
-            my $attr = $option->{attributes} || {};
-            my $attr_str = process_attrs($attr);
-            my $lattr = $option->{label_attributes} || {};
-            my $lattr_str= process_attrs($lattr);
+            $label = $self->_localize($label) if $self->localize_labels;
+            my $attr      = $option->{attributes} || {};
+            my $attr_str  = process_attrs($attr);
+            my $lattr     = $option->{label_attributes} || {};
+            my $lattr_str = process_attrs($lattr);
             $output .= qq{\n<div$attr_str><label$lattr_str>$label</label>};
             foreach my $group_opt ( @{ $option->{options} } ) {
                 $output .= $self->render_option( $group_opt, $result );
@@ -75,10 +75,10 @@ sub render_option {
         $class = 'checkbox-inline' if $self->has_flag('is_b3');
         push @{ $lattr->{class} }, $class;
     }
-    my $lattr_str = process_attrs( $lattr );
-    my $id = $self->id . '.' . $self->options_index;
-    my $output = qq{\n<label$lattr_str for="$id">};
-    my $value = $option->{value};
+    my $lattr_str = process_attrs($lattr);
+    my $id        = $self->id . '.' . $self->options_index;
+    my $output    = qq{\n<label$lattr_str for="$id">};
+    my $value     = $option->{value};
     $output .= qq{\n<input type="checkbox"};
     $output .= qq{ value="} . $self->html_filter($value) . '"';
     $output .= qq{ name="} . $self->html_name . '"';
@@ -86,12 +86,15 @@ sub render_option {
 
     # handle option attributes
     my $attr = $option->{attributes} || {};
-    if( defined $option->{disabled} && $option->{disabled} ) {
+    if ( defined $option->{disabled} && $option->{disabled} ) {
         $attr->{disabled} = 'disabled';
     }
-    if ( defined $fif &&
-         ( ( $self->multiple && exists $fif_lookup{$value} ) ||
-             ( $fif eq $value ) ) ) {
+    if (
+        defined $fif &&
+        ( ( $self->multiple && exists $fif_lookup{$value} ) ||
+            ( $fif eq $value ) )
+        )
+    {
         $attr->{checked} = 'checked';
     }
     $output .= process_attrs($attr);
@@ -104,7 +107,7 @@ sub render_option {
     $output .= "\n</label>";
     $self->inc_options_index;
 
-    if ($self->get_tag('checkbox_element_wrapper')) {
+    if ( $self->get_tag('checkbox_element_wrapper') ) {
         $output = qq{<div class="checkbox">$output</div>};
     }
     return $output;

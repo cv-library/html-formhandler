@@ -18,10 +18,11 @@ that require that, such as 'select2'.
 
 has '+deflate_method' => ( default => sub { \&textcsv_deflate } );
 has '+inflate_method' => ( default => sub { \&textcsv_inflate } );
-has 'multiple' => ( isa => 'Bool', is => 'rw', default => '0' );
+has 'multiple'        => ( isa     => 'Bool', is => 'rw', default => '0' );
 sub build_value_when_empty { [] }
+
 sub _inner_validate_field {
-    my $self = shift;
+    my $self  = shift;
     my $value = $self->value;
     return unless $value;
     if ( ref $value ne 'ARRAY' ) {
@@ -32,9 +33,9 @@ sub _inner_validate_field {
 
 sub textcsv_deflate {
     my ( $self, $value ) = @_;
-    if( defined $value && length $value ) {
-        my $value = ref $value eq 'ARRAY' ? $value : [$value];
-        my $new_value = join(',', @$value);
+    if ( defined $value && length $value ) {
+        my $value     = ref $value eq 'ARRAY' ? $value : [$value];
+        my $new_value = join( ',', @$value );
         return $new_value;
     }
     return $value;
@@ -43,7 +44,7 @@ sub textcsv_deflate {
 sub textcsv_inflate {
     my ( $self, $value ) = @_;
     if ( defined $value && length $value ) {
-        my @values = split(/,/, $value);
+        my @values = split( /,/, $value );
         return \@values;
     }
     return $value;

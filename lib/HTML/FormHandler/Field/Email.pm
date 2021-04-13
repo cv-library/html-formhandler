@@ -5,27 +5,22 @@ use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Field::Text';
 use Email::Valid;
 
-our $class_messages = {
-    'email_format' => 'Email should be of the format [_1]',
-};
+our $class_messages = { 'email_format' => 'Email should be of the format [_1]', };
 has '+html5_type_attr' => ( default => 'email' );
 
 has 'email_valid_params' => (
-    is => 'rw',
+    is  => 'rw',
     isa => 'HashRef',
 );
 
 has 'preserve_case' => (
-    is => 'rw',
+    is  => 'rw',
     isa => 'Bool',
 );
 
-sub get_class_messages  {
+sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
 
 apply(
@@ -35,22 +30,20 @@ apply(
                 my ( $value, $field ) = @_;
                 return $value
                     if $field->preserve_case;
-                return lc( $value );
+                return lc($value);
             }
         },
         {
             check => sub {
                 my ( $value, $field ) = @_;
-                my $checked = Email::Valid->address(
-                    %{ $field->email_valid_params || {} },
-                    -address => $value,
-                );
+                my $checked = Email::Valid->address( %{ $field->email_valid_params || {} },
+                    -address => $value, );
                 $field->value($checked)
                     if $checked;
             },
             message => sub {
                 my ( $value, $field ) = @_;
-                return [$field->get_message('email_format'), 'someuser@example.com'];
+                return [ $field->get_message('email_format'), 'someuser@example.com' ];
             },
         }
     ]

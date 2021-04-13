@@ -103,7 +103,7 @@ sub guess_field_type {
 
         @return =
             $f_class->isa('DateTime') ? ('DateTime') :
-                                        ( 'Select', $f_class );
+            ( 'Select', $f_class );
 
         # Otherwise, check for has_many
     }
@@ -172,13 +172,13 @@ sub lookup_options {
     # active column
     my $active_col =
         $self->can('active_column') ? $self->active_column :
-                                      $field->active_column;
+        $field->active_column;
     $active_col = '' unless $f_class->find_column($active_col);
     # sort column
     my $sort_col = $field->sort_column;
     $sort_col =
         defined $sort_col && $f_class->find_column($sort_col) ? $sort_col :
-                                                                $label_column;
+        $label_column;
 
     my $criteria    = {};
     my $primary_key = $f_class->primary_column;
@@ -203,7 +203,7 @@ sub lookup_options {
         map {
             my $label = $_->$label_column;
             $_->id, $active_col && !$_->$active_col ? "[ $label ]" : "$label"
-            } @rows
+        } @rows
     ];
 
 }
@@ -224,8 +224,8 @@ sub init_value {
     return if $field->writeonly;
     return
         unless $item &&
-            ( $item->can($column) ||
-                ( ref $item eq 'HASH' && exists $item->{$column} ) );
+        ( $item->can($column) ||
+        ( ref $item eq 'HASH' && exists $item->{$column} ) );
     my @values;
     if ( ref $item eq 'HASH' ) {
         @values = $item->{$column} if ref($item) eq 'HASH';
@@ -274,7 +274,7 @@ sub validate_unique {
 
     my $item = $self->item;
 
-    my $class = ref($item) || $self->item_class;
+    my $class       = ref($item) || $self->item_class;
     my $found_error = 0;
     for my $field ( map { $self->field($_) } @unique ) {
         next if $field->errors;
@@ -296,7 +296,7 @@ sub update_model {
     my ($self) = @_;
 
     # Grab either the item or the object class.
-    my $item = $self->item;
+    my $item  = $self->item;
     my $class = ref($item) || $self->item_class;
     my $updated_or_created;
 

@@ -3,7 +3,7 @@ package HTML::FormHandler::Wizard;
 
 use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler';
-with ('HTML::FormHandler::BuildPages', 'HTML::FormHandler::Pages' );
+with( 'HTML::FormHandler::BuildPages', 'HTML::FormHandler::Pages' );
 
 =head1 SYNOPSIS
 
@@ -33,13 +33,13 @@ feature, please show up on the FormHandler mailing list or irc channel
 
 =cut
 
-sub is_wizard {1}
+sub is_wizard { 1 }
 
 has_field 'page_num' => ( type => 'Hidden', default => 1 );
 
 has 'on_last_page' => ( is => 'rw', isa => 'Bool', default => 0 );
-has 'stash' => ( is => 'rw', isa => 'HashRef' );
-has 'save_to' => ( is => 'rw', isa => 'Str' ); # 'item', 'stash', 'temp_table'
+has 'stash'        => ( is => 'rw', isa => 'HashRef' );
+has 'save_to'      => ( is => 'rw', isa => 'Str' );       # 'item', 'stash', 'temp_table'
 
 # temp_table: DBIC row or other object with three columns:
 #    form, field, value
@@ -63,23 +63,22 @@ sub build_active {
     foreach my $page ( $self->all_pages ) {
         push @page_fields, $page->all_fields;
     }
-    foreach my $field_name ( @page_fields ) {
+    foreach my $field_name (@page_fields) {
         $self->field($field_name)->inactive(1);
     }
 }
 
-
 sub set_active {
-    my ( $self, $current_page ) = @_;;
+    my ( $self, $current_page ) = @_;
 
     $current_page ||= $self->get_param('page_num') || 1;
-    return if $current_page > $self->num_pages;
+    return                 if $current_page > $self->num_pages;
     $self->on_last_page(1) if $current_page == $self->num_pages;
     my $page = $self->get_page( $current_page - 1 );
 
     foreach my $fname ( $page->all_fields ) {
         my $field = $self->field($fname);
-        if ( $field ) {
+        if ($field) {
             $field->_active(1);
         }
         else {
@@ -90,17 +89,17 @@ sub set_active {
 
 after 'validate_form' => sub {
     my $self = shift;
-    if( $self->page_validated ) {
+    if ( $self->page_validated ) {
         $self->save_page;
-        if( $self->field('page_num')->value < $self->num_pages ) {
+        if ( $self->field('page_num')->value < $self->num_pages ) {
             my $new_page_num = $self->field('page_num')->value + 1;
             $self->clear_page;
-            $self->set_active( $new_page_num );
+            $self->set_active($new_page_num);
             $self->_result_from_fields( $self->result );
             $self->field('page_num')->value($new_page_num);
             $self->on_last_page(1) if $new_page_num == $self->num_pages;
         }
-        elsif( $self->field('page_num')->value == $self->num_pages ) {
+        elsif ( $self->field('page_num')->value == $self->num_pages ) {
             $self->_set_value( $self->stash );
         }
     }
@@ -111,7 +110,7 @@ sub clear_page {
     $self->clear_data;
     $self->clear_params;
     $self->processed(0);
-#   $self->did_init_obj(0);
+    #   $self->did_init_obj(0);
     $self->clear_result;
 }
 
@@ -119,7 +118,7 @@ sub save_page {
     my $self = shift;
 
     my $stash = $self->stash;
-    while ( my ($key, $value) = each %{$self->value}) {
+    while ( my ( $key, $value ) = each %{ $self->value } ) {
         $stash->{$key} = $value;
     }
 }

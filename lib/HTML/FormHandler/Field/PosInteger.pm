@@ -4,16 +4,11 @@ package HTML::FormHandler::Field::PosInteger;
 use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Field::Integer';
 
-our $class_messages = {
-    'integer_positive' => 'Value must be a positive integer',
-};
+our $class_messages = { 'integer_positive' => 'Value must be a positive integer', };
 
-sub get_class_messages  {
+sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
 
 apply(

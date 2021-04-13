@@ -37,26 +37,26 @@ The value of the button that's rendered, 'Add Element' by default.
 
 =cut
 
-has 'repeatable' => ( is => 'rw', isa => 'Str', required => 1 );
+has 'repeatable'  => ( is      => 'rw', isa => 'Str', required => 1 );
 has '+do_wrapper' => ( default => 1 );
-has '+value'  => ( default => 'Add Element' );
+has '+value'      => ( default => 'Add Element' );
 
 sub build_render_method {
     return sub {
         my ( $self, $result ) = @_;
         $result ||= $self->result;
 
-        my $rep_field = $self->parent->field($self->repeatable);
+        my $rep_field = $self->parent->field( $self->repeatable );
         die "Invalid repeatable name in field " . $self->name unless $rep_field;
-        my $value = $self->html_filter($self->_localize($self->value));
+        my $value = $self->html_filter( $self->_localize( $self->value ) );
         my $attrs = $self->element_attributes($result);
-        push @{$attrs->{class}}, ( 'add_element', 'btn' );
+        push @{ $attrs->{class} }, ( 'add_element', 'btn' );
         $attrs->{'data-rep-id'} = $rep_field->id;
-        $attrs->{id} = $self->id;
-        my $attr_str = process_attrs($attrs);
+        $attrs->{id}            = $self->id;
+        my $attr_str    = process_attrs($attrs);
         my $wrapper_tag = $self->get_tag('wrapper_tag') || 'div';
-        my $output = qq{<$wrapper_tag$attr_str>$value</$wrapper_tag>};
-        $output = $self->wrap_field($self->result, $output);
+        my $output      = qq{<$wrapper_tag$attr_str>$value</$wrapper_tag>};
+        $output = $self->wrap_field( $self->result, $output );
         return $output;
     };
 }

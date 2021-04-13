@@ -52,13 +52,16 @@ subfields in the compound field.
 
 =cut
 
-has '+widget' => ( default => 'Compound' );
-has 'is_compound' => ( is => 'ro', isa => 'Bool', default => 1 );
-has 'item' => ( is => 'rw', clearer => 'clear_item' );
+has '+widget'     => ( default => 'Compound' );
+has 'is_compound' => ( is      => 'ro', isa     => 'Bool', default => 1 );
+has 'item'        => ( is      => 'rw', clearer => 'clear_item' );
 has '+do_wrapper' => ( default => 0 );
 has '+do_label'   => ( default => 0 );
-has 'primary_key' => ( is => 'rw', isa => 'ArrayRef',
-    predicate => 'has_primary_key', );
+has 'primary_key' => (
+    is        => 'rw',
+    isa       => 'ArrayRef',
+    predicate => 'has_primary_key',
+);
 
 has '+field_name_space' => (
     default => sub {
@@ -78,18 +81,18 @@ sub BUILD {
 # of a form
 sub test_validate_field {
     my $self = shift;
-    unless( $self->form ) {
-        if( $self->has_input ) {
-            $self->_result_from_input( $self->result, $self->input );;
+    unless ( $self->form ) {
+        if ( $self->has_input ) {
+            $self->_result_from_input( $self->result, $self->input );
         }
         else {
             $self->_result_from_fields( $self->result );
         }
     }
     $self->validate_field;
-    unless( $self->form ) {
-        foreach my $err_res (@{$self->result->error_results}) {
-            $self->result->_push_errors($err_res->all_errors);
+    unless ( $self->form ) {
+        foreach my $err_res ( @{ $self->result->error_results } ) {
+            $self->result->_push_errors( $err_res->all_errors );
         }
     }
 }

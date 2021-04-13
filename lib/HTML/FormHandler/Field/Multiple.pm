@@ -13,20 +13,20 @@ move the currently selected options to the top of the options list.
 
 =cut
 
-has '+multiple' => ( default => 1 );
-has '+size'     => ( default => 5 );
+has '+multiple'            => ( default => 1 );
+has '+size'                => ( default => 5 );
 has '+sort_options_method' => ( default => sub { \&default_sort_options } );
 
 sub default_sort_options {
     my ( $self, $options ) = @_;
 
     return $options unless scalar @$options && defined $self->value;
-    my $value = $self->deflate($self->value);
+    my $value = $self->deflate( $self->value );
     return $options unless scalar @$value;
     # This places the currently selected options at the top of the list
     # Makes the drop down lists a bit nicer
-    my %selected = map { $_ => 1 } @$value;
-    my @out = grep { $selected{ $_->{value} } } @$options;
+    my %selected = map  { $_ => 1 } @$value;
+    my @out      = grep { $selected{ $_->{value} } } @$options;
     push @out, grep { !$selected{ $_->{value} } } @$options;
     return \@out;
 }

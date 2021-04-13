@@ -12,7 +12,7 @@ produce a value or need validating.
 
 =cut
 
-has 'html' => ( is => 'rw', isa => 'Str', default => '' );
+has 'html'  => ( is => 'rw', isa => 'Str', default => '' );
 has 'value' => (
     is        => 'rw',
     predicate => 'has_value',
@@ -22,7 +22,7 @@ has 'value' => (
 sub _result_from_fields {
     my ( $self, $result ) = @_;
     my $value = $self->get_default_value;
-    if ( $value ) {
+    if ($value) {
         $self->value($value);
     }
     $self->_set_result($result);
@@ -46,8 +46,8 @@ sub _result_from_object {
 
 sub fif { }
 
-has '+widget'    => ( default => '' );
-has '+noupdate'  => ( default => 1 );
+has '+widget'   => ( default => '' );
+has '+noupdate' => ( default => 1 );
 
 sub validate_field { }
 

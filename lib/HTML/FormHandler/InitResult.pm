@@ -18,15 +18,15 @@ sub _result_from_fields {
     # defaults for compounds, etc.
     if ( my @values = $self->get_default_value ) {
         my $value = @values > 1 ? \@values : shift @values;
-        if( ref $value eq 'HASH' || blessed $value ) {
+        if ( ref $value eq 'HASH' || blessed $value ) {
             return $self->_result_from_object( $self_result, $value );
         }
-        $self->init_value($value)   if defined $value;
+        $self->init_value($value)        if defined $value;
         $self_result->_set_value($value) if defined $value;
     }
     my $my_value;
     for my $field ( $self->sorted_fields ) {
-        next if ($field->inactive && !$field->_active);
+        next if ( $field->inactive && !$field->_active );
         my $result = HTML::FormHandler::Field::Result->new(
             name   => $field->name,
             parent => $self_result
@@ -55,15 +55,17 @@ sub _result_from_input {
     $self_result->_set_input($input);
     if ( ref $input eq 'HASH' ) {
         foreach my $field ( $self->sorted_fields ) {
-            next if ($field->inactive && !$field->_active);
+            next if ( $field->inactive && !$field->_active );
             my $field_name = $field->name;
             my $result     = HTML::FormHandler::Field::Result->new(
                 name   => $field_name,
                 parent => $self_result
             );
-            $result =
-                $field->_result_from_input( $result, $input->{$field->input_param || $field_name},
-                exists $input->{$field->input_param || $field_name} );
+            $result = $field->_result_from_input(
+                $result,
+                $input->{ $field->input_param || $field_name },
+                exists $input->{ $field->input_param || $field_name }
+            );
             $self_result->add_result($result) if $result;
         }
     }
@@ -86,25 +88,26 @@ sub _result_from_object {
             name   => $field->name,
             parent => $self_result
         );
-        if ( (ref $item eq 'HASH' && !exists $item->{ $field->accessor } ) ||
-             ( blessed($item) && !$item->can($field->accessor) ) ) {
+        if ( ( ref $item eq 'HASH' && !exists $item->{ $field->accessor } ) ||
+            ( blessed($item) && !$item->can( $field->accessor ) ) )
+        {
             my $found = 0;
-            if ($field->form->use_init_obj_when_no_accessor_in_item) {
+            if ( $field->form->use_init_obj_when_no_accessor_in_item ) {
                 # if we're using an item, look for accessor not found in item
                 # in the init_object
-                my @names = split( /\./, $field->full_name );
+                my @names          = split( /\./, $field->full_name );
                 my $init_obj_value = $self->find_sub_item( $init_obj, \@names );
                 if ( defined $init_obj_value ) {
-                    $found = 1;
+                    $found  = 1;
                     $result = $field->_result_from_object( $result, $init_obj_value );
                 }
             }
             $result = $field->_result_from_fields($result) unless $found;
         }
         else {
-           my $value;
-           $value = $self->_get_value( $field, $item ) unless $field->writeonly;
-           $result = $field->_result_from_object( $result, $value );
+            my $value;
+            $value  = $self->_get_value( $field, $item ) unless $field->writeonly;
+            $result = $field->_result_from_object( $result, $value );
         }
         $self_result->add_result($result) if $result;
         $my_value->{ $field->name } = $field->value;
@@ -120,9 +123,9 @@ sub _result_from_object {
 # 'use_init_obj_when_no_accessor_in_item' flag is set
 sub find_sub_item {
     my ( $self, $item, $field_name_array ) = @_;
-    my $this_fname = shift @$field_name_array;;
-    my $field = $self->field($this_fname);
-    my $new_item = $self->_get_value( $field, $item );
+    my $this_fname = shift @$field_name_array;
+    my $field      = $self->field($this_fname);
+    my $new_item   = $self->_get_value( $field, $item );
     if ( scalar @$field_name_array ) {
         $new_item = $field->find_sub_item( $new_item, $field_name_array );
     }
@@ -134,24 +137,29 @@ sub _get_value {
 
     my $accessor = $field->accessor;
     my @values;
-    if( defined $field->default_over_obj ) {
+    if ( defined $field->default_over_obj ) {
         @values = $field->default_over_obj;
     }
-    elsif( $field->form && $field->form->use_defaults_over_obj && ( @values = $field->get_default_value )  ) {
+    elsif ( $field->form &&
+        $field->form->use_defaults_over_obj &&
+        ( @values = $field->get_default_value ) )
+    {
     }
     elsif ( blessed($item) && $item->can($accessor) ) {
         # this must be an array, so that DBIx::Class relations are arrays not resultsets
         @values = $item->$accessor;
         # for non-DBIC blessed object where access returns arrayref
-        if ( scalar @values == 1 && ref $values[0] eq 'ARRAY' && $field->has_flag('multiple') ) {
-            @values = @{$values[0]};
+        if ( scalar @values == 1 && ref $values[0] eq 'ARRAY' && $field->has_flag('multiple') )
+        {
+            @values = @{ $values[0] };
         }
     }
     elsif ( exists $item->{$accessor} ) {
         my $v = $item->{$accessor};
-        if($field->has_flag('multiple') && ref($v) eq 'ARRAY'){
+        if ( $field->has_flag('multiple') && ref($v) eq 'ARRAY' ) {
             @values = @$v;
-        } else {
+        }
+        else {
             @values = $v;
         }
     }
@@ -160,12 +168,12 @@ sub _get_value {
     else {
         return;
     }
-    if( $field->has_inflate_default_method ) {
+    if ( $field->has_inflate_default_method ) {
         @values = $field->inflate_default(@values);
     }
     my $value;
-    if( $field->has_flag('multiple')) {
-        $value = scalar @values == 1 && ! defined $values[0] ? [] : \@values;
+    if ( $field->has_flag('multiple') ) {
+        $value = scalar @values == 1 && !defined $values[0] ? [] : \@values;
     }
     else {
         $value = @values > 1 ? \@values : shift @values;

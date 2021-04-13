@@ -79,7 +79,7 @@ sub with_traits {
     @traits = resolve_traits( $class, @traits );
     return $class->meta unless ( scalar @traits );
 
-    my $class_name = $class->meta->name;
+    my $class_name     = $class->meta->name;
     my $new_class_name = composed_class_name( class => $class_name, roles => \@traits, );
     my $meta;
     if ( $meta = $COMPOSED_META{$new_class_name} ) {
@@ -99,7 +99,7 @@ sub with_traits {
 sub new_with_traits {
     my ( $class, %args ) = @_;
 
-    my $traits = delete $args{traits} || [];
+    my $traits      = delete $args{traits} || [];
     my $new_class   = $class->with_traits(@$traits);
     my $constructor = $new_class->meta->constructor_name;
     return $new_class->$constructor(%args);

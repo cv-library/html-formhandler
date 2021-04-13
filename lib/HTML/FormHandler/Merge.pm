@@ -5,7 +5,7 @@ use warnings;
 use Data::Clone;
 use base 'Exporter';
 
-our @EXPORT_OK = ( 'merge' );
+our @EXPORT_OK = ('merge');
 
 our $matrix = {
     'SCALAR' => {
@@ -31,11 +31,11 @@ sub merge {
     my $lefttype =
         ref $left eq 'HASH'  ? 'HASH' :
         ref $left eq 'ARRAY' ? 'ARRAY' :
-                               'SCALAR';
+        'SCALAR';
     my $righttype =
         ref $right eq 'HASH'  ? 'HASH' :
         ref $right eq 'ARRAY' ? 'ARRAY' :
-                                'SCALAR';
+        'SCALAR';
     $left  = clone($left);
     $right = clone($right);
     return $matrix->{$lefttype}{$righttype}->( $left, $right );

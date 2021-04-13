@@ -83,13 +83,13 @@ sub render_repeatable_js {
     my %level;
     foreach my $key ( keys %$for_js ) {
         $index{$key} = $for_js->{$key}->{index};
-        $html{$key} = $for_js->{$key}->{html};
+        $html{$key}  = $for_js->{$key}->{html};
         $level{$key} = $for_js->{$key}->{level};
     }
     my $index_str = encode_json( \%index );
-    my $html_str = encode_json( \%html );
+    my $html_str  = encode_json( \%html );
     my $level_str = encode_json( \%level );
-    my $js = <<EOS;
+    my $js        = <<EOS;
 <script>
 \$(document).ready(function() {
   var rep_index = $index_str;
@@ -131,6 +131,5 @@ sub render_repeatable_js {
 EOS
     return $js;
 }
-
 
 1;

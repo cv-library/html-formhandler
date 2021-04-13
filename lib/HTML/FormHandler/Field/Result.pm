@@ -23,7 +23,7 @@ has 'field_def' => (
     writer => '_set_field_def',
 );
 
-has 'missing' => ( is => 'rw',  isa => 'Bool' );
+has 'missing' => ( is => 'rw', isa => 'Bool' );
 
 sub fif {
     my $self = shift;
@@ -40,18 +40,17 @@ sub render {
     return $self->field_def->render($self);
 }
 
-
 sub peek {
     my ( $self, $indent ) = @_;
     $indent ||= '';
-    my $name = $self->field_def ? $self->field_def->full_name : $self->name;
-    my $type = $self->field_def ? $self->field_def->type : 'unknown';
+    my $name   = $self->field_def ? $self->field_def->full_name : $self->name;
+    my $type   = $self->field_def ? $self->field_def->type      : 'unknown';
     my $string = $indent . "result " . $name . "  type: " . $type . "\n";
     $string .= $indent . "....value => " . $self->value . "\n" if $self->has_value;
-    if( $self->has_results ) {
+    if ( $self->has_results ) {
         $indent .= '  ';
         foreach my $res ( $self->results ) {
-            $string .= $res->peek( $indent );
+            $string .= $res->peek($indent);
         }
     }
     return $string;

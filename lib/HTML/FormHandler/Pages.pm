@@ -9,14 +9,14 @@ has 'pages' => (
     is         => 'rw',
     default    => sub { [] },
     auto_deref => 1,
-    handles   => {
-        all_pages => 'elements',
+    handles    => {
+        all_pages   => 'elements',
         clear_pages => 'clear',
-        push_page => 'push',
-        num_pages => 'count',
-        has_pages => 'count',
+        push_page   => 'push',
+        num_pages   => 'count',
+        has_pages   => 'count',
         set_page_at => 'set',
-        get_page => 'get',
+        get_page    => 'get',
     }
 );
 
@@ -48,7 +48,7 @@ sub page {
     return undef unless ( defined $name );
     if ( $name =~ /\./ ) {
         my @names = split /\./, $name;
-        my $f = $self->form || $self;
+        my $f     = $self->form || $self;
         foreach my $pname (@names) {
             $f = $f->page($pname);
             return unless $f;

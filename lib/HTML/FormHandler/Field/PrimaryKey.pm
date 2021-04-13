@@ -16,9 +16,9 @@ That primary key is in the 'item_id' attribute.
 
 =cut
 
-has 'is_primary_key' => ( isa => 'Bool', is => 'ro', default => '1' );
-has '+widget' => ( default => 'Hidden' );
-has '+do_label' => ( default => 0 );
+has 'is_primary_key'     => ( isa     => 'Bool', is => 'ro', default => '1' );
+has '+widget'            => ( default => 'Hidden' );
+has '+do_label'          => ( default => 0 );
 has '+no_value_if_empty' => ( default => 1 );
 
 sub BUILD {
@@ -28,7 +28,7 @@ sub BUILD {
             push @{ $self->parent->primary_key }, $self;
         }
         else {
-            $self->parent->primary_key( [ $self ] );
+            $self->parent->primary_key( [$self] );
         }
     }
 }

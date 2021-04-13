@@ -16,7 +16,7 @@ sub BUILD {
 sub render_from_list {
     my ( $self, $result ) = @_;
     $result ||= $self->form->result;
-    my $output = $self->next::method($result);
+    my $output         = $self->next::method($result);
     my $after_controls = $self->after_controls || '';
     return qq{<div class="controls">\n$output\n$after_controls\n</div>\n};
 }

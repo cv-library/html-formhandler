@@ -20,14 +20,14 @@ This field is useful for MySQL 'set' columns.
 =cut
 
 has '+inflate_default_method' => ( default => sub { \&selectcsv_inflate_default } );
-has '+deflate_value_method' => ( default => sub { \&selectcsv_deflate_value } );
-has '+multiple' => ( default => 1 );
+has '+deflate_value_method'   => ( default => sub { \&selectcsv_deflate_value } );
+has '+multiple'               => ( default => 1 );
 sub build_value_when_empty { undef }
 
 sub selectcsv_inflate_default {
     my ( $self, $value ) = @_;
-    if( defined $value ) {
-        my @values = split (/,/, $value);
+    if ( defined $value ) {
+        my @values = split( /,/, $value );
         return @values;
     }
     return;
@@ -44,7 +44,7 @@ sub selectcsv_deflate_value {
 
 sub fif {
     my $self = shift;
-    my $fif = $self->next::method;
+    my $fif  = $self->next::method;
     $fif = [] if $fif eq '';
     return $fif;
 }

@@ -4,14 +4,19 @@ package HTML::FormHandler::Field::Text;
 use Moose;
 extends 'HTML::FormHandler::Field';
 
-has 'size' => ( isa => 'Int|Undef', is => 'rw', default => '0' );
-has 'maxlength' => ( isa => 'Int|Undef', is => 'rw' );
-has 'maxlength_message' => ( isa => 'Str', is => 'rw',
+has 'size'              => ( isa => 'Int|Undef', is => 'rw', default => '0' );
+has 'maxlength'         => ( isa => 'Int|Undef', is => 'rw' );
+has 'maxlength_message' => (
+    isa     => 'Str',
+    is      => 'rw',
     default => 'Field should not exceed [quant,_1,character]. You entered [_2]',
 );
-has 'minlength' => ( isa => 'Int|Undef', is => 'rw', default => '0' );
-has 'minlength_message' => ( isa => 'Str', is => 'rw',
-    default => 'Field must be at least [quant,_1,character]. You entered [_2]' );
+has 'minlength'         => ( isa => 'Int|Undef', is => 'rw', default => '0' );
+has 'minlength_message' => (
+    isa     => 'Str',
+    is      => 'rw',
+    default => 'Field must be at least [quant,_1,character]. You entered [_2]'
+);
 
 has '+widget' => ( default => 'Text' );
 
@@ -22,11 +27,8 @@ our $class_messages = {
 };
 
 sub get_class_messages {
-    my $self = shift;
-    my $messages = {
-        %{ $self->next::method },
-        %$class_messages,
-    };
+    my $self     = shift;
+    my $messages = { %{ $self->next::method }, %$class_messages, };
     $messages->{text_minlength} = $self->minlength_message
         if $self->minlength_message;
     $messages->{text_maxlength} = $self->maxlength_message
@@ -38,9 +40,7 @@ sub _inner_validate_field {
     my $self = shift;
     # Check for multiple values
     if ( ref $self->value eq 'ARRAY' ) {
-        return $self->add_error(
-            $self->get_message('multiple_values_disallowed'),
-        );
+        return $self->add_error( $self->get_message('multiple_values_disallowed'), );
     }
 }
 
@@ -51,17 +51,20 @@ sub validate {
     my $value = $field->value;
     # Check for max length
     if ( my $maxlength = $field->maxlength ) {
-        return $field->add_error( $field->get_message('text_maxlength'),
-            $maxlength, length $value, $field->loc_label )
-            if length $value > $maxlength;
+        return $field->add_error(
+            $field->get_message('text_maxlength'),
+            $maxlength, length $value,
+            $field->loc_label
+        ) if length $value > $maxlength;
     }
 
     # Check for min length
     if ( my $minlength = $field->minlength ) {
         return $field->add_error(
             $field->get_message('text_minlength'),
-            $minlength, length $value, $field->loc_label )
-            if length $value < $minlength;
+            $minlength, length $value,
+            $field->loc_label
+        ) if length $value < $minlength;
     }
     return 1;
 }

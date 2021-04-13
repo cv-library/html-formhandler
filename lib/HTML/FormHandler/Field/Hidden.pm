@@ -4,8 +4,8 @@ package HTML::FormHandler::Field::Hidden;
 use Moose;
 extends 'HTML::FormHandler::Field::Text';
 
-has '+widget' => ( default => 'Hidden' );
-has '+do_label' => ( default => 0 );
+has '+widget'          => ( default => 'Hidden' );
+has '+do_label'        => ( default => 0 );
 has '+html5_type_attr' => ( default => 'hidden' );
 
 =head1 DESCRIPTION

@@ -21,8 +21,8 @@ Use in a template:
 sub render_start {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    my $fattrs = process_attrs($self->attributes($result));
-    my $wattrs = process_attrs($self->form_wrapper_attributes($result));
+    my $fattrs = process_attrs( $self->attributes($result) );
+    my $wattrs = process_attrs( $self->form_wrapper_attributes($result) );
     return qq{<form$fattrs><table$wattrs>\n};
 }
 
@@ -31,14 +31,13 @@ sub render_form_errors {
 
     return '' unless $result->has_form_errors;
     my $output = "\n<tr class=\"form_errors\"><td colspan=\"2\">";
-    $output .= qq{\n<span class="error_message">$_</span>}
-        for $result->all_form_errors;
+    $output .= qq{\n<span class="error_message">$_</span>} for $result->all_form_errors;
     $output .= "\n</td></tr>";
     return $output;
 }
 
 sub render_end {
-    my $self = shift;
+    my $self   = shift;
     my $output = "</table>\n";
     $output .= "</form>\n";
     return $output;

@@ -12,7 +12,7 @@ use Try::Tiny;
 
 has '+required' => ( default => 1 );
 
-has '+default_method' => ( default => sub { \&get_token });
+has '+default_method' => ( default => sub { \&get_token } );
 
 =head1 NAME
 
@@ -44,8 +44,8 @@ the time it is initially generated. Defaults to C<3600>.
 =cut
 
 has 'expiration_time' => (
-  is      => 'rw',
-  default => 3600
+    is      => 'rw',
+    default => 3600
 );
 
 =head2 token_prefix
@@ -59,8 +59,8 @@ Passed on form process. C<< $c->sessionid . '|' >>
 =cut
 
 has 'token_prefix' => (
-  is      => 'rw',
-  default => ''
+    is      => 'rw',
+    default => ''
 );
 
 =head2 crypto_key
@@ -70,8 +70,8 @@ Key to use to encrypt/decrypt the token payload.
 =cut
 
 has 'crypto_key' => (
-  is      => 'rw',
-  default => 'rEpLaCeMe',
+    is      => 'rw',
+    default => 'rEpLaCeMe',
 );
 
 =head2 crypto_cipher_type
@@ -82,8 +82,8 @@ Defaults to C<Blowfish>.
 =cut
 
 has 'crypto_cipher_type' => (
-  is      => 'rw',
-  default => 'Blowfish',
+    is      => 'rw',
+    default => 'Blowfish',
 );
 
 =head2 message
@@ -93,8 +93,8 @@ Error message if token is missing/invalid.
 =cut
 
 has 'message' => (
-  is      => 'rw',
-  default => 'Form submission failed. Please try again.'
+    is      => 'rw',
+    default => 'Form submission failed. Please try again.'
 );
 
 =head2 cipher
@@ -106,29 +106,29 @@ used to construct one.
 =cut
 
 has 'cipher' => (
-  is      => 'ro',
-  isa     => class_type('Crypt::CBC'),
-  lazy    => 1,
-  builder => '_build_cipher',
+    is      => 'ro',
+    isa     => class_type('Crypt::CBC'),
+    lazy    => 1,
+    builder => '_build_cipher',
 );
 
 sub _build_cipher {
-  my ($self) = @_;
-  return Crypt::CBC->new(
-    -key    => $self->crypto_key,
-    -cipher => $self->crypto_cipher_type,
-    -salt   => 1,
-    -header => 'salt',
-  );
+    my ($self) = @_;
+    return Crypt::CBC->new(
+        -key    => $self->crypto_key,
+        -cipher => $self->crypto_cipher_type,
+        -salt   => 1,
+        -header => 'salt',
+    );
 }
 
 sub validate {
-  my ($self, $value) = @_;
+    my ( $self, $value ) = @_;
 
-  # If it's good, return it
-  unless ( $self->verify_token($value) ) {
-    $self->add_error();
-  }
+    # If it's good, return it
+    unless ( $self->verify_token($value) ) {
+        $self->add_error();
+    }
 
 }
 
@@ -139,25 +139,26 @@ Validates whether the specified token is currently valid for this form.
 =cut
 
 sub verify_token {
-  my ($self, $token) = @_;
+    my ( $self, $token ) = @_;
 
-  return undef unless($token);
+    return undef unless ($token);
 
-  my $form = $self->form;
+    my $form = $self->form;
 
-  my $value = undef;
-  try {
-    $value = $self->cipher->decrypt(decode_base64($token));
-    if ( my $prefix = $self->token_prefix ) {
-      return undef unless ($value =~ s/^\Q$prefix\E//);
+    my $value = undef;
+    try {
+        $value = $self->cipher->decrypt( decode_base64($token) );
+        if ( my $prefix = $self->token_prefix ) {
+            return undef unless ( $value =~ s/^\Q$prefix\E// );
+        }
     }
-  } catch {};
+    catch { };
 
-  return undef unless defined($value);
-  return undef unless ( $value =~ /^\d+$/ );
-  return undef if ( time() > $value );
+    return undef unless defined($value);
+    return undef unless ( $value =~ /^\d+$/ );
+    return undef if ( time() > $value );
 
-  return 1;
+    return 1;
 }
 
 =head2 get_token
@@ -167,12 +168,12 @@ Generates a new token and returns it.
 =cut
 
 sub get_token {
-  my $self = shift;
+    my $self = shift;
 
-  my $value = $self->token_prefix . (time() + $self->expiration_time);
-  my $token = encode_base64($self->cipher->encrypt($value));
-  $token =~ s/[\s\r\n]+//g;
-  return $token;
+    my $value = $self->token_prefix . ( time() + $self->expiration_time );
+    my $token = encode_base64( $self->cipher->encrypt($value) );
+    $token =~ s/[\s\r\n]+//g;
+    return $token;
 }
 
 __PACKAGE__->meta->make_immutable;

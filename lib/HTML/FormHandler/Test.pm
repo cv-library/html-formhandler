@@ -33,8 +33,8 @@ sub is_html {
     my $t1 = HTML::TreeBuilder->new;
     my $t2 = HTML::TreeBuilder->new;
 
-    $got = decode('utf8', $got);
-    $expected = decode('utf8', $expected);
+    $got      = decode( 'utf8', $got );
+    $expected = decode( 'utf8', $expected );
     $t1->parse($got);
     $t1->eof;
     $t2->parse($expected);
@@ -44,7 +44,7 @@ sub is_html {
     $t1->delete;
     $t2->delete;
     my $tb = HTML::FormHandler::Test->builder;
-    return $tb->is_eq($out1, $out2, $message);
+    return $tb->is_eq( $out1, $out2, $message );
 }
 
 1;

@@ -17,12 +17,12 @@ sub html_form_tag {
     # make the element_attr a safe default
     my $element_attr = {};
     # Assuming that self is a form
-    $element_attr = { %{$self->form_element_attr} } if ( $self->can( 'form_element_attr' ) );
+    $element_attr = { %{ $self->form_element_attr } } if ( $self->can('form_element_attr') );
     # Assuming that self is a field
-    $element_attr = { %{$self->element_attr} } if ( $self->can( 'element_attr' ) );
+    $element_attr = { %{ $self->element_attr } } if ( $self->can('element_attr') );
 
     foreach my $attr_pair (@attr_accessors) {
-        my $attr = $attr_pair->[0];
+        my $attr     = $attr_pair->[0];
         my $accessor = $attr_pair->[1];
         if ( !exists $element_attr->{$attr} && defined( my $value = $self->$accessor ) ) {
             $element_attr->{$attr} = $self->$accessor;

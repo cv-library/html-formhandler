@@ -12,7 +12,7 @@ use Moose::Role;
 use HTML::FormHandler::Render::Util ('process_attrs');
 
 sub _add_html_attributes {
-    my $self = shift;
+    my $self   = shift;
     my $output = process_attrs( $self->attributes );
     return $output;
 }

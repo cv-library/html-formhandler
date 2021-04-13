@@ -33,22 +33,22 @@ either first or last.
 =cut
 
 has '+do_wrapper' => ( default => 1 );
-has '+value'  => ( default => 'Remove' );
+has '+value'      => ( default => 'Remove' );
 
 sub build_render_method {
     return sub {
         my ( $self, $result ) = @_;
         $result ||= $self->result;
 
-        my $value = $self->html || $self->html_filter($self->_localize($self->value));
+        my $value = $self->html || $self->html_filter( $self->_localize( $self->value ) );
         my $attrs = $self->element_attributes($result);
-        push @{$attrs->{class}}, ( 'rm_element', 'btn' );
+        push @{ $attrs->{class} }, ( 'rm_element', 'btn' );
         $attrs->{'data-rep-elem-id'} = $self->parent->id;
-        $attrs->{id} = $self->id;
-        my $attr_str = process_attrs($attrs);
+        $attrs->{id}                 = $self->id;
+        my $attr_str    = process_attrs($attrs);
         my $wrapper_tag = $self->get_tag('wrapper_tag') || 'div';
-        my $output = qq{<$wrapper_tag$attr_str>$value</$wrapper_tag>};
-        $output = $self->wrap_field($self->result, $output);
+        my $output      = qq{<$wrapper_tag$attr_str>$value</$wrapper_tag>};
+        $output = $self->wrap_field( $self->result, $output );
         return $output;
     };
 }

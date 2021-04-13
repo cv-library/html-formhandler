@@ -13,36 +13,43 @@ our %Lexicon = (
     '_AUTO' => 1,
 
     # H::F::Field
-    'field is invalid'                            => 'Полето не е валидно',
-    'Wrong value'                                 => 'Грешна стойност',
-    '[_1] does not match'                         => '[_1] не съвпада',
-    '[_1] not allowed'                            => '[_1] не разрешено',
-    'Value must be between [_1] and [_2]'         => 'стойността трябва да бъде между [_1] и [_2]',
-    'Value must be greater than or equal to [_1]' => 'стойността трябва да бъде по-голяма или равна на [_1]',
-    'Value must be less than or equal to [_1]'    => 'стойността трябва да бъде по-малка или равна на [_1]',
-    '[_1] field is required'                      => 'полето [_1] е задължително',
-    'error occurred'                              => 'възникна грешка',
+    'field is invalid'                    => 'Полето не е валидно',
+    'Wrong value'                         => 'Грешна стойност',
+    '[_1] does not match'                 => '[_1] не съвпада',
+    '[_1] not allowed'                    => '[_1] не разрешено',
+    'Value must be between [_1] and [_2]' => 'стойността трябва да бъде между [_1] и [_2]',
+    'Value must be greater than or equal to [_1]' =>
+        'стойността трябва да бъде по-голяма или равна на [_1]',
+    'Value must be less than or equal to [_1]' =>
+        'стойността трябва да бъде по-малка или равна на [_1]',
+    '[_1] field is required' => 'полето [_1] е задължително',
+    'error occurred'         => 'възникна грешка',
 
     # H::F::Types
-    'Must be a positive number'                                     => 'Трябва да бъде положително число',
-    'Must be a positive integer'                                    => 'Трябва да бъде положително цяло число',
-    'Must be a negative number'                                     => 'Трябва да бъде отрицателно число',
-    'Must be a negative integer'                                    => 'Трябва да бъде отрицателно цяло число',
-    'Must be a single digit'                                        => 'Трябва да бъде една цифра',
-    'Must be a single line of no more than 255 chars'               => 'Трябва да бъде стойност с дължина не по-голяма от 255 символа',
-    'Must be a non-empty single line of no more than 255 chars'     => 'Трябва да бъде непразна стойност с дължина не по-голяма от 255 символа',
-    'Must be between 4 and 255 chars'                               => 'Трябва да бъде между 4 и 255 символа',
-    'Not a valid state'                                             => 'Невалидно състояние',
-    'Email is not valid'                                            => 'Невалидна електронна поща',
-    'Zip is not valid'                                              => 'Невалиден пощенски код',
-    'Not a valid IP address'                                        => 'Невалиден IP адрес',
-    'Must not contain spaces'                                       => 'Не трябва да съдържа интервал',
-    'Must be made up of letters, digits, and underscores'           => 'Трябва да се състои от букви, цифри и подчертавки',
-    'Must not be all digits'                                        => 'Не трябва да съдържа само цифри',
-    'Field contains non-printable characters'                       => 'Полето съдържа символи, които не могат да бъдат разпечатани',
-    'Field must contain a single word'                              => 'Полето трябва да съдържа една дума',
-    'Must not be empty'                                             => 'Не трябва да бъде празно',
-    'Must be between 8 and 255 chars, and contain a non-alpha char' => 'Трябва да бъде между 8 и 255 символа и да съдържа поне един не-буквен символ',
+    'Must be a positive number'  => 'Трябва да бъде положително число',
+    'Must be a positive integer' => 'Трябва да бъде положително цяло число',
+    'Must be a negative number'  => 'Трябва да бъде отрицателно число',
+    'Must be a negative integer' => 'Трябва да бъде отрицателно цяло число',
+    'Must be a single digit'     => 'Трябва да бъде една цифра',
+    'Must be a single line of no more than 255 chars' =>
+        'Трябва да бъде стойност с дължина не по-голяма от 255 символа',
+    'Must be a non-empty single line of no more than 255 chars' =>
+        'Трябва да бъде непразна стойност с дължина не по-голяма от 255 символа',
+    'Must be between 4 and 255 chars' => 'Трябва да бъде между 4 и 255 символа',
+    'Not a valid state'               => 'Невалидно състояние',
+    'Email is not valid'              => 'Невалидна електронна поща',
+    'Zip is not valid'                => 'Невалиден пощенски код',
+    'Not a valid IP address'          => 'Невалиден IP адрес',
+    'Must not contain spaces'         => 'Не трябва да съдържа интервал',
+    'Must be made up of letters, digits, and underscores' =>
+        'Трябва да се състои от букви, цифри и подчертавки',
+    'Must not be all digits' => 'Не трябва да съдържа само цифри',
+    'Field contains non-printable characters' =>
+        'Полето съдържа символи, които не могат да бъдат разпечатани',
+    'Field must contain a single word' => 'Полето трябва да съдържа една дума',
+    'Must not be empty'                => 'Не трябва да бъде празно',
+    'Must be between 8 and 255 chars, and contain a non-alpha char' =>
+        'Трябва да бъде между 8 и 255 символа и да съдържа поне един не-буквен символ',
 
     # H::F::Field::Date
     'Date is too early' => 'Датата е прекалено рано',
@@ -69,8 +76,9 @@ our %Lexicon = (
     'Password must not match [_1]'          => 'Паролата не съвпада с [_1]',
 
     # H::F::Field::PasswordConf
-    'Please enter a password confirmation'                  => 'Моля, въведете парола за потвърждение',
-    'The password confirmation does not match the password' => 'Въведената парола за потвърждение не съвпада с паролата',
+    'Please enter a password confirmation' => 'Моля, въведете парола за потвърждение',
+    'The password confirmation does not match the password' =>
+        'Въведената парола за потвърждение не съвпада с паролата',
 
     # H::F::Field::PosInteger
     'Value must be a positive integer' => 'Стойността трябва да бъде положително цяло число',
@@ -80,8 +88,10 @@ our %Lexicon = (
     '\'[_1]\' is not a valid value'            => '\'[_1]\' не е валидна стойност',
 
     # H::F::Field::Text
-    'Field should not exceed [quant,_1,character]. You entered [_2]' => 'Стойността не трябва да надминава [_1]. Въвели сте: [_2]',
-    'Field must be at least [quant,_1,character]. You entered [_2]'  => 'Стойността трябва да бъде поне [_1]. Въвели сте: [_2]',
+    'Field should not exceed [quant,_1,character]. You entered [_2]' =>
+        'Стойността не трябва да надминава [_1]. Въвели сте: [_2]',
+    'Field must be at least [quant,_1,character]. You entered [_2]' =>
+        'Стойността трябва да бъде поне [_1]. Въвели сте: [_2]',
 
     # H::F::Field::Upload
     'File uploaded is empty'           => 'Каченият файл е празен',
@@ -90,14 +100,15 @@ our %Lexicon = (
     'File not found for upload field'  => 'Не е намерен файл файл за качване',
 
     # H::F::Model
-    'Value must be unique in the database' => 'Стойността трябва да е уникална в базата от данни',
+    'Value must be unique in the database' =>
+        'Стойността трябва да е уникална в базата от данни',
 
     # Other
-    'Your datetime does not match your pattern.' => 'Въведената дата/време не съвпада с вашия шаблон.',
+    'Your datetime does not match your pattern.' =>
+        'Въведената дата/време не съвпада с вашия шаблон.',
 );
 
 1;
-
 
 __END__
 =pod

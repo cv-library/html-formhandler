@@ -16,12 +16,11 @@ sub render_element {
     $result ||= $self->result;
 
     my $checkbox_value = $self->checkbox_value;
-    my $output = '<input type="checkbox" name="'
-        . $self->html_name . '" id="' . $self->id . '" value="'
-        . $self->html_filter($checkbox_value) . '"';
+    my $output         = '<input type="checkbox" name="' . $self->html_name .
+        '" id="' . $self->id . '" value="' . $self->html_filter($checkbox_value) . '"';
     $output .= ' checked="checked"'
         if $result->fif eq $checkbox_value;
-    $output .= process_attrs($self->element_attributes($result));
+    $output .= process_attrs( $self->element_attributes($result) );
     $output .= ' />';
     return $output;
 }
@@ -29,8 +28,9 @@ sub render_element {
 sub render {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    die "No result for form field '" . $self->full_name . "'. Field may be inactive." unless $result;
-    my $output = $self->render_element( $result );
+    die "No result for form field '" . $self->full_name . "'. Field may be inactive."
+        unless $result;
+    my $output = $self->render_element($result);
     return $self->wrap_field( $result, $output );
 }
 

@@ -330,28 +330,35 @@ structure. See L<HTML::FormHandler::Manual::Cookbook>.
 =cut
 
 has 'options' => (
-    isa       => 'HFH::SelectOptions',
-    is        => 'rw',
-    coerce    => 1,
-    traits    => ['Array'],
+    isa        => 'HFH::SelectOptions',
+    is         => 'rw',
+    coerce     => 1,
+    traits     => ['Array'],
     auto_deref => 1,
-    handles  => {
-        all_options => 'elements',
+    handles    => {
+        all_options   => 'elements',
         reset_options => 'clear',
         clear_options => 'clear',
-        has_options => 'count',
-        num_options => 'count',
+        has_options   => 'count',
+        num_options   => 'count',
     },
     lazy    => 1,
     builder => 'build_options'
 );
-sub options_ref { [shift->options] }
+sub options_ref { [ shift->options ] }
 # this is used for rendering
-has 'options_index' => ( traits => ['Counter'], isa => 'Num',
-    is => 'rw', default => 0,
-    handles => { inc_options_index => 'inc', dec_options_index => 'dec',
-        reset_options_index => 'reset' },
+has 'options_index' => (
+    traits  => ['Counter'],
+    isa     => 'Num',
+    is      => 'rw',
+    default => 0,
+    handles => {
+        inc_options_index   => 'inc',
+        dec_options_index   => 'dec',
+        reset_options_index => 'reset'
+    },
 );
+
 sub clear_data {
     my $self = shift;
     $self->next::method();
@@ -359,77 +366,80 @@ sub clear_data {
 }
 
 sub build_options { [] }
-has 'options_from' => ( isa => 'Str', is => 'rw', default => 'none' );
-has 'do_not_reload' => ( isa => 'Bool', is => 'ro' );
+has 'options_from'         => ( isa => 'Str',  is => 'rw', default => 'none' );
+has 'do_not_reload'        => ( isa => 'Bool', is => 'ro' );
 has 'no_option_validation' => ( isa => 'Bool', is => 'rw' );
-has 'option_wrapper' => ( is => 'rw' );
+has 'option_wrapper'       => ( is  => 'rw' );
 
 sub BUILD {
     my $self = shift;
 
     $self->build_options_method;
-    if( $self->options && $self->has_options ) {
+    if ( $self->options && $self->has_options ) {
         $self->options_from('build');
-        $self->default_from_options([$self->options]);
+        $self->default_from_options( [ $self->options ] );
     }
-    $self->input_without_param; # vivify
+    $self->input_without_param;    # vivify
 }
 
 has 'options_method' => (
-    traits => ['Code'],
-    is     => 'ro',
-    isa    => 'CodeRef',
-    writer => '_set_options_method',
+    traits    => ['Code'],
+    is        => 'ro',
+    isa       => 'CodeRef',
+    writer    => '_set_options_method',
     predicate => 'has_options_method',
-    handles => { 'get_options' => 'execute_method' },
+    handles   => { 'get_options' => 'execute_method' },
 );
 
 sub build_options_method {
     my $self = shift;
 
     my $set_options = $self->set_options;
-    $set_options ||= "options_" . HTML::FormHandler::Field::convert_full_name($self->full_name);
+    $set_options ||=
+        "options_" . HTML::FormHandler::Field::convert_full_name( $self->full_name );
     if ( $self->form && $self->form->can($set_options) ) {
-        my $attr = $self->form->meta->find_method_by_name( $set_options );
+        my $attr = $self->form->meta->find_method_by_name($set_options);
         if ( $attr and $attr->isa('Moose::Meta::Method::Accessor') ) {
             $self->_set_options_method( sub { my $self = shift; $self->form->$set_options; } );
         }
         else {
-            $self->_set_options_method( sub { my $self = shift; $self->form->$set_options($self); } );
+            $self->_set_options_method(
+                sub { my $self = shift; $self->form->$set_options($self); } );
         }
     }
 }
 
 has 'sort_options_method' => (
-    traits  => ['Code'],
-    is      => 'rw',
-    isa     => 'CodeRef',
+    traits    => ['Code'],
+    is        => 'rw',
+    isa       => 'CodeRef',
     predicate => 'has_sort_options_method',
-    handles => {
+    handles   => {
         sort_options => 'execute_method',
     },
 );
 
-has 'set_options' => ( isa => 'Str', is => 'ro');
+has 'set_options' => ( isa => 'Str', is => 'ro' );
 
-has 'multiple'         => ( isa => 'Bool', is => 'rw', default => '0' );
+has 'multiple' => ( isa => 'Bool', is => 'rw', default => '0' );
 # following is for unusual case where a multiple select is a has_many type relation
-has 'has_many'         => ( isa => 'Str', is => 'rw' );
-has 'size'             => ( isa => 'Int|Undef', is => 'rw' );
-has 'label_column'     => ( isa => 'Str',       is => 'rw', default => 'name' );
-has 'localize_labels'  => ( isa => 'Bool', is => 'rw' );
-has 'active_column'    => ( isa => 'Str',       is => 'rw', default => 'active' );
-has 'auto_widget_size' => ( isa => 'Int',       is => 'rw', default => '0' );
-has 'sort_column'      => ( isa => 'Str|ArrayRef[Str]',       is => 'rw' );
+has 'has_many'         => ( isa     => 'Str',               is => 'rw' );
+has 'size'             => ( isa     => 'Int|Undef',         is => 'rw' );
+has 'label_column'     => ( isa     => 'Str',               is => 'rw', default => 'name' );
+has 'localize_labels'  => ( isa     => 'Bool',              is => 'rw' );
+has 'active_column'    => ( isa     => 'Str',               is => 'rw', default => 'active' );
+has 'auto_widget_size' => ( isa     => 'Int',               is => 'rw', default => '0' );
+has 'sort_column'      => ( isa     => 'Str|ArrayRef[Str]', is => 'rw' );
 has '+widget'          => ( default => 'Select' );
 sub html_element { 'select' }
-has '+type_attr'       => ( default => 'select' );
-has 'empty_select'     => ( isa => 'Str',       is => 'rw' );
-has '+deflate_method'  => ( default => sub { \&select_deflate } );
-has '+input_without_param' => ( lazy => 1, builder => 'build_input_without_param' );
+has '+type_attr'           => ( default => 'select' );
+has 'empty_select'         => ( isa     => 'Str', is => 'rw' );
+has '+deflate_method'      => ( default => sub { \&select_deflate } );
+has '+input_without_param' => ( lazy    => 1, builder => 'build_input_without_param' );
+
 sub build_input_without_param {
     my $self = shift;
-    if( $self->multiple ) {
+    if ( $self->multiple ) {
         $self->not_nullable(1);
         return [];
     }
@@ -438,6 +448,7 @@ sub build_input_without_param {
     }
 }
 has 'value_when_empty' => ( is => 'ro', lazy => 1, builder => 'build_value_when_empty' );
+
 sub build_value_when_empty {
     my $self = shift;
     return [] if $self->multiple;
@@ -445,16 +456,13 @@ sub build_value_when_empty {
 }
 
 our $class_messages = {
-    'select_not_multiple' => 'This field does not take multiple values',
+    'select_not_multiple'  => 'This field does not take multiple values',
     'select_invalid_value' => '\'[_1]\' is not a valid value',
 };
 
-sub get_class_messages  {
+sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
 
 sub select_widget {
@@ -471,10 +479,10 @@ sub as_label {
     my ( $self, $value ) = @_;
 
     $value = $self->value unless defined $value;
-    return unless defined $value;
+    return                unless defined $value;
     if ( $self->multiple ) {
         unless ( ref($value) eq 'ARRAY' ) {
-            if( $self->has_inflate_default_method ) {
+            if ( $self->has_inflate_default_method ) {
                 my @values = $self->inflate_default($value);
                 $value = \@values;
             }
@@ -488,13 +496,13 @@ sub as_label {
         my %value_hash;
         @value_hash{@$value} = ();
         for ( $self->options ) {
-            if ( exists $value_hash{$_->{value}} ) {
+            if ( exists $value_hash{ $_->{value} } ) {
                 push @labels, $_->{label};
-                delete $value_hash{$_->{value}};
+                delete $value_hash{ $_->{value} };
                 last unless keys %value_hash;
             }
         }
-        my $str = join(', ', @labels);
+        my $str = join( ', ', @labels );
         return $str;
     }
     else {
@@ -529,20 +537,20 @@ sub _inner_validate_field {
     foreach my $opt ( @{ $self->options } ) {
         if ( exists $opt->{group} ) {
             foreach my $group_opt ( @{ $opt->{options} } ) {
-                $options{$group_opt->{value}} = 1;
+                $options{ $group_opt->{value} } = 1;
             }
         }
         else {
-            $options{$opt->{value}} = 1;
+            $options{ $opt->{value} } = 1;
         }
     }
-    if( $self->has_many ) {
-        $value = [map { $_->{$self->has_many} } @$value];
+    if ( $self->has_many ) {
+        $value = [ map { $_->{ $self->has_many } } @$value ];
     }
     for my $value ( ref $value eq 'ARRAY' ? @$value : ($value) ) {
         unless ( $options{$value} ) {
             my $opt_value = encode_entities($value);
-            $self->add_error($self->get_message('select_invalid_value'), $opt_value);
+            $self->add_error( $self->get_message('select_invalid_value'), $opt_value );
             return;
         }
     }
@@ -554,8 +562,8 @@ sub _result_from_object {
 
     $result = $self->next::method( $result, $item );
     $self->_load_options;
-    $result->_set_value($self->default)
-        if( defined $self->default && not $result->has_value );
+    $result->_set_value( $self->default )
+        if ( defined $self->default && not $result->has_value );
     return $result;
 }
 
@@ -564,8 +572,8 @@ sub _result_from_fields {
 
     $result = $self->next::method($result);
     $self->_load_options;
-    $result->_set_value($self->default)
-        if( defined $self->default && not $result->has_value );
+    $result->_set_value( $self->default )
+        if ( defined $self->default && not $result->has_value );
     return $result;
 }
 
@@ -576,8 +584,8 @@ sub _result_from_input {
         if $self->multiple;
     $result = $self->next::method( $result, $input, $exists );
     $self->_load_options;
-    $result->_set_value($self->default)
-        if( defined $self->default && not $result->has_value );
+    $result->_set_value( $self->default )
+        if ( defined $self->default && not $result->has_value );
     return $result;
 }
 
@@ -588,14 +596,14 @@ sub _load_options {
         if ( $self->options_from eq 'build' ||
         ( $self->has_options && $self->do_not_reload ) );
     my @options;
-    if( $self->has_options_method ) {
+    if ( $self->has_options_method ) {
         @options = $self->get_options;
         $self->options_from('method');
     }
     elsif ( $self->form ) {
         my $full_accessor;
         $full_accessor = $self->parent->full_accessor if $self->parent;
-        @options = $self->form->lookup_options( $self, $full_accessor );
+        @options       = $self->form->lookup_options( $self, $full_accessor );
         $self->options_from('model') if scalar @options;
     }
     return unless @options;    # so if there isn't an options method and no options
@@ -611,7 +619,7 @@ sub _load_options {
         # do the array of hashrefs separately so we can get the defaults
         $self->default_from_options($opts);
     }
-    $opts = $self->options($opts); # coerce will reformat
+    $opts = $self->options($opts);    # coerce will reformat
     if ($opts) {
         # sort options if sort method exists
         $opts = $self->sort_options($opts) if $self->has_sort_options_method;
@@ -630,26 +638,29 @@ sub default_from_options {
     my ( $self, $options ) = @_;
 
     my @defaults = map { $_->{value} } grep { $_->{checked} || $_->{selected} } @$options;
-    if( scalar @defaults ) {
-        if( $self->multiple ) {
-            $self->default(\@defaults);
+    if ( scalar @defaults ) {
+        if ( $self->multiple ) {
+            $self->default( \@defaults );
         }
         else {
-            $self->default($defaults[0]);
+            $self->default( $defaults[0] );
         }
     }
 }
 
 before 'value' => sub {
-    my $self  = shift;
+    my $self = shift;
 
     return undef unless $self->has_result;
     my $value = $self->result->value;
-    if( $self->multiple ) {
-        if ( !defined $value || $value eq '' || ( ref $value eq 'ARRAY' && scalar @$value == 0 ) ) {
+    if ( $self->multiple ) {
+        if ( !defined $value ||
+            $value eq '' ||
+            ( ref $value eq 'ARRAY' && scalar @$value == 0 ) )
+        {
             $self->_set_value( $self->value_when_empty );
         }
-        elsif ( $self->has_many && scalar @$value && ref($value->[0]) ne 'HASH' ) {
+        elsif ( $self->has_many && scalar @$value && ref( $value->[0] ) ne 'HASH' ) {
             my @new_values;
             foreach my $ele (@$value) {
                 push @new_values, { $self->has_many => $ele };
@@ -665,8 +676,9 @@ sub select_deflate {
     return $value unless ( $self->has_many && $self->multiple );
 
     # the following is for the edge case of a has_many select
-    return $value unless ref($value) eq 'ARRAY' && scalar @$value && ref($value->[0]) eq 'HASH';
-    return [map { $_->{$self->has_many} } @$value];
+    return $value
+        unless ref($value) eq 'ARRAY' && scalar @$value && ref( $value->[0] ) eq 'HASH';
+    return [ map { $_->{ $self->has_many } } @$value ];
 }
 
 __PACKAGE__->meta->make_immutable;

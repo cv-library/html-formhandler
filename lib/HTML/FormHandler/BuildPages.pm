@@ -7,14 +7,14 @@ use Class::Load qw/ load_optional_class /;
 use namespace::autoclean;
 
 has 'page_list' => (
-    isa => 'ArrayRef',
-    is => 'rw',
-    traits => ['Array'],
+    isa     => 'ArrayRef',
+    is      => 'rw',
+    traits  => ['Array'],
     default => sub { [] },
 );
 
 sub has_page_list {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     my $page_list = $self->page_list;
     return unless $page_list && ref $page_list eq 'ARRAY';
@@ -64,7 +64,7 @@ sub _process_page_array {
     my ( $self, $pages ) = @_;
 
     my $num_pages   = scalar @$pages;
-    my $num_dots     = 0;
+    my $num_dots    = 0;
     my $count_pages = 0;
     while ( $count_pages < $num_pages ) {
         foreach my $page (@$pages) {
@@ -92,26 +92,24 @@ sub _make_page {
     }
     my @page_name_space;
     my $page_ns = $self->page_name_space;
-    if( $page_ns ) {
+    if ($page_ns) {
         @page_name_space = ref $page_ns eq 'ARRAY' ? @$page_ns : $page_ns;
     }
     my @classes;
     # '+'-prefixed fields could be full namespaces
-    if ( $type =~ s/^\+// )
-    {
+    if ( $type =~ s/^\+// ) {
         push @classes, $type;
     }
-    foreach my $ns ( @page_name_space, 'HTML::FormHandler::Page', 'HTML::FormHandlerX::Page' )
-    {
+    foreach my $ns ( @page_name_space, 'HTML::FormHandler::Page', 'HTML::FormHandlerX::Page' ) {
         push @classes, $ns . "::" . $type;
     }
     # look for Page in possible namespaces
     my $class;
-    foreach my $try ( @classes ) {
+    foreach my $try (@classes) {
         last if $class = load_optional_class($try) ? $try : undef;
     }
     die "Could not load page class '$type' for field '$name'"
-       unless $class;
+        unless $class;
 
     $page_attr->{form} = $self->form if $self->form;
     # parent and name correction for names with dots
@@ -152,13 +150,13 @@ sub _update_or_create_page {
         }
         else               # replace existing page
         {
-            $page = $self->new_page_with_traits( $class, $page_attr);
+            $page = $self->new_page_with_traits( $class, $page_attr );
             $parent->set_page_at( $index, $page );
         }
     }
     else                   # new page
     {
-        $page = $self->new_page_with_traits( $class, $page_attr);
+        $page = $self->new_page_with_traits( $class, $page_attr );
         $parent->push_page($page);
     }
 }
@@ -168,22 +166,22 @@ sub new_page_with_traits {
 
     my $widget = $page_attr->{widget};
     my $page;
-    unless( $widget ) {
-        my $attr = $class->meta->find_attribute_by_name( 'widget' );
-        if ( $attr ) {
+    unless ($widget) {
+        my $attr = $class->meta->find_attribute_by_name('widget');
+        if ($attr) {
             $widget = $attr->default;
         }
     }
     my @traits;
-    if( $page_attr->{traits} ) {
-        @traits = @{$page_attr->{traits}};
+    if ( $page_attr->{traits} ) {
+        @traits = @{ $page_attr->{traits} };
         delete $page_attr->{traits};
     }
-    if( $widget ) {
+    if ($widget) {
         my $widget_role = $self->get_widget_role( $widget, 'Page' );
         push @traits, $widget_role;
     }
-    if( @traits ) {
+    if (@traits) {
         $page = $class->new_with_traits( traits => \@traits, %{$page_attr} );
     }
     else {

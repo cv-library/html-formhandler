@@ -72,13 +72,13 @@ the ISO date format.)
 =cut
 
 has '+html5_type_attr' => ( default => 'date' );
-has 'format' => ( is => 'rw', isa => 'Str', default => "%Y-%m-%d" );
-has 'locale'     => ( is => 'rw', isa => 'Str' );                                  # TODO
-has 'time_zone'  => ( is => 'rw', isa => 'Str' );                                  # TODO
-has 'date_start' => ( is => 'rw', isa => 'Str|CodeRef', clearer => 'clear_date_start' );
-has 'date_end'   => ( is => 'rw', isa => 'Str|CodeRef', clearer => 'clear_date_end' );
-has '+size' => ( default => '10' );
-has '+deflate_method' => ( default => sub { \&date_deflate } );
+has 'format'           => ( is      => 'rw', isa => 'Str', default => "%Y-%m-%d" );
+has 'locale'           => ( is      => 'rw', isa => 'Str' );    # TODO
+has 'time_zone'        => ( is      => 'rw', isa => 'Str' );    # TODO
+has 'date_start'       => ( is => 'rw', isa => 'Str|CodeRef', clearer => 'clear_date_start' );
+has 'date_end'         => ( is => 'rw', isa => 'Str|CodeRef', clearer => 'clear_date_end' );
+has '+size'            => ( default => '10' );
+has '+deflate_method'  => ( default => sub { \&date_deflate } );
 
 # translator for Datepicker formats to DateTime strftime formats
 my $dp_to_dt = {
@@ -99,14 +99,12 @@ my $dp_to_dt = {
 
 our $class_messages = {
     'date_early' => 'Date is too early',
-    'date_late' => 'Date is too late',
+    'date_late'  => 'Date is too late',
 };
-sub get_class_messages  {
+
+sub get_class_messages {
     my $self = shift;
-    return {
-        %{ $self->next::method },
-        %$class_messages,
-    }
+    return { %{ $self->next::method }, %$class_messages, };
 }
 
 sub date_deflate {
@@ -125,7 +123,7 @@ sub validate {
     my $format = $self->get_strf_format;
     my @options;
     push @options, ( time_zone => $self->time_zone ) if $self->time_zone;
-    push @options, ( locale => $self->locale ) if $self->locale;
+    push @options, ( locale    => $self->locale )    if $self->locale;
     my $strp = DateTime::Format::Strptime->new( pattern => $format, @options );
 
     my $dt = eval { $strp->parse_datetime( $self->value ) };
@@ -137,17 +135,17 @@ sub validate {
     my $val_strp = DateTime::Format::Strptime->new( pattern => "%Y-%m-%d", @options );
     if ( my $date_start = $self->date_start ) {
         $date_start = $date_start->() if ref $date_start eq 'CODE';
-        $date_start = $val_strp->parse_datetime( $date_start );
+        $date_start = $val_strp->parse_datetime($date_start);
         die "date_start: " . $val_strp->errmsg unless $date_start;
         my $cmp = DateTime->compare( $date_start, $dt );
-        $self->add_error($self->get_message('date_early')) if $cmp eq 1;
+        $self->add_error( $self->get_message('date_early') ) if $cmp eq 1;
     }
     if ( my $date_end = $self->date_end ) {
         $date_end = $date_end->() if ref $date_end eq 'CODE';
-        $date_end = $val_strp->parse_datetime( $date_end );
+        $date_end = $val_strp->parse_datetime($date_end);
         die "date_end: " . $val_strp->errmsg unless $date_end;
         my $cmp = DateTime->compare( $date_end, $dt );
-        $self->add_error($self->get_message('date_late')) if $cmp eq -1;
+        $self->add_error( $self->get_message('date_late') ) if $cmp eq -1;
     }
 }
 
@@ -173,14 +171,15 @@ before 'get_tag' => sub {
     my $self = shift;
 
     if (
-        $self->form
-        && $self->form->is_html5
-        && $self->html5_type_attr eq 'date' # subclass may be using different input type
+        $self->form &&
+        $self->form->is_html5 &&
+        $self->html5_type_attr eq 'date'    # subclass may be using different input type
         && not( $self->format =~ /^(yy|%Y)-(mm|%m)-(dd|%d)$/ )
-    ) {
-        warn "Form is HTML5, but date field '" . $self->full_name
-            . "' has a format other than %Y-%m-%d, which HTML5 requires for date "
-            . "fields. Either correct the date format or set the is_html5 flag to false.";
+        )
+    {
+        warn "Form is HTML5, but date field '" . $self->full_name .
+            "' has a format other than %Y-%m-%d, which HTML5 requires for date " .
+            "fields. Either correct the date format or set the is_html5 flag to false.";
     }
 };
 

@@ -54,8 +54,11 @@ use HTML::FormHandler::Render::Util ('process_attrs');
 use HTML::FormHandler::Field;
 
 has 'name' => ( is => 'ro', isa => 'Str', required => 1 );
-has 'form' => ( is => 'ro', isa => 'HTML::FormHandler', required => 1,
-   weak_ref => 1,
+has 'form' => (
+    is       => 'ro',
+    isa      => 'HTML::FormHandler',
+    required => 1,
+    weak_ref => 1,
 );
 
 has 'class' => (
@@ -80,10 +83,10 @@ has 'attr' => (
     },
 );
 sub build_attr { {} }
-has 'wrapper' => ( is => 'rw', isa => 'Bool', default => 1 );
-has 'tag' => ( is => 'rw', isa => 'Str', default => 'div' );
-has 'label'     => ( is => 'rw', isa => 'Str', predicate => 'has_label' );
-has 'label_tag' => ( is => 'rw', isa => 'Str' );
+has 'wrapper'     => ( is => 'rw', isa => 'Bool', default   => 1 );
+has 'tag'         => ( is => 'rw', isa => 'Str',  default   => 'div' );
+has 'label'       => ( is => 'rw', isa => 'Str',  predicate => 'has_label' );
+has 'label_tag'   => ( is => 'rw', isa => 'Str' );
 has 'label_class' => (
     is      => 'rw',
     isa     => 'HFH::ArrayRefStr',
@@ -99,7 +102,7 @@ sub build_label_class { [] }
 has 'render_list' => (
     is      => 'rw',
     isa     => 'ArrayRef[Str]',
-    lazy => 1,
+    lazy    => 1,
     traits  => ['Array'],
     builder => 'build_render_list',
     handles => {
@@ -114,13 +117,13 @@ has 'build_render_list_method' => (
     is      => 'rw',
     isa     => 'CodeRef',
     traits  => ['Code'],
-    handles => {'build_render_list' => 'execute_method'},
+    handles => { 'build_render_list' => 'execute_method' },
     default => sub { \&default_build_render_list },
 );
 
 sub default_build_render_list { [] }
 
-has 'content' => ( is => 'rw' );
+has 'content'     => ( is => 'rw' );
 has 'after_plist' => ( is => 'rw' );
 
 sub render {
@@ -128,19 +131,19 @@ sub render {
     $result ||= $self->form->result;
 
     my $start_wrapper = '';
-    my $end_wrapper = '';
-    if( $self->wrapper ) {
+    my $end_wrapper   = '';
+    if ( $self->wrapper ) {
         my $tag = $self->tag;
         # create attribute string
         my $attr_str = $self->render_attribute_string;
         $start_wrapper = qq{<$tag$attr_str>};
-        $end_wrapper = qq{</$tag>};
+        $end_wrapper   = qq{</$tag>};
     }
 
     # get rendering of contained fields, if any
     my $rendered_fb = $self->render_from_list($result);
 
-    my $content = $self->content || '';
+    my $content     = $self->content     || '';
     my $after_plist = $self->after_plist || '';
 
     # create label
@@ -158,7 +161,7 @@ sub render_attribute_string {
 }
 
 sub render_label {
-    my $self = shift;
+    my $self  = shift;
     my $label = '';
     if ( $self->has_label ) {
         my $label_tag = $self->label_tag || 'span';
@@ -166,7 +169,7 @@ sub render_label {
         my $label_str = $self->form->_localize( $self->label );
         my $attr_str  = '';
         $attr_str = process_attrs( { class => $self->label_class } ) if $self->has_label_class;
-        $label = qq{<$label_tag$attr_str>$label_str</$label_tag>};
+        $label    = qq{<$label_tag$attr_str>$label_str</$label_tag>};
     }
     return $label;
 }

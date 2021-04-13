@@ -40,7 +40,7 @@ Supported tags:
 =cut
 
 sub renderx {
-    my ($self, %args) = @_;
+    my ( $self, %args ) = @_;
 
     if ( keys %args > 0 ) {
         while ( my ( $key, $value ) = each %args ) {
@@ -51,7 +51,6 @@ sub renderx {
     }
     $self->render;
 }
-
 
 sub render {
     my ($self) = @_;
@@ -109,52 +108,52 @@ sub render_start {
     my $wtag = $self->get_tag('wrapper_tag') || 'fieldset';
 
     # render wrapper start if not fieldset
-    $output .= $self->render_wrapper_start($wtag, $result)
+    $output .= $self->render_wrapper_start( $wtag, $result )
         if $wtag ne 'fieldset';
     # render form tag
-    my $attrs = process_attrs($self->attributes($result));
+    my $attrs = process_attrs( $self->attributes($result) );
     $output .= qq{<form$attrs>};
     # render wrapper start if fieldset (not legal outside form tag)
     $output .= $self->render_wrapper_start($wtag)
         if $wtag eq 'fieldset';
     $output .= $self->get_tag('after_start');
 
-    return $output
+    return $output;
 }
 
 sub render_wrapper_start {
     my ( $self, $wrapper_tag, $result ) = @_;
     return '' unless $self->do_form_wrapper;
     $result ||= $self->result;
-    my $attrs = process_attrs($self->form_wrapper_attributes($result));
+    my $attrs = process_attrs( $self->form_wrapper_attributes($result) );
     return qq{<$wrapper_tag$attrs>};
 }
 
 sub render_form_errors { shift->render_form_messages(@_) }
+
 sub render_form_messages {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
 
     return '' if $self->get_tag('no_form_message_div');
     my $messages_wrapper_class = $self->get_tag('messages_wrapper_class') || 'form_messages';
-    my $output = qq{\n<div class="$messages_wrapper_class">};
-    my $error_class = $self->get_tag('error_class') || 'error_message';
-    if( $self->has_error_message && ( $result->has_errors || $result->has_form_errors ) ) {
+    my $output                 = qq{\n<div class="$messages_wrapper_class">};
+    my $error_class            = $self->get_tag('error_class') || 'error_message';
+    if ( $self->has_error_message && ( $result->has_errors || $result->has_form_errors ) ) {
         my $msg = $self->error_message;
         $msg = $self->_localize($msg);
         $output .= qq{\n<span class="$error_class">$msg</span>};
     }
     if ( $result->has_form_errors ) {
-        $output .= qq{\n<span class="$error_class">$_</span>}
-            for $result->all_form_errors;
+        $output .= qq{\n<span class="$error_class">$_</span>} for $result->all_form_errors;
     }
-    if( $self->has_success_message && $result->validated ) {
+    if ( $self->has_success_message && $result->validated ) {
         my $msg = $self->success_message;
         $msg = $self->_localize($msg);
         my $success_class = $self->get_tag('success_class') || 'success_message';
         $output .= qq{\n<span class="$success_class">$msg</span>};
     }
-    if( $self->has_info_message && $self->info_message ) {
+    if ( $self->has_info_message && $self->info_message ) {
         my $msg = $self->info_message;
         $msg = $self->_localize($msg);
         my $info_class = $self->get_tag('info_class') || 'info_message';
@@ -168,7 +167,7 @@ sub render_end {
     my $self = shift;
 
     my $output = $self->get_tag('before_end');
-    my $wtag = $self->get_tag('wrapper_tag') || 'fieldset';
+    my $wtag   = $self->get_tag('wrapper_tag') || 'fieldset';
     $output .= $self->render_wrapper_end($wtag) if $wtag eq 'fieldset';
     $output .= "\n</form>";
     $output .= $self->render_wrapper_end($wtag) if $wtag ne 'fieldset';

@@ -34,9 +34,9 @@ sub render {
 }
 
 sub render_start {
-    my $self   = shift;
+    my $self = shift;
 
-    my $attrs = process_attrs($self->attributes);
+    my $attrs = process_attrs( $self->attributes );
     return qq{<form$attrs><table>};
 }
 
@@ -45,14 +45,13 @@ sub render_form_errors {
 
     return '' unless $self->has_form_errors;
     my $output = "\n<tr class=\"form_errors\"><td colspan=\"2\">";
-    $output .= qq{\n<span class="error_message">$_</span>}
-        for $self->all_form_errors;
+    $output .= qq{\n<span class="error_message">$_</span>} for $self->all_form_errors;
     $output .= "\n</td></tr>";
     return $output;
 }
 
 sub render_end {
-    my $self = shift;
+    my $self   = shift;
     my $output = "</table>\n";
     $output .= "</form>\n";
     return $output;
@@ -61,7 +60,7 @@ sub render_end {
 sub wrap_field {
     my ( $self, $field, $rendered_field ) = @_;
 
-    my $attrs = process_attrs($field->wrapper_attributes);
+    my $attrs  = process_attrs( $field->wrapper_attributes );
     my $output = qq{\n<tr$attrs>};
     my $l_type = $field->widget eq 'Compound' ? 'legend' : 'label';
     if ( $l_type eq 'label' ) {

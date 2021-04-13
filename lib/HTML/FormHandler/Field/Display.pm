@@ -53,25 +53,25 @@ or provide a 'render_method':
 =cut
 
 has 'html' => ( is => 'rw', isa => 'Str', builder => 'build_html', lazy => 1 );
-sub build_html {''}
-has 'set_html' => ( isa => 'Str', is => 'ro');
+sub build_html { '' }
+has 'set_html'  => ( isa     => 'Str', is => 'ro' );
 has '+do_label' => ( default => 0 );
 
 has 'render_method' => (
-    traits => ['Code'],
-    is     => 'ro',
-    isa    => 'CodeRef',
-    lazy   => 1,
+    traits    => ['Code'],
+    is        => 'ro',
+    isa       => 'CodeRef',
+    lazy      => 1,
     predicate => 'does_render_method',
-    handles => { 'render' => 'execute_method' },
-    builder => 'build_render_method',
+    handles   => { 'render' => 'execute_method' },
+    builder   => 'build_render_method',
 );
 
 sub build_render_method {
     my $self = shift;
 
     my $set_html = $self->set_html;
-    $set_html ||= "html_" . HTML::FormHandler::Field::convert_full_name($self->full_name);
+    $set_html ||= "html_" . HTML::FormHandler::Field::convert_full_name( $self->full_name );
     return sub { my $self = shift; $self->form->$set_html($self); }
         if ( $self->form && $self->form->can($set_html) );
     return sub {

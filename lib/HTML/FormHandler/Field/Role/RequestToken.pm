@@ -13,20 +13,20 @@ Role with Moose attributes necessary for the RequestToken field
 =cut
 
 has 'token_prefix' => (
-  is => 'rw',
-  default => '',
+    is      => 'rw',
+    default => '',
 );
 
 has 'token_field_name' => (
-  is => 'rw',
-  default => '_token',
+    is      => 'rw',
+    default => '_token',
 );
 
 before 'update_fields' => sub {
-  my $self = shift;
+    my $self = shift;
 
-  my $token_field = $self->field($self->token_field_name);
-  $token_field->token_prefix($self->token_prefix);
+    my $token_field = $self->field( $self->token_field_name );
+    $token_field->token_prefix( $self->token_prefix );
 };
 
 1;

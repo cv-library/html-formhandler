@@ -11,11 +11,11 @@ sub render_element {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
 
-    my $output = '<button type="' . $self->input_type . '" name="'
-        . $self->html_name . '" id="' . $self->id . '"';
-    $output .= process_attrs($self->element_attributes($result));
+    my $output = '<button type="' .
+        $self->input_type . '" name="' . $self->html_name . '" id="' . $self->id . '"';
+    $output .= process_attrs( $self->element_attributes($result) );
     $output .= '>';
-    $output .= $self->_localize($self->value);
+    $output .= $self->_localize( $self->value );
     $output .= "</button>";
     return $output;
 }
@@ -23,10 +23,10 @@ sub render_element {
 sub render {
     my ( $self, $result ) = @_;
     $result ||= $self->result;
-    die "No result for form field '" . $self->full_name . "'. Field may be inactive." unless $result;
-    my $output = $self->render_element( $result );
+    die "No result for form field '" . $self->full_name . "'. Field may be inactive."
+        unless $result;
+    my $output = $self->render_element($result);
     return $self->wrap_field( $result, $output );
 }
-
 
 1;

@@ -43,12 +43,13 @@ has '+widget'              => ( default => 'Checkbox' );
 has 'checkbox_value'       => ( is      => 'rw', default => 1 );
 has '+input_without_param' => ( default => 0 );
 has '+type_attr'           => ( default => 'checkbox' );
-has 'option_label'         => ( is => 'rw' );
-has 'option_wrapper'       => ( is => 'rw' );
+has 'option_label'         => ( is      => 'rw' );
+has 'option_wrapper'       => ( is      => 'rw' );
 
 sub validate {
     my $self = shift;
-    $self->add_error($self->get_message('required'), $self->loc_label) if( $self->required && !$self->value );
+    $self->add_error( $self->get_message('required'), $self->loc_label )
+        if ( $self->required && !$self->value );
     return;
 }
 

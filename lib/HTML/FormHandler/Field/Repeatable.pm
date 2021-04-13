@@ -7,7 +7,7 @@ extends 'HTML::FormHandler::Field::Compound';
 use HTML::FormHandler::Field::Repeatable::Instance;
 use HTML::FormHandler::Field::PrimaryKey;
 use HTML::FormHandler::Merge ('merge');
-use Data::Clone ('data_clone');
+use Data::Clone              ('data_clone');
 
 =head1 SYNOPSIS
 
@@ -163,17 +163,20 @@ has 'contains' => (
     predicate => 'has_contains',
 );
 
-has 'init_contains' => ( is => 'rw', isa => 'HashRef', traits => ['Hash'],
-    default => sub {{}},
+has 'init_contains' => (
+    is      => 'rw',
+    isa     => 'HashRef',
+    traits  => ['Hash'],
+    default => sub { {} },
     handles => { has_init_contains => 'count' },
 );
 
-has 'num_when_empty' => ( isa => 'Int',  is => 'rw', default => 1 );
-has 'num_extra'      => ( isa => 'Int',  is => 'rw', default => 0 );
-has 'setup_for_js'   => ( isa => 'Bool', is => 'rw' );
-has 'index'          => ( isa => 'Int',  is => 'rw', default => 0 );
-has 'auto_id'        => ( isa => 'Bool', is => 'rw', default => 0 );
-has 'is_repeatable'  => ( isa => 'Bool', is => 'ro', default => 1 );
+has 'num_when_empty' => ( isa     => 'Int',  is => 'rw', default => 1 );
+has 'num_extra'      => ( isa     => 'Int',  is => 'rw', default => 0 );
+has 'setup_for_js'   => ( isa     => 'Bool', is => 'rw' );
+has 'index'          => ( isa     => 'Int',  is => 'rw', default => 0 );
+has 'auto_id'        => ( isa     => 'Bool', is => 'rw', default => 0 );
+has 'is_repeatable'  => ( isa     => 'Bool', is => 'ro', default => 1 );
 has '+widget'        => ( default => 'Repeatable' );
 
 sub _fields_validate {
@@ -210,25 +213,25 @@ sub create_element {
 
     my $instance;
     my $instance_attr = {
-        name   => 'contains',
-        parent => $self,
-        type   => 'Repeatable::Instance',
+        name        => 'contains',
+        parent      => $self,
+        type        => 'Repeatable::Instance',
         is_contains => 1,
     };
     # primary_key array is used for reloading after database update
     $instance_attr->{primary_key} = $self->primary_key
         if $self->has_primary_key;
-    if( $self->has_init_contains ) {
+    if ( $self->has_init_contains ) {
         $instance_attr = merge( $self->init_contains, $instance_attr );
     }
-    if( $self->form ) {
+    if ( $self->form ) {
         $instance_attr->{form} = $self->form;
-        $instance = $self->form->_make_adhoc_field(
-            'HTML::FormHandler::Field::Repeatable::Instance',
+        $instance =
+            $self->form->_make_adhoc_field( 'HTML::FormHandler::Field::Repeatable::Instance',
             $instance_attr );
     }
     else {
-        $instance = HTML::FormHandler::Field::Repeatable::Instance->new( %$instance_attr );
+        $instance = HTML::FormHandler::Field::Repeatable::Instance->new(%$instance_attr);
     }
     # copy the fields from this field into the instance
     $instance->add_field( $self->all_fields );
@@ -244,13 +247,13 @@ sub create_element {
         unless ( grep $_->can('is_primary_key') && $_->is_primary_key, $instance->all_fields ) {
             my $field;
             my $field_attr = { name => 'id', parent => $instance };
-            if ( $self->form ) { # this will pull in the widget role
+            if ( $self->form ) {    # this will pull in the widget role
                 $field_attr->{form} = $self->form;
-                $field = $self->form->_make_adhoc_field(
-                    'HTML::FormHandler::Field::PrimaryKey', $field_attr );
+                $field = $self->form->_make_adhoc_field( 'HTML::FormHandler::Field::PrimaryKey',
+                    $field_attr );
             }
-            else { # the following won't have a widget role applied
-                $field = HTML::FormHandler::Field::PrimaryKey->new( %$field_attr );
+            else {                  # the following won't have a widget role applied
+                $field = HTML::FormHandler::Field::PrimaryKey->new(%$field_attr);
             }
             $instance->add_field($field);
         }
@@ -298,7 +301,7 @@ sub _result_from_input {
     if ( ref $input eq 'ARRAY' ) {
         # build appropriate instance array
         foreach my $element ( @{$input} ) {
-            next if not defined $element; # skip empty slots
+            next if not defined $element;    # skip empty slots
             my $field  = $self->clone_element($index);
             my $result = HTML::FormHandler::Field::Result->new(
                 name   => $index,
@@ -319,12 +322,12 @@ sub _result_from_input {
 sub _setup_for_js {
     my $self = shift;
     return unless $self->form;
-    my $full_name = $self->full_name;
-    my $index_level =()= $full_name =~ /{index\d+}/g;
+    my $full_name   = $self->full_name;
+    my $index_level = () = $full_name =~ /{index\d+}/g;
     $index_level++;
     my $field_name = "{index-$index_level}";
-    my $field = $self->_add_extra($field_name);
-    my $rendered = $field->render;
+    my $field      = $self->_add_extra($field_name);
+    my $rendered   = $field->render;
     # remove extra result & field, now that it's rendered
     $self->result->_pop_result;
     $self->_pop_field;
@@ -353,7 +356,7 @@ sub _result_from_object {
         my $field = $self->clone_element($index);
         my $result =
             HTML::FormHandler::Field::Result->new( name => $index, parent => $self->result );
-        if( $field->has_inflate_default_method ) {
+        if ( $field->has_inflate_default_method ) {
             $element = $field->inflate_default($element);
         }
         $result = $field->_result_from_object( $result, $element );
@@ -362,15 +365,15 @@ sub _result_from_object {
         $self->result->add_result( $field->result );
         $index++;
     }
-    if( my $num_extra = $self->num_extra ) {
-        while ($num_extra ) {
+    if ( my $num_extra = $self->num_extra ) {
+        while ($num_extra) {
             $self->_add_extra($index);
             $num_extra--;
             $index++;
         }
     }
     $self->index($index);
-    $self->_setup_for_js if $self->setup_for_js;
+    $self->_setup_for_js   if $self->setup_for_js;
     $values = \@new_values if scalar @new_values;
     $self->_set_value($values);
     $self->result->_set_field_def($self);
@@ -378,7 +381,7 @@ sub _result_from_object {
 }
 
 sub _add_extra {
-    my ($self, $index) = @_;
+    my ( $self, $index ) = @_;
 
     my $field = $self->clone_element($index);
     my $result =
@@ -393,7 +396,7 @@ sub add_extra {
     my ( $self, $count ) = @_;
     $count = 1 if not defined $count;
     my $index = $self->index;
-    while ( $count ) {
+    while ($count) {
         $self->_add_extra($index);
         $count--;
         $index++;

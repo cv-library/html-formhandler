@@ -44,7 +44,6 @@ Example:
 
 =cut
 
-
 sub wrap_field {
     my ( $self, $result, $rendered_widget ) = @_;
 
@@ -52,7 +51,7 @@ sub wrap_field {
     # get wrapper tag if set
     my $label_tag = $self->label_tag || '';
     my $wrapper_tag;
-    if( $self->do_wrapper ) {
+    if ( $self->do_wrapper ) {
         $output .= $self->get_tag('before_wrapper');
         $wrapper_tag = $self->get_tag('wrapper_tag');
         # default wrapper tags
@@ -64,9 +63,9 @@ sub wrap_field {
         $label_tag = 'legend' if $wrapper_tag eq 'fieldset';
     }
     # write label; special processing for checkboxes
-    $rendered_widget = $self->wrap_checkbox($result, $rendered_widget)
+    $rendered_widget = $self->wrap_checkbox( $result, $rendered_widget )
         if ( lc $self->widget eq 'checkbox' );
-    $output .= "\n" . $self->do_render_label($result, $label_tag)
+    $output .= "\n" . $self->do_render_label( $result, $label_tag )
         if $self->do_label;
     # append 'before_element'
     $output .= $self->get_tag('before_element');
@@ -76,8 +75,8 @@ sub wrap_field {
         $output .= qq{\n<div class="controls">};
     }
     elsif ( $self->has_element_wrapper_class ) {
-        my $ew_attr = $self->element_wrapper_attributes($result);
-        my $element_wrapper_attrs =  process_attrs( $ew_attr );
+        my $ew_attr               = $self->element_wrapper_attributes($result);
+        my $element_wrapper_attrs = process_attrs($ew_attr);
         $output .= qq{\n<div$element_wrapper_attrs>};
     }
 
@@ -93,21 +92,18 @@ sub wrap_field {
     # the 'after_element'
     $output .= $self->get_tag('after_element');
     # the error messages
-    unless( $self->get_tag('no_errors') ) {
+    unless ( $self->get_tag('no_errors') ) {
         my $error_class = $self->get_tag('error_class') || 'error_message';
-        $output .= qq{\n<span class="$error_class">$_</span>}
-            for $result->all_errors;
+        $output .= qq{\n<span class="$error_class">$_</span>} for $result->all_errors;
         # warnings (incompletely implemented - only on field itself)
         my $warning_class = $self->get_tag('warning_class') || 'warning_message';
-        $output .= qq{\n<span class="warning_message">$_</span>}
-            for $result->all_warnings;
+        $output .= qq{\n<span class="warning_message">$_</span>} for $result->all_warnings;
     }
-    if( $self->do_wrapper ) {
+    if ( $self->do_wrapper ) {
         $output .= "\n</$wrapper_tag>";
         $output .= $self->get_tag('after_wrapper');
     }
     return "$output";
 }
-
 
 1;
