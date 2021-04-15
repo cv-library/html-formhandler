@@ -42,7 +42,7 @@ my %WriteMakefileArgs = (
     "MooseX::Types::Common" => 0,
     "MooseX::Types::LoadableClass" => "0.006",
     "Sub::Exporter" => 0,
-    "Sub::Name" => 0,
+    "Sub::Util" => "1.40",
     "Try::Tiny" => 0,
     "namespace::autoclean" => "0.09"
   },
@@ -57,7 +57,7 @@ my %WriteMakefileArgs = (
     "Test::Needs" => 0,
     "Test::Warn" => 0
   },
-  "VERSION" => "0.500000",
+  "VERSION" => "100.000000",
   "test" => {
     "TESTS" => "t/*.t t/blocks/*.t t/bootstrap/*.t t/bootstrap3/*.t t/compound/*.t t/errors/*.t t/field_setup/*.t t/fields/*.t t/form_setup/*.t t/infl_defl/*.t t/moose/*.t t/render/*.t t/repeatable/*.t t/result/*.t t/validation/*.t t/wizard/*.t"
   }
@@ -85,7 +85,7 @@ my %FallbackPrereqs = (
   "MooseX::Types::LoadableClass" => "0.006",
   "PadWalker" => 0,
   "Sub::Exporter" => 0,
-  "Sub::Name" => 0,
+  "Sub::Util" => "1.40",
   "Test::Differences" => 0,
   "Test::Exception" => 0,
   "Test::Memory::Cycle" => "1.04",
