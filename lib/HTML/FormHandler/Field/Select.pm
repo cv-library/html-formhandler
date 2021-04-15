@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Select;
 # ABSTRACT: select fields
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field';
 use Carp;

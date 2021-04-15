@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::TextArea;
 # ABSTRACT: textarea input
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field::Text';
 

@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Display;
 # ABSTRACT: display only field
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field::NoValue';
 use namespace::autoclean;

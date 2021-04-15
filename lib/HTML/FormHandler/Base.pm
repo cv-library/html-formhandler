@@ -1,6 +1,6 @@
 package HTML::FormHandler::Base;
 # ABSTRACT: stub
-
+our $VERSION = '100.000000';
 use Moose;
 
 with 'HTML::FormHandler::Widget::Form::Simple';

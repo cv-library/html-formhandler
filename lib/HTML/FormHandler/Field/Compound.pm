@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Compound;
 # ABSTRACT: field consisting of subfields
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field';
 with 'HTML::FormHandler::Fields';

@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Wrapper::SimpleInline;
 # ABSTRACT: simple field wrapper
-
+our $VERSION = '100.000000';
 use Moose::Role;
 use namespace::autoclean;
 

@@ -1,6 +1,6 @@
 package HTML::FormHandler::TraitFor::I18N;
 # ABSTRACT: localization
-
+our $VERSION = '100.000000';
 use HTML::FormHandler::I18N;
 use Moose::Role;
 use Moose::Util::TypeConstraints;

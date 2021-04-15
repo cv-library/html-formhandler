@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Nested;
 # ABSTRACT: for nested elements of compound fields
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field::Text';
 

@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::DateMDY;
 # ABSTRACT: m/d/y date field
-
+our $VERSION = '100.000000';
 use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Field::Date';
 

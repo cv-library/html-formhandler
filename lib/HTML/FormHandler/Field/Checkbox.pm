@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Checkbox;
 # ABSTRACT: a checkbox field type
-
+our $VERSION = '100.000000';
 use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler::Field';
 

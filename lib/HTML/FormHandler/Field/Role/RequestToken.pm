@@ -1,5 +1,5 @@
 package HTML::FormHandler::Field::Role::RequestToken;
-
+our $VERSION = '100.000000';
 use Moose::Role;
 
 =head1 NAME

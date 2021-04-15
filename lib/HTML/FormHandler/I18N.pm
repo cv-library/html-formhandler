@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N;
 # ABSTRACT: internationalization
-
+our $VERSION = '100.000000';
 use strict;
 use warnings;
 use base ('Locale::Maketext');

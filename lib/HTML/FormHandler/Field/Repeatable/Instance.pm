@@ -1,7 +1,7 @@
 package    # hide from Pause
     HTML::FormHandler::Field::Repeatable::Instance;
 # ABSTRACT: used internally by repeatable fields
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field::Compound';
 

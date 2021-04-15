@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Role::SelectedOption;
 # ABSTRACT: allow setting options from options keys
-
+our $VERSION = '100.000000';
 use Moose::Role;
 use namespace::autoclean;
 

@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::en_us;
 # ABSTRACT: base message file
-
+our $VERSION = '100.000000';
 use strict;
 use warnings;
 use base 'HTML::FormHandler::I18N';

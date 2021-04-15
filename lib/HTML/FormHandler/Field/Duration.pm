@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Duration;
 # ABSTRACT: DateTime::Duration from HTML form values
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field::Compound';
 use DateTime;

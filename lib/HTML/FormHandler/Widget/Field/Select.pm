@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Select;
 # ABSTRACT: select field rendering widget
-
+our $VERSION = '100.000000';
 =head1 NAME
 
 HTML::FormHandler::Widget::Field::Select

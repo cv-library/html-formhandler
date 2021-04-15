@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::hu_hu;
 # ABSTRACT: Hungarian message file
-
+our $VERSION = '100.000000';
 use strict;
 use warnings;
 use utf8;

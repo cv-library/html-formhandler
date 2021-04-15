@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Minute;
 # ABSTRACT: input range from 0 to 59
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field::IntRange';
 

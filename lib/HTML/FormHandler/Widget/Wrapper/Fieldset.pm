@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Wrapper::Fieldset;
 # ABSTRACT: fieldset field wrapper
-
+our $VERSION = '100.000000';
 use Moose::Role;
 use namespace::autoclean;
 

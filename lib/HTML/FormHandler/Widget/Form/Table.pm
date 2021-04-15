@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Form::Table;
 # ABSTRACT: render a form with a table layout
-
+our $VERSION = '100.000000';
 use Moose::Role;
 with 'HTML::FormHandler::Widget::Form::Simple' =>
     { -excludes => [ 'render_start', 'render_end', 'render_form_errors' ] };

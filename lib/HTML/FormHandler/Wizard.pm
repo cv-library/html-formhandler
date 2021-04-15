@@ -1,6 +1,6 @@
 package HTML::FormHandler::Wizard;
 # ABSTRACT: create a multi-page form
-
+our $VERSION = '100.000000';
 use HTML::FormHandler::Moose;
 extends 'HTML::FormHandler';
 with( 'HTML::FormHandler::BuildPages', 'HTML::FormHandler::Pages' );

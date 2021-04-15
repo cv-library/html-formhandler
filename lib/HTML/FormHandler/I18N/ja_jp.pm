@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::ja_jp;
 # ABSTRACT: Japanese message file
-
+our $VERSION = '100.000000';
 use strict;
 use warnings;
 use utf8;

@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::BoolSelect;
 # ABSTRACT: Boolean select field
-
+our $VERSION = '100.000000';
 =head1 SYNOPSIS
 
 A Boolean select field with three states: null, 1, 0.

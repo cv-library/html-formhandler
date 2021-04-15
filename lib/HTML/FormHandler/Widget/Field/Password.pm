@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Password;
 # ABSTRACT: password rendering widget
-
+our $VERSION = '100.000000';
 use Moose::Role;
 use namespace::autoclean;
 use HTML::FormHandler::Render::Util ('process_attrs');

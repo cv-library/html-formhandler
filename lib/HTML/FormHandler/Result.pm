@@ -1,6 +1,6 @@
 package HTML::FormHandler::Result;
 # ABSTRACT: form result object
-
+our $VERSION = '100.000000';
 use Moose;
 # following is to allow the form to return an empty
 # hashref when value is undefined, without messing

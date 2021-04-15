@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Reset;
 # ABSTRACT: reset field rendering widget
-
+our $VERSION = '100.000000';
 use Moose::Role;
 use namespace::autoclean;
 use HTML::FormHandler::Render::Util ('process_attrs');

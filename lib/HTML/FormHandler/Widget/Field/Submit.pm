@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Submit;
 # ABSTRACT: submit field rendering widget
-
+our $VERSION = '100.000000';
 use Moose::Role;
 use namespace::autoclean;
 use HTML::FormHandler::Render::Util ('process_attrs');

@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::sv_se;
 # ABSTRACT: Swedish message translations
-
+our $VERSION = '100.000000';
 use strict;
 use warnings;
 use base 'HTML::FormHandler::I18N';

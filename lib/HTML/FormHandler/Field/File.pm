@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::File;
 # ABSTRACT: simple file field; does no processing
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler::Field';
 

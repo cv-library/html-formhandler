@@ -1,6 +1,6 @@
 package HTML::FormHandler::Page;
 # ABSTRACT: used in Wizard
-
+our $VERSION = '100.000000';
 use Moose;
 with 'HTML::FormHandler::Pages';
 

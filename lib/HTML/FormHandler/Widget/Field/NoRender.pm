@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::NoRender;
 # ABSTRACT: no rendering widget
-
+our $VERSION = '100.000000';
 use Moose::Role;
 
 =head1 SYNOPSIS

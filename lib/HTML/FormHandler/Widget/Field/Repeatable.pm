@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Repeatable;
 # ABSTRACT: repeatable field widget
-
+our $VERSION = '100.000000';
 use Moose::Role;
 with 'HTML::FormHandler::Widget::Field::Compound';
 

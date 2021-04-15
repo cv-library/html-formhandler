@@ -1,6 +1,6 @@
 package HTML::FormHandler::Render::Simple;
 # ABSTRACT: simple rendering role
-
+our $VERSION = '100.000000';
 use Moose::Role;
 
 requires( 'sorted_fields', 'field' );

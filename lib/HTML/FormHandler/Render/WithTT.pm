@@ -1,6 +1,6 @@
 package HTML::FormHandler::Render::WithTT;
 # ABSTRACT: tt rendering
-
+our $VERSION = '100.000000';
 use Moose::Role;
 use File::ShareDir;
 use Template;

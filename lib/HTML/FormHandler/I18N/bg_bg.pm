@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::bg_bg;
 # ABSTRACT: Bulgarian message file
-
+our $VERSION = '100.000000';
 use strict;
 use warnings;
 use utf8;

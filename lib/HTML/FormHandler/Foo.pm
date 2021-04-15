@@ -1,6 +1,6 @@
 package HTML::FormHandler::Foo;
 # ABSTRACT: Experiment in loading form from config file
-
+our $VERSION = '100.000000';
 use Moose;
 extends 'HTML::FormHandler';
 with 'HTML::FormHandler::Render::WithTT';

@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Wrapper::None;
 # ABSTRACT: wrapper that doesn't wrap
-
+our $VERSION = '100.000000';
 =head1 DESCRIPTION
 
 This wrapper does nothing except return the 'bare' rendered form element,
