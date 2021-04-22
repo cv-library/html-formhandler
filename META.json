@@ -635,19 +635,19 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "mailto" : "jjatria at cpan.org",
          "web" : "https://github.com/jjatria/html-formhandler/issues"
       },
+      "homepage" : "https://github.com/jjatria/html-formhandler",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/jjatria/html-formhandler.git",
+         "url" : "https://github.com/jjatria/html-formhandler.git",
          "web" : "https://github.com/jjatria/html-formhandler"
       }
    },
    "version" : "100.000000",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.032001"
+         "version" : "5.032000"
       },
       "plugins" : [
          {
@@ -657,7 +657,9 @@
                   "exclude_filename" : [
                      "META.json",
                      "Makefile.PL",
-                     "README.md"
+                     "README.md",
+                     "cpanfile",
+                     "dist.ini"
                   ],
                   "exclude_match" : [],
                   "follow_symlinks" : 0,
@@ -771,7 +773,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.0",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                }
             },
@@ -836,7 +838,7 @@
                   "add_files_in" : [
                      "/"
                   ],
-                  "commit_msg" : "%v%n%n%c",
+                  "commit_msg" : "Release v%V%t",
                   "signoff" : 0
                },
                "Dist::Zilla::Role::Git::DirtyFiles" : {
@@ -851,7 +853,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.0",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -868,12 +870,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "100.000000",
-                  "tag_format" : "%v",
-                  "tag_message" : "%v"
+                  "tag" : "v100.000000",
+                  "tag_format" : "v%v",
+                  "tag_message" : ""
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.0",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -903,7 +905,7 @@
             "config" : {
                "Dist::Zilla::Plugin::Git::Commit" : {
                   "add_files_in" : [],
-                  "commit_msg" : "Bump version",
+                  "commit_msg" : "Release v%V%t",
                   "signoff" : 0
                },
                "Dist::Zilla::Role::Git::DirtyFiles" : {
@@ -917,7 +919,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.0",
+                  "git_version" : "2.31.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -928,23 +930,6 @@
             "version" : "2.047"
          },
          {
-            "class" : "Dist::Zilla::Plugin::Git::Push",
-            "config" : {
-               "Dist::Zilla::Plugin::Git::Push" : {
-                  "push_to" : [
-                     "origin"
-                  ],
-                  "remotes_must_exist" : 1
-               },
-               "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.0",
-                  "repo_root" : "."
-               }
-            },
-            "name" : "@Starter::Git/Git::Push",
-            "version" : "2.047"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::TestRelease",
             "name" : "@Starter::Git/TestRelease",
             "version" : "6.017"
@@ -952,11 +937,6 @@
          {
             "class" : "Dist::Zilla::Plugin::ConfirmRelease",
             "name" : "@Starter::Git/ConfirmRelease",
-            "version" : "6.017"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::UploadToCPAN",
-            "name" : "@Starter::Git/UploadToCPAN",
             "version" : "6.017"
          },
          {
@@ -1027,69 +1007,15 @@
             "version" : "0.08"
          },
          {
-            "class" : "Dist::Zilla::Plugin::Repository",
-            "name" : "Repository",
-            "version" : "0.24"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::Bugtracker",
-            "name" : "Bugtracker",
-            "version" : "1.111080"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::Git::Commit",
-            "config" : {
-               "Dist::Zilla::Plugin::Git::Commit" : {
-                  "add_files_in" : [],
-                  "commit_msg" : "Release v%V%t",
-                  "signoff" : 0
-               },
-               "Dist::Zilla::Role::Git::DirtyFiles" : {
-                  "allow_dirty" : [
-                     "Changes",
-                     "dist.ini"
-                  ],
-                  "allow_dirty_match" : [],
-                  "changelog" : "Changes"
-               },
-               "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.0",
-                  "repo_root" : "."
-               },
-               "Dist::Zilla::Role::Git::StringFormatter" : {
-                  "time_zone" : "local"
-               }
-            },
-            "name" : "Git::Commit",
-            "version" : "2.047"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::Git::Tag",
-            "config" : {
-               "Dist::Zilla::Plugin::Git::Tag" : {
-                  "branch" : null,
-                  "changelog" : "Changes",
-                  "signed" : 0,
-                  "tag" : "100.000000",
-                  "tag_format" : "%v",
-                  "tag_message" : ""
-               },
-               "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.30.0",
-                  "repo_root" : "."
-               },
-               "Dist::Zilla::Role::Git::StringFormatter" : {
-                  "time_zone" : "local"
-               }
-            },
-            "name" : "Git::Tag",
-            "version" : "2.047"
+            "class" : "Dist::Zilla::Plugin::GithubMeta",
+            "name" : "GithubMeta",
+            "version" : "0.58"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.30.0",
+                  "git_version" : "2.31.1",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -1098,6 +1024,11 @@
             },
             "name" : "Git::Contributors",
             "version" : "0.036"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::ArchiveRelease",
+            "name" : "ArchiveRelease",
+            "version" : "6.000"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
@@ -1236,8 +1167,8 @@
       "Zbigniew Lukasiak <zbigniew@lukasiak.name>",
       "Zoffix Znet <cpan@zoffix.com>"
    ],
-   "x_generated_by_perl" : "v5.32.1",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 4.26",
+   "x_generated_by_perl" : "v5.32.0",
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.19",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later"
 }
 

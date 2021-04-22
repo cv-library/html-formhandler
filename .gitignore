@@ -9,3 +9,5 @@ Makefile.old
 MANIFEST.bak
 HTML-FormHandler-*
 .build
+*.swp
+releases/
