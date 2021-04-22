@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::PrimaryKey;
 # ABSTRACT: primary key field
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 extends 'HTML::FormHandler::Field';
 

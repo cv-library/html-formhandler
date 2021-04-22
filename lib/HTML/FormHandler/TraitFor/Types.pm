@@ -1,6 +1,6 @@
 package HTML::FormHandler::TraitFor::Types;
 # ABSTRACT: types used internally in FormHandler
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use Moose::Util::TypeConstraints;
 

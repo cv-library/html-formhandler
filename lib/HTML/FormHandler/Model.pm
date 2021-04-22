@@ -1,6 +1,6 @@
 package HTML::FormHandler::Model;
 # ABSTRACT: default model base class
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use Carp;
 

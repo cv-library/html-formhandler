@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Upload;
 # ABSTRACT: file upload field
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 use Moose::Util::TypeConstraints;
 

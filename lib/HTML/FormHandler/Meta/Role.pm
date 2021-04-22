@@ -1,7 +1,7 @@
 package    # hide from Pause
     HTML::FormHandler::Meta::Role;
 # ABSTRACT: field_list and apply_list
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 
 =head1 SYNOPSIS

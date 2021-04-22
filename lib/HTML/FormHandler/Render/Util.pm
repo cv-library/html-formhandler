@@ -1,6 +1,6 @@
 package HTML::FormHandler::Render::Util;
 # ABSTRACT: rendering utility
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Sub::Exporter;
 Sub::Exporter::setup_exporter( { exports => [ 'process_attrs', 'cc_widget', 'ucc_widget' ] } );
 

@@ -1,6 +1,6 @@
 package HTML::FormHandler::BuildFields;
 # ABSTRACT: role to build field array
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use Try::Tiny;
 use Class::Load qw/ load_optional_class /;

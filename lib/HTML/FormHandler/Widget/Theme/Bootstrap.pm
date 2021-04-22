@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Theme::Bootstrap;
 # ABSTRACT: sample bootstrap theme
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 =head1 SYNOPSIS
 
 Also see L<HTML::FormHandler::Manual::Rendering>.

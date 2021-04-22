@@ -1,6 +1,6 @@
 package HTML::FormHandler::Types;
 # ABSTRACT: Moose type constraints
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use strict;
 use warnings;
 

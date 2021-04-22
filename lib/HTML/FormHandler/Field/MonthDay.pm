@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::MonthDay;
 # ABSTRACT: select list 1 to 31
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 extends 'HTML::FormHandler::Field::IntRange';
 

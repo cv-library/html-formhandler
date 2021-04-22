@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Wrapper::Base;
 # ABSTRACT: common methods for widget wrappers
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use HTML::FormHandler::Render::Util ('process_attrs');
 

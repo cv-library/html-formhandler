@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Role::HTMLAttributes;
 # ABSTRACT: apply HTML attributes
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 =head1 SYNOPSIS
 
 Deprecated. Only here for interim compatibility, to provide

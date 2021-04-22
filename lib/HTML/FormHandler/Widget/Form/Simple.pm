@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Form::Simple;
 # ABSTRACT: widget to render a form with divs
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use HTML::FormHandler::Render::Util ('process_attrs');
 

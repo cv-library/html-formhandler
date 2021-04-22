@@ -1,6 +1,6 @@
 package HTML::FormHandler::Blocks;
 # ABSTRACT: arrange form layout using blocks
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 =head1 SYNOPSIS
 
 This is a role which provides the ability to render your form in

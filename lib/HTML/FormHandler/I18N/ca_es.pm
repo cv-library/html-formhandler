@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::ca_es;
 # ABSTRACT: Catalan message translations - traducion catalana  dels missatges
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use strict;
 use warnings;
 use base 'HTML::FormHandler::I18N';

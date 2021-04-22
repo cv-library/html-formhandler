@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::ApplyRole;
 # ABSTRACT: role to apply widgets
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use File::Spec;
 use Class::MOP;

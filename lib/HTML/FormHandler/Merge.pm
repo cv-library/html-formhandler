@@ -1,6 +1,6 @@
 package HTML::FormHandler::Merge;
 # ABSTRACT: internal hash merging
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use warnings;
 use Data::Clone;
 use base 'Exporter';

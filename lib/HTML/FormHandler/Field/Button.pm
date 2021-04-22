@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Button;
 # ABSTRACT: button field
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 extends 'HTML::FormHandler::Field::NoValue';
 

@@ -57,7 +57,7 @@ my %WriteMakefileArgs = (
     "Test::Needs" => 0,
     "Test::Warn" => 0
   },
-  "VERSION" => "100.000000",
+  "VERSION" => "100.000001",
   "test" => {
     "TESTS" => "t/*.t t/blocks/*.t t/bootstrap/*.t t/bootstrap3/*.t t/compound/*.t t/errors/*.t t/field_setup/*.t t/fields/*.t t/form_setup/*.t t/infl_defl/*.t t/moose/*.t t/render/*.t t/repeatable/*.t t/result/*.t t/validation/*.t t/wizard/*.t"
   }

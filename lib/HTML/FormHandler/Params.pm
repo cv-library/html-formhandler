@@ -1,7 +1,7 @@
 package    # hide from Pause
     HTML::FormHandler::Params;
 # ABSTRACT: params handling
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 use Carp;
 

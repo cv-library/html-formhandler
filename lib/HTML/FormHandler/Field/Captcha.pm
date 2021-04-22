@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Captcha;
 # ABSTRACT: captcha field with GD::SecurityImage
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 extends 'HTML::FormHandler::Field';
 use HTTP::Date;

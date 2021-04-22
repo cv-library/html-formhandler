@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::pt_br;
 # ABSTRACT: Brazilian Portuguese message file
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use strict;
 use warnings;
 use utf8;

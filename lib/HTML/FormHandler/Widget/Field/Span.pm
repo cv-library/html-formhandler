@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Span;
 # ABSTRACT: button field rendering widget
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 =head1 SYNOPSIS
 
 Renders the NonEditable pseudo-field as a span.

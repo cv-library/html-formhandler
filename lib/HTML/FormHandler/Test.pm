@@ -1,6 +1,6 @@
 package HTML::FormHandler::Test;
 # ABSTRACT: provides is_html method used in tests
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use strict;
 use warnings;
 use base 'Test::Builder::Module';

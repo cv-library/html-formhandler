@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Block;
 # ABSTRACT: base block renderer
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 =head1 SYNOPSIS
 
 Base block renderer to be used with L<HTML::FormHandler::Blocks>.

@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Field::Captcha;
 # ABSTRACT: Captcha field rendering widget
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use namespace::autoclean;
 use HTML::FormHandler::Render::Util ('process_attrs');

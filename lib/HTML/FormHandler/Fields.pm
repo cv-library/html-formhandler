@@ -1,6 +1,6 @@
 package HTML::FormHandler::Fields;
 # ABSTRACT: internal role for form and compound fields
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 use HTML::FormHandler::TraitFor::Types;
 

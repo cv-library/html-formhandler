@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Date;
 # ABSTRACT: a date field with formats
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 extends 'HTML::FormHandler::Field::Text';
 use DateTime;

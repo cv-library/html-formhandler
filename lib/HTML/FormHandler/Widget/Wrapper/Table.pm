@@ -1,6 +1,6 @@
 package HTML::FormHandler::Widget::Wrapper::Table;
 # ABSTRACT: wrapper class for table layout
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose::Role;
 with 'HTML::FormHandler::Widget::Wrapper::Base';
 use HTML::FormHandler::Render::Util ('process_attrs');

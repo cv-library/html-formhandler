@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Result;
 # ABSTRACT: result class for fields
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 with 'HTML::FormHandler::Result::Role';
 

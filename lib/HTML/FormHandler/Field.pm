@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field;
 # ABSTRACT: base class for fields
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use HTML::FormHandler::Moose;
 use HTML::FormHandler::Field::Result;
 use Try::Tiny;

@@ -1,6 +1,6 @@
 package HTML::FormHandler::I18N::ar_kw;
 # ABSTRACT: Arabic message translations
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use strict;
 use warnings;
 use base 'HTML::FormHandler::I18N';

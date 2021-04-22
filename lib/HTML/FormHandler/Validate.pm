@@ -1,6 +1,6 @@
 package HTML::FormHandler::Validate;
 # ABSTRACT: validation role (internal)
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 =head1 SYNOPSIS
 
 This is a role that contains validation and transformation code

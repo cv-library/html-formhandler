@@ -1,6 +1,6 @@
 package HTML::FormHandler::Field::Second;
 # ABSTRACT: select list 0 to 59
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 extends 'HTML::FormHandler::Field::IntRange';
 

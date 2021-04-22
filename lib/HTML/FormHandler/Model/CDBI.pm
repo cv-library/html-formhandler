@@ -1,7 +1,7 @@
 package    # hide from Pause
     HTML::FormHandler::Model::CDBI;
 # ABSTRACT: Class::DBI model class (non-functioning)
-our $VERSION = '100.000000';
+our $VERSION = '100.000001';
 use Moose;
 use Carp;
 use Data::Dumper;
