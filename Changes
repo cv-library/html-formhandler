@@ -1,7 +1,13 @@
+{{ $NEXT }}
 
    - Fix exception when field 'result' has been garbage-collected
-   - Crypt::* and MIME::Base64 prereqs added in last release are moved to
-     optional prereqs
+   - Crypt::*, MIME::Base64, and GD::SecurityImage prereqs moved
+     to optional prereqs
+   - The default instance of Crypt::CBC now uses pbkdf2, as
+     recommended in the docs for 3.01+
+   - Tidied the codebase
+   - Moved from Sub::Name to Sub::Util, which is in core
+   - Tweaked minting for DarkPAN releases
 
 0.40068 Thu Jul 20, 2017
    Add RequestToken field
