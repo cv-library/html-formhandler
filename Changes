@@ -1,5 +1,7 @@
 {{ $NEXT }}
 
+100.000000 2021-04-22 16:52:39 BST
+
    - Fix exception when field 'result' has been garbage-collected
    - Crypt::*, MIME::Base64, and GD::SecurityImage prereqs moved
      to optional prereqs
